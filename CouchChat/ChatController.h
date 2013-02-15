@@ -1,5 +1,5 @@
 //
-//  DetailViewController.h
+//  ChatController.h
 //  CouchChat
 //
 //  Created by Jens Alfke on 2/13/13.
@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ChatRoom;
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
+@interface ChatController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) ChatRoom* chatRoom;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+- (IBAction) configureSync;
+
 @end

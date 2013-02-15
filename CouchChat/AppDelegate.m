@@ -7,65 +7,158 @@
 //
 
 #import "AppDelegate.h"
+#import "ChatListController.h"
+#import "ChatController.h"
+#import "ChatStore.h"
+#import "SyncManager.h"
+#import "BrowserIDController+UIKit.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 
-#import "MasterViewController.h"
 
-#import "DetailViewController.h"
+AppDelegate* gAppDelegate;
+
+
+@interface AppDelegate () <SyncManagerDelegate, BrowserIDControllerDelegate>
+@end
+
 
 @implementation AppDelegate
+{
+    CBLDatabase* _database;
+    SyncManager* _syncManager;
+    BrowserIDController* _browserIDController;
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    gAppDelegate = self;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+
+    // Initialize CouchbaseLite:
+    NSError* error;
+    _database = [[CBLManager sharedInstance] createDatabaseNamed: @"chats"
+                                                                       error: &error];
+    if (!_database)
+        [self showAlert: @"Couldn't open database" error: error fatal: YES];
+
+    _chatStore = [[ChatStore alloc] initWithDatabase: _database];
+
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController_iPhone" bundle:nil];
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        // iPhone UI:
+        ChatListController *listController = [[ChatListController alloc] initWithNibName:@"ChatListController_iPhone" bundle:nil];
+        self.navigationController = [[UINavigationController alloc] initWithRootViewController:listController];
         self.window.rootViewController = self.navigationController;
     } else {
-        MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController_iPad" bundle:nil];
-        UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        // iPad UI:
+        ChatListController *listController = [[ChatListController alloc] initWithNibName:@"ChatListController_iPad" bundle:nil];
+        UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:listController];
         
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController_iPad" bundle:nil];
-        UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+        ChatController *chatController = [[ChatController alloc] initWithNibName:@"ChatController_iPad" bundle:nil];
+        UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:chatController];
+        self.navigationController = detailNavigationController;
     	
-    	masterViewController.detailViewController = detailViewController;
+    	listController.chatController = chatController;
     	
         self.splitViewController = [[UISplitViewController alloc] init];
-        self.splitViewController.delegate = detailViewController;
+        self.splitViewController.delegate = chatController;
         self.splitViewController.viewControllers = @[masterNavigationController, detailNavigationController];
         
         self.window.rootViewController = self.splitViewController;
     }
     [self.window makeKeyAndVisible];
+
+    [self setupSync];
+
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
+#pragma mark - ALERT:
+
+
+- (void) setupSync {
+    _syncManager = [[SyncManager alloc] initWithDatabase: _database];
+    _syncManager.delegate = self;
+    //if (_syncManager.replications.count == 0) {
+        // Configure replication:
+    _syncManager.continuous = YES;
+//    _syncManager.syncURL = [NSURL URLWithString: @"http://macbuild.local:4986/chat"];
+    _syncManager.syncURL = [NSURL URLWithString: @"http://localhost:4984/sync_gateway"];
+    //}
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+- (bool) syncManagerShouldPromptForLogin: (SyncManager*)manager {
+    // Display BrowserID login panel, not the default username/password one:
+    if (!_browserIDController) {
+        _browserIDController = [[BrowserIDController alloc] init];
+        NSArray* replications = _syncManager.replications;
+        if (replications.count > 0)
+            _browserIDController.origin = [replications[0] browserIDOrigin];
+        _browserIDController.delegate = self;
+        [_browserIDController presentModalInController: self.navigationController];
+    }
+    return false;
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+- (void) browserIDControllerDidCancel: (BrowserIDController*) browserIDController {
+    [_browserIDController.viewController dismissViewControllerAnimated: YES completion: NULL];
+    _browserIDController = nil;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void) browserIDController: (BrowserIDController*) browserIDController
+           didFailWithReason: (NSString*) reason
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self browserIDControllerDidCancel: browserIDController];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
+- (void) browserIDController: (BrowserIDController*) browserIDController
+     didSucceedWithAssertion: (NSString*) assertion
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [self browserIDControllerDidCancel: browserIDController];
+    for (CBLReplication* repl in _syncManager.replications) {
+        [repl registerBrowserIDAssertion: assertion];
+    }
 }
+
+
+- (void) syncManagerProgressChanged: (SyncManager*)manager {
+    if (_chatStore.username == nil) {
+        CBLReplication* repl = manager.replications[0];
+        if (repl.mode >= kCBLReplicationIdle) {
+            NSString* username = repl.browserIDEmailAddress;
+            if (!username)
+                username = repl.credential.user;
+            if (username)
+                _chatStore.username = username;
+            NSLog(@"Chat username = '%@'", username);
+        }
+    }
+}
+
+
+#pragma mark - ALERT:
+
+
+// Display an error alert, without blocking.
+// If 'fatal' is true, the app will quit when it's pressed.
+- (void)showAlert: (NSString*)message error: (NSError*)error fatal: (BOOL)fatal {
+    if (error) {
+        message = [NSString stringWithFormat: @"%@\n\n%@", message, error.localizedDescription];
+    }
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle: (fatal ? @"Fatal Error" : @"Error")
+                                                    message: message
+                                                   delegate: (fatal ? self : nil)
+                                          cancelButtonTitle: (fatal ? @"Quit" : @"Sorry")
+                                          otherButtonTitles: nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    exit(0);
+}
+
 
 @end

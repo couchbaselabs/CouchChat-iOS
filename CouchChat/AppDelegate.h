@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ChatStore;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -16,4 +17,11 @@
 
 @property (strong, nonatomic) UISplitViewController *splitViewController;
 
+@property (readonly) ChatStore* chatStore;
+
+- (void)showAlert: (NSString*)message error: (NSError*)error fatal: (BOOL)fatal;
+
 @end
+
+
+extern AppDelegate* gAppDelegate;

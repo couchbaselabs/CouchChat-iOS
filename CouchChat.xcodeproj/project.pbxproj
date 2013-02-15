@@ -16,12 +16,44 @@
 		27CB04EE16CC4B420040C9F8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04ED16CC4B420040C9F8 /* Default.png */; };
 		27CB04F016CC4B420040C9F8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04EF16CC4B420040C9F8 /* Default@2x.png */; };
 		27CB04F216CC4B420040C9F8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04F116CC4B420040C9F8 /* Default-568h@2x.png */; };
-		27CB04F516CC4B420040C9F8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04F416CC4B420040C9F8 /* MasterViewController.m */; };
-		27CB04F816CC4B420040C9F8 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04F716CC4B420040C9F8 /* DetailViewController.m */; };
-		27CB04FB16CC4B420040C9F8 /* MasterViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04F916CC4B420040C9F8 /* MasterViewController_iPhone.xib */; };
-		27CB04FE16CC4B420040C9F8 /* MasterViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04FC16CC4B420040C9F8 /* MasterViewController_iPad.xib */; };
-		27CB050116CC4B420040C9F8 /* DetailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04FF16CC4B420040C9F8 /* DetailViewController_iPhone.xib */; };
-		27CB050416CC4B420040C9F8 /* DetailViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB050216CC4B420040C9F8 /* DetailViewController_iPad.xib */; };
+		27CB04F516CC4B420040C9F8 /* ChatListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04F416CC4B420040C9F8 /* ChatListController.m */; };
+		27CB04F816CC4B420040C9F8 /* ChatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04F716CC4B420040C9F8 /* ChatController.m */; };
+		27CB04FB16CC4B420040C9F8 /* ChatListController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04F916CC4B420040C9F8 /* ChatListController_iPhone.xib */; };
+		27CB04FE16CC4B420040C9F8 /* ChatListController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04FC16CC4B420040C9F8 /* ChatListController_iPad.xib */; };
+		27CB050116CC4B420040C9F8 /* ChatController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04FF16CC4B420040C9F8 /* ChatController_iPhone.xib */; };
+		27CB050416CC4B420040C9F8 /* ChatController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CB050216CC4B420040C9F8 /* ChatController_iPad.xib */; };
+		27CB051016CC4C8B0040C9F8 /* ChatStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB050D16CC4C8B0040C9F8 /* ChatStore.m */; };
+		27CB051116CC4C8B0040C9F8 /* ChatRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB050F16CC4C8B0040C9F8 /* ChatRoom.m */; };
+		27CB051416CC4E400040C9F8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051316CC4E400040C9F8 /* CFNetwork.framework */; };
+		27CB051616CC4E460040C9F8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051516CC4E460040C9F8 /* Security.framework */; };
+		27CB051816CC4E4C0040C9F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051716CC4E4C0040C9F8 /* libz.dylib */; };
+		27CB051A16CC4E560040C9F8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */; };
+		27CB051C16CC4E5B0040C9F8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */; };
+		27CB052916CC4FDE0040C9F8 /* NSBubbleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */; };
+		27CB052A16CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */; };
+		27CB052B16CC4FDE0040C9F8 /* UIBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */; };
+		27CB052C16CC4FDE0040C9F8 /* UIBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */; };
+		27CB052D16CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */; };
+		27CB053916CC4FF60040C9F8 /* bubbleMine.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB052F16CC4FF60040C9F8 /* bubbleMine.png */; };
+		27CB053A16CC4FF60040C9F8 /* bubbleMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053016CC4FF60040C9F8 /* bubbleMine@2x.png */; };
+		27CB053B16CC4FF60040C9F8 /* bubbleSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053116CC4FF60040C9F8 /* bubbleSomeone.png */; };
+		27CB053C16CC4FF60040C9F8 /* bubbleSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053216CC4FF60040C9F8 /* bubbleSomeone@2x.png */; };
+		27CB053D16CC4FF60040C9F8 /* missingAvatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053316CC4FF60040C9F8 /* missingAvatar.png */; };
+		27CB053E16CC4FF60040C9F8 /* missingAvatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053416CC4FF60040C9F8 /* missingAvatar@2x.png */; };
+		27CB053F16CC4FF60040C9F8 /* typingMine.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053516CC4FF60040C9F8 /* typingMine.png */; };
+		27CB054016CC4FF60040C9F8 /* typingMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053616CC4FF60040C9F8 /* typingMine@2x.png */; };
+		27CB054116CC4FF60040C9F8 /* typingSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053716CC4FF60040C9F8 /* typingSomeone.png */; };
+		27CB054216CC4FF60040C9F8 /* typingSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053816CC4FF60040C9F8 /* typingSomeone@2x.png */; };
+		27CB054716CC75400040C9F8 /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054516CC75400040C9F8 /* Camera.png */; };
+		27CB054816CC75400040C9F8 /* double_lined.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054616CC75400040C9F8 /* double_lined.png */; };
+		27CB054B16CD764B0040C9F8 /* ChatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054916CD764B0040C9F8 /* ChatIcon.png */; };
+		27CB054C16CD764B0040C9F8 /* ChatIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054A16CD764B0040C9F8 /* ChatIcon@2x.png */; };
+		27CB055616CD81700040C9F8 /* BrowserIDController+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */; };
+		27CB055716CD81700040C9F8 /* BrowserIDController.js in Resources */ = {isa = PBXBuildFile; fileRef = 27CB055316CD81700040C9F8 /* BrowserIDController.js */; };
+		27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055416CD81700040C9F8 /* BrowserIDController.m */; };
+		27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055A16CD82840040C9F8 /* SyncManager.m */; };
+		27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055D16CD82980040C9F8 /* LoginController.m */; };
+		27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,14 +70,58 @@
 		27CB04ED16CC4B420040C9F8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		27CB04EF16CC4B420040C9F8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		27CB04F116CC4B420040C9F8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		27CB04F316CC4B420040C9F8 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		27CB04F416CC4B420040C9F8 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		27CB04F616CC4B420040C9F8 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		27CB04F716CC4B420040C9F8 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		27CB04FA16CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MasterViewController_iPhone.xib; sourceTree = "<group>"; };
-		27CB04FD16CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MasterViewController_iPad.xib; sourceTree = "<group>"; };
-		27CB050016CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController_iPhone.xib; sourceTree = "<group>"; };
-		27CB050316CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController_iPad.xib; sourceTree = "<group>"; };
+		27CB04F316CC4B420040C9F8 /* ChatListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatListController.h; sourceTree = "<group>"; };
+		27CB04F416CC4B420040C9F8 /* ChatListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatListController.m; sourceTree = "<group>"; };
+		27CB04F616CC4B420040C9F8 /* ChatController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatController.h; sourceTree = "<group>"; };
+		27CB04F716CC4B420040C9F8 /* ChatController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatController.m; sourceTree = "<group>"; };
+		27CB04FA16CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ChatListController_iPhone.xib; sourceTree = "<group>"; };
+		27CB04FD16CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ChatListController_iPad.xib; sourceTree = "<group>"; };
+		27CB050016CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ChatController_iPhone.xib; sourceTree = "<group>"; };
+		27CB050316CC4B420040C9F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ChatController_iPad.xib; sourceTree = "<group>"; };
+		27CB050C16CC4C8B0040C9F8 /* ChatStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatStore.h; sourceTree = "<group>"; };
+		27CB050D16CC4C8B0040C9F8 /* ChatStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatStore.m; sourceTree = "<group>"; };
+		27CB050E16CC4C8B0040C9F8 /* ChatRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatRoom.h; sourceTree = "<group>"; };
+		27CB050F16CC4C8B0040C9F8 /* ChatRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatRoom.m; sourceTree = "<group>"; };
+		27CB051316CC4E400040C9F8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		27CB051516CC4E460040C9F8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		27CB051716CC4E4C0040C9F8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		27CB051E16CC4FDE0040C9F8 /* NSBubbleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBubbleData.h; sourceTree = "<group>"; };
+		27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBubbleData.m; sourceTree = "<group>"; };
+		27CB052016CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleHeaderTableViewCell.h; sourceTree = "<group>"; };
+		27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleHeaderTableViewCell.m; sourceTree = "<group>"; };
+		27CB052216CC4FDE0040C9F8 /* UIBubbleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableView.h; sourceTree = "<group>"; };
+		27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableView.m; sourceTree = "<group>"; };
+		27CB052416CC4FDE0040C9F8 /* UIBubbleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewCell.h; sourceTree = "<group>"; };
+		27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableViewCell.m; sourceTree = "<group>"; };
+		27CB052616CC4FDE0040C9F8 /* UIBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewDataSource.h; sourceTree = "<group>"; };
+		27CB052716CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
+		27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
+		27CB052F16CC4FF60040C9F8 /* bubbleMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleMine.png; sourceTree = "<group>"; };
+		27CB053016CC4FF60040C9F8 /* bubbleMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleMine@2x.png"; sourceTree = "<group>"; };
+		27CB053116CC4FF60040C9F8 /* bubbleSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSomeone.png; sourceTree = "<group>"; };
+		27CB053216CC4FF60040C9F8 /* bubbleSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleSomeone@2x.png"; sourceTree = "<group>"; };
+		27CB053316CC4FF60040C9F8 /* missingAvatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missingAvatar.png; sourceTree = "<group>"; };
+		27CB053416CC4FF60040C9F8 /* missingAvatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missingAvatar@2x.png"; sourceTree = "<group>"; };
+		27CB053516CC4FF60040C9F8 /* typingMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingMine.png; sourceTree = "<group>"; };
+		27CB053616CC4FF60040C9F8 /* typingMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingMine@2x.png"; sourceTree = "<group>"; };
+		27CB053716CC4FF60040C9F8 /* typingSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingSomeone.png; sourceTree = "<group>"; };
+		27CB053816CC4FF60040C9F8 /* typingSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingSomeone@2x.png"; sourceTree = "<group>"; };
+		27CB054516CC75400040C9F8 /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
+		27CB054616CC75400040C9F8 /* double_lined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = double_lined.png; sourceTree = "<group>"; };
+		27CB054916CD764B0040C9F8 /* ChatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ChatIcon.png; sourceTree = "<group>"; };
+		27CB054A16CD764B0040C9F8 /* ChatIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ChatIcon@2x.png"; sourceTree = "<group>"; };
+		27CB055016CD81700040C9F8 /* BrowserIDController+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BrowserIDController+UIKit.h"; sourceTree = "<group>"; };
+		27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BrowserIDController+UIKit.m"; sourceTree = "<group>"; };
+		27CB055216CD81700040C9F8 /* BrowserIDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserIDController.h; sourceTree = "<group>"; };
+		27CB055316CD81700040C9F8 /* BrowserIDController.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BrowserIDController.js; sourceTree = "<group>"; };
+		27CB055416CD81700040C9F8 /* BrowserIDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserIDController.m; sourceTree = "<group>"; };
+		27CB055916CD82840040C9F8 /* SyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncManager.h; sourceTree = "<group>"; };
+		27CB055A16CD82840040C9F8 /* SyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManager.m; sourceTree = "<group>"; };
+		27CB055C16CD82980040C9F8 /* LoginController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
+		27CB055D16CD82980040C9F8 /* LoginController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
+		27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +129,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27CB051416CC4E400040C9F8 /* CFNetwork.framework in Frameworks */,
+				27CB051616CC4E460040C9F8 /* Security.framework in Frameworks */,
+				27CB051A16CC4E560040C9F8 /* SystemConfiguration.framework in Frameworks */,
+				27CB051C16CC4E5B0040C9F8 /* libsqlite3.dylib in Frameworks */,
+				27CB051816CC4E4C0040C9F8 /* libz.dylib in Frameworks */,
 				27CB04DC16CC4B420040C9F8 /* UIKit.framework in Frameworks */,
 				27CB04DE16CC4B420040C9F8 /* Foundation.framework in Frameworks */,
 				27CB04E016CC4B420040C9F8 /* CoreGraphics.framework in Frameworks */,
+				27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +148,11 @@
 			isa = PBXGroup;
 			children = (
 				27CB04E116CC4B420040C9F8 /* CouchChat */,
+				27CB055F16CD82AF0040C9F8 /* Sync UI */,
+				27CB051216CC4C900040C9F8 /* Model */,
+				27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */,
+				27CB054D16CD81700040C9F8 /* BrowserID */,
+				27CB054316CC74D10040C9F8 /* Resources */,
 				27CB04DA16CC4B420040C9F8 /* Frameworks */,
 				27CB04D916CC4B420040C9F8 /* Products */,
 			);
@@ -82,6 +169,12 @@
 		27CB04DA16CC4B420040C9F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */,
+				27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */,
+				27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */,
+				27CB051716CC4E4C0040C9F8 /* libz.dylib */,
+				27CB051516CC4E460040C9F8 /* Security.framework */,
+				27CB051316CC4E400040C9F8 /* CFNetwork.framework */,
 				27CB04DB16CC4B420040C9F8 /* UIKit.framework */,
 				27CB04DD16CC4B420040C9F8 /* Foundation.framework */,
 				27CB04DF16CC4B420040C9F8 /* CoreGraphics.framework */,
@@ -94,14 +187,14 @@
 			children = (
 				27CB04EA16CC4B420040C9F8 /* AppDelegate.h */,
 				27CB04EB16CC4B420040C9F8 /* AppDelegate.m */,
-				27CB04F316CC4B420040C9F8 /* MasterViewController.h */,
-				27CB04F416CC4B420040C9F8 /* MasterViewController.m */,
-				27CB04F616CC4B420040C9F8 /* DetailViewController.h */,
-				27CB04F716CC4B420040C9F8 /* DetailViewController.m */,
-				27CB04F916CC4B420040C9F8 /* MasterViewController_iPhone.xib */,
-				27CB04FC16CC4B420040C9F8 /* MasterViewController_iPad.xib */,
-				27CB04FF16CC4B420040C9F8 /* DetailViewController_iPhone.xib */,
-				27CB050216CC4B420040C9F8 /* DetailViewController_iPad.xib */,
+				27CB04F316CC4B420040C9F8 /* ChatListController.h */,
+				27CB04F416CC4B420040C9F8 /* ChatListController.m */,
+				27CB04F616CC4B420040C9F8 /* ChatController.h */,
+				27CB04F716CC4B420040C9F8 /* ChatController.m */,
+				27CB04F916CC4B420040C9F8 /* ChatListController_iPhone.xib */,
+				27CB04FC16CC4B420040C9F8 /* ChatListController_iPad.xib */,
+				27CB04FF16CC4B420040C9F8 /* ChatController_iPhone.xib */,
+				27CB050216CC4B420040C9F8 /* ChatController_iPad.xib */,
 				27CB04E216CC4B420040C9F8 /* Supporting Files */,
 			);
 			path = CouchChat;
@@ -119,6 +212,92 @@
 				27CB04F116CC4B420040C9F8 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		27CB051216CC4C900040C9F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				27CB050C16CC4C8B0040C9F8 /* ChatStore.h */,
+				27CB050D16CC4C8B0040C9F8 /* ChatStore.m */,
+				27CB050E16CC4C8B0040C9F8 /* ChatRoom.h */,
+				27CB050F16CC4C8B0040C9F8 /* ChatRoom.m */,
+			);
+			name = Model;
+			path = CouchChat;
+			sourceTree = "<group>";
+		};
+		27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */ = {
+			isa = PBXGroup;
+			children = (
+				27CB051E16CC4FDE0040C9F8 /* NSBubbleData.h */,
+				27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */,
+				27CB052016CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.h */,
+				27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */,
+				27CB052216CC4FDE0040C9F8 /* UIBubbleTableView.h */,
+				27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */,
+				27CB052416CC4FDE0040C9F8 /* UIBubbleTableViewCell.h */,
+				27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */,
+				27CB052616CC4FDE0040C9F8 /* UIBubbleTableViewDataSource.h */,
+				27CB052716CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.h */,
+				27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */,
+				27CB052E16CC4FF60040C9F8 /* images */,
+			);
+			name = UIBubbleTableView;
+			path = vendor/UIBubbleTableView/src;
+			sourceTree = "<group>";
+		};
+		27CB052E16CC4FF60040C9F8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				27CB052F16CC4FF60040C9F8 /* bubbleMine.png */,
+				27CB053016CC4FF60040C9F8 /* bubbleMine@2x.png */,
+				27CB053116CC4FF60040C9F8 /* bubbleSomeone.png */,
+				27CB053216CC4FF60040C9F8 /* bubbleSomeone@2x.png */,
+				27CB053316CC4FF60040C9F8 /* missingAvatar.png */,
+				27CB053416CC4FF60040C9F8 /* missingAvatar@2x.png */,
+				27CB053516CC4FF60040C9F8 /* typingMine.png */,
+				27CB053616CC4FF60040C9F8 /* typingMine@2x.png */,
+				27CB053716CC4FF60040C9F8 /* typingSomeone.png */,
+				27CB053816CC4FF60040C9F8 /* typingSomeone@2x.png */,
+			);
+			name = images;
+			path = vendor/UIBubbleTableView/images;
+			sourceTree = SOURCE_ROOT;
+		};
+		27CB054316CC74D10040C9F8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				27CB054916CD764B0040C9F8 /* ChatIcon.png */,
+				27CB054A16CD764B0040C9F8 /* ChatIcon@2x.png */,
+				27CB054516CC75400040C9F8 /* Camera.png */,
+				27CB054616CC75400040C9F8 /* double_lined.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		27CB054D16CD81700040C9F8 /* BrowserID */ = {
+			isa = PBXGroup;
+			children = (
+				27CB055016CD81700040C9F8 /* BrowserIDController+UIKit.h */,
+				27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */,
+				27CB055216CD81700040C9F8 /* BrowserIDController.h */,
+				27CB055316CD81700040C9F8 /* BrowserIDController.js */,
+				27CB055416CD81700040C9F8 /* BrowserIDController.m */,
+			);
+			name = BrowserID;
+			path = vendor/browserid/Sources;
+			sourceTree = "<group>";
+		};
+		27CB055F16CD82AF0040C9F8 /* Sync UI */ = {
+			isa = PBXGroup;
+			children = (
+				27CB055916CD82840040C9F8 /* SyncManager.h */,
+				27CB055A16CD82840040C9F8 /* SyncManager.m */,
+				27CB055C16CD82980040C9F8 /* LoginController.h */,
+				27CB055D16CD82980040C9F8 /* LoginController.m */,
+			);
+			name = "Sync UI";
+			path = CouchChat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,10 +355,25 @@
 				27CB04EE16CC4B420040C9F8 /* Default.png in Resources */,
 				27CB04F016CC4B420040C9F8 /* Default@2x.png in Resources */,
 				27CB04F216CC4B420040C9F8 /* Default-568h@2x.png in Resources */,
-				27CB04FB16CC4B420040C9F8 /* MasterViewController_iPhone.xib in Resources */,
-				27CB04FE16CC4B420040C9F8 /* MasterViewController_iPad.xib in Resources */,
-				27CB050116CC4B420040C9F8 /* DetailViewController_iPhone.xib in Resources */,
-				27CB050416CC4B420040C9F8 /* DetailViewController_iPad.xib in Resources */,
+				27CB04FB16CC4B420040C9F8 /* ChatListController_iPhone.xib in Resources */,
+				27CB04FE16CC4B420040C9F8 /* ChatListController_iPad.xib in Resources */,
+				27CB050116CC4B420040C9F8 /* ChatController_iPhone.xib in Resources */,
+				27CB050416CC4B420040C9F8 /* ChatController_iPad.xib in Resources */,
+				27CB055716CD81700040C9F8 /* BrowserIDController.js in Resources */,
+				27CB053916CC4FF60040C9F8 /* bubbleMine.png in Resources */,
+				27CB053A16CC4FF60040C9F8 /* bubbleMine@2x.png in Resources */,
+				27CB053B16CC4FF60040C9F8 /* bubbleSomeone.png in Resources */,
+				27CB053C16CC4FF60040C9F8 /* bubbleSomeone@2x.png in Resources */,
+				27CB053D16CC4FF60040C9F8 /* missingAvatar.png in Resources */,
+				27CB053E16CC4FF60040C9F8 /* missingAvatar@2x.png in Resources */,
+				27CB053F16CC4FF60040C9F8 /* typingMine.png in Resources */,
+				27CB054016CC4FF60040C9F8 /* typingMine@2x.png in Resources */,
+				27CB054116CC4FF60040C9F8 /* typingSomeone.png in Resources */,
+				27CB054216CC4FF60040C9F8 /* typingSomeone@2x.png in Resources */,
+				27CB054716CC75400040C9F8 /* Camera.png in Resources */,
+				27CB054816CC75400040C9F8 /* double_lined.png in Resources */,
+				27CB054B16CD764B0040C9F8 /* ChatIcon.png in Resources */,
+				27CB054C16CD764B0040C9F8 /* ChatIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,8 +386,19 @@
 			files = (
 				27CB04E816CC4B420040C9F8 /* main.m in Sources */,
 				27CB04EC16CC4B420040C9F8 /* AppDelegate.m in Sources */,
-				27CB04F516CC4B420040C9F8 /* MasterViewController.m in Sources */,
-				27CB04F816CC4B420040C9F8 /* DetailViewController.m in Sources */,
+				27CB04F516CC4B420040C9F8 /* ChatListController.m in Sources */,
+				27CB04F816CC4B420040C9F8 /* ChatController.m in Sources */,
+				27CB051016CC4C8B0040C9F8 /* ChatStore.m in Sources */,
+				27CB051116CC4C8B0040C9F8 /* ChatRoom.m in Sources */,
+				27CB052916CC4FDE0040C9F8 /* NSBubbleData.m in Sources */,
+				27CB052A16CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m in Sources */,
+				27CB052B16CC4FDE0040C9F8 /* UIBubbleTableView.m in Sources */,
+				27CB052C16CC4FDE0040C9F8 /* UIBubbleTableViewCell.m in Sources */,
+				27CB052D16CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m in Sources */,
+				27CB055616CD81700040C9F8 /* BrowserIDController+UIKit.m in Sources */,
+				27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */,
+				27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */,
+				27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,36 +413,36 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		27CB04F916CC4B420040C9F8 /* MasterViewController_iPhone.xib */ = {
+		27CB04F916CC4B420040C9F8 /* ChatListController_iPhone.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				27CB04FA16CC4B420040C9F8 /* en */,
 			);
-			name = MasterViewController_iPhone.xib;
+			name = ChatListController_iPhone.xib;
 			sourceTree = "<group>";
 		};
-		27CB04FC16CC4B420040C9F8 /* MasterViewController_iPad.xib */ = {
+		27CB04FC16CC4B420040C9F8 /* ChatListController_iPad.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				27CB04FD16CC4B420040C9F8 /* en */,
 			);
-			name = MasterViewController_iPad.xib;
+			name = ChatListController_iPad.xib;
 			sourceTree = "<group>";
 		};
-		27CB04FF16CC4B420040C9F8 /* DetailViewController_iPhone.xib */ = {
+		27CB04FF16CC4B420040C9F8 /* ChatController_iPhone.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				27CB050016CC4B420040C9F8 /* en */,
 			);
-			name = DetailViewController_iPhone.xib;
+			name = ChatController_iPhone.xib;
 			sourceTree = "<group>";
 		};
-		27CB050216CC4B420040C9F8 /* DetailViewController_iPad.xib */ = {
+		27CB050216CC4B420040C9F8 /* ChatController_iPad.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				27CB050316CC4B420040C9F8 /* en */,
 			);
-			name = DetailViewController_iPad.xib;
+			name = ChatController_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -265,13 +470,16 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -290,7 +498,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
@@ -298,15 +508,23 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
 		27CB050816CC4B420040C9F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CouchChat/CouchChat-Prefix.pch";
 				INFOPLIST_FILE = "CouchChat/CouchChat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -315,9 +533,16 @@
 		27CB050916CC4B420040C9F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CouchChat/CouchChat-Prefix.pch";
 				INFOPLIST_FILE = "CouchChat/CouchChat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

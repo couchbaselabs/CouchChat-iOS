@@ -28,4 +28,6 @@
 
 @property (strong) NSString* username;
 
+- (UIImage*) avatarForUser: (NSString*)user;
+
 @end

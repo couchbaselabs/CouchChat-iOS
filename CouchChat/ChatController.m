@@ -26,6 +26,7 @@
 {
     NSString* _username;
     NSArray* _rows;
+    ChatStore* _chatStore;
     ChatRoom* _chatRoom;
     CBLLiveQuery* _query;
     IBOutlet UIBubbleTableView* _bubbles;
@@ -38,7 +39,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _username = [[ChatStore sharedInstance] username];
+        _chatStore = [ChatStore sharedInstance];
+        _username = _chatStore.username;
     }
     return self;
 }
@@ -52,7 +54,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(keyboardWillShow:)
+                                                 name: UIKeyboardWillShowNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(keyboardWillHide:)
+                                                 name: UIKeyboardWillHideNotification
+                                               object: nil];
+
     UIImage* pattern = [UIImage imageNamed: @"double_lined.png"];
     self.view.backgroundColor = [UIColor colorWithPatternImage: pattern];
 
@@ -64,14 +74,18 @@
     _inputLine.rightView = _pickerButton;
     _inputLine.rightViewMode = UITextFieldViewModeAlways;
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(resizeForKeyboard:)
-                                                 name: UIKeyboardWillShowNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(resizeForKeyboard:)
-                                                 name: UIKeyboardWillHideNotification
-                                               object: nil];
+    [_bubbles reloadData];
+    [self scrollToBottom];
+
+    UIGestureRecognizer* g = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(bubblesTouched)];
+    [_bubbles addGestureRecognizer: g];
+}
+
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear: animated];
+    // Bad Stuff happens if the keybaord remains visible while this view is hidden.
+    [_inputLine resignFirstResponder];
 }
 
 
@@ -104,15 +118,18 @@
 - (void) reloadFromQuery {
     CBLQueryEnumerator* rowEnum = _query.rows;
     if (rowEnum) {
-        _rows = [rowEnum.allObjects mutableCopy];
+        _rows = rowEnum.allObjects;
         NSLog(@"ChatController: Showing %u messages", _rows.count);
         [_bubbles reloadData];
-
-        // Scroll to bottom:
-        CGRect bottom = {{0, 0}, {1, 1}};
-        bottom.origin.y =_bubbles.contentSize.height - 1;
-        [_bubbles scrollRectToVisible: bottom animated: YES];
+        [self scrollToBottom];
     }
+}
+
+
+- (void) scrollToBottom {
+    CGRect bottom = {{0, 0}, {1, 1}};
+    bottom.origin.y =_bubbles.contentSize.height - 1;
+    [_bubbles scrollRectToVisible: bottom animated: YES];
 }
 
 
@@ -133,43 +150,63 @@
     CBLQueryRow* r = _rows[row];
     NSArray* key = r.key;
     NSArray* value = r.value;
+    NSString* sender = value[0];
     NSString* text = value[1];
+    bool hasPicture = [value[2] boolValue];
     NSDate* date = [CBLJSON dateWithJSONObject: key[1]];
-    BOOL mine = [value[0] isEqual: _username];
+    BOOL mine = [sender isEqual: _username];
 
     UIImage* image = nil;
-    if ([value[2] boolValue]) {
+    if (hasPicture) {
         CBLAttachment* att = [r.document.currentRevision attachmentNamed: @"picture"];
         NSData* imageData = att.body;
         if (imageData)
             image = [[UIImage alloc] initWithData: imageData];
     }
 
+    NSBubbleData* bubble;
     if (image) {
-        return [NSBubbleData dataWithImage: image
+        bubble = [NSBubbleData dataWithImage: image
                                       date: date
                                       type: (mine ? BubbleTypeMine : BubbleTypeSomeoneElse)];
         //FIX: If doc has markdown as well as image, the text won't be shown!
     } else {
         //FIX: Render the markdown
-        return [NSBubbleData dataWithText: text
+        bubble = [NSBubbleData dataWithText: text
                                      date: date
                                      type: (mine ? BubbleTypeMine : BubbleTypeSomeoneElse)];
     }
+    if (!mine)
+        bubble.avatar = [_chatStore avatarForUser: sender];
+    return bubble;
+}
+
+
+- (void) bubblesTouched {
+    [_inputLine resignFirstResponder];
 }
 
 
 #pragma mark - INPUT LINE:
 
 
-- (void) resizeForKeyboard: (NSNotification*)n {
+- (void) setFrameMaxY: (CGFloat)maxY {
+    CGRect frame = self.view.frame;
+    frame.size.height = maxY - frame.origin.y;
+    self.view.frame = frame;
+}
+
+
+- (void) keyboardWillShow: (NSNotification*)n {
     CGRect kbdFrame = [(NSValue*)n.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     kbdFrame = [self.view.window convertRect: kbdFrame fromWindow: nil];
     kbdFrame = [self.view.superview convertRect: kbdFrame fromView: nil];
+    [self setFrameMaxY: kbdFrame.origin.y];
+}
 
-    CGRect textFrame = self.view.frame;
-    textFrame.size.height = kbdFrame.origin.y - textFrame.origin.y;
-    self.view.frame = textFrame;
+
+- (void) keyboardWillHide: (NSNotification*)n {
+    [self setFrameMaxY: CGRectGetMaxY(self.view.superview.bounds)];
 }
 
 

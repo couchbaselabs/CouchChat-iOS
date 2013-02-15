@@ -84,4 +84,9 @@ static ChatStore* sInstance;
 }
 
 
+- (UIImage*) avatarForUser: (NSString*)user {
+    return nil;     // TODO
+}
+
+
 @end

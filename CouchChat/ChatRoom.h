@@ -21,8 +21,8 @@
 
 @property (readwrite) NSString* title;
 
-@property (readonly) NSString* owner_id;
 @property (copy) NSArray* members;
+@property (copy) NSArray* owners;
 
 - (void) addMembers: (NSArray*)newMembers;
 
@@ -39,10 +39,11 @@
         "_id": "5737529525067657",
         "_rev": "29-d3aad012fc362578e8a9b652918f419d",
         "type": "room",
-        "chat_id" : "5737529525067657",
+        "channel_id" : "5737529525067657",
         "title": "Mobile Dev",
         "tags": "Mobile, Dev, Couchbase",
-        "members": "@jchris @snej @mschoch",
+        "members": ["@jchris", "@snej", "@mschoch"],
+        "owners": ["@amysue"],
         "markdown": "Topics in Mobile!\n\n- HostedCouchbase\n- AccessControl\n- SyncProtocol\n- DeveloperFlow\n- CouchbaseServer\n",
         "created_at": "2012-12-09T06:05:55.031Z",
         "updated_at": "2012-12-16T01:33:01.909Z"

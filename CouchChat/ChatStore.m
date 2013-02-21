@@ -44,7 +44,7 @@ static ChatStore* sInstance;
             if ([doc[@"type"] isEqualToString: @"chat"]) {
                 NSString* markdown = doc[@"markdown"] ?: @"";
                 bool hasAttachments = [doc[@"_attachments"] count] > 0;
-                emit(@[doc[@"chat_id"], doc[@"created_at"]],
+                emit(@[doc[@"channel_id"], doc[@"created_at"]],
                      @[doc[@"author"], markdown, @(hasAttachments)]);
             }
         }) version: @"3"];

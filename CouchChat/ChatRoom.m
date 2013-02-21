@@ -18,7 +18,7 @@
     NSSet* _allPageTitles;
 }
 
-@dynamic title, owner_id, members;
+@dynamic title, owners, members;
 
 
 - (id) initNewWithTitle: (NSString*)title inChatStore: (ChatStore*)chatStore {
@@ -26,8 +26,9 @@
     self = [super initWithNewDocumentInDatabase: chatStore.database];
     if (self) {
         self.autosaves = true;
+        self.owners = [NSArray arrayWithObject:chatStore.username];
         [self setValue: @"room" ofProperty: @"type"];
-        [self setValue: chatStore.username ofProperty: @"owner_id"];
+        [self setValue: [self chatID] ofProperty: @"channel_id"];
         self.title = title;
     }
     return self;
@@ -53,13 +54,13 @@
     NSString* username = self.chatStore.username;
     if (!username)
         return false;
-    return [self.owner_id isEqualToString: username] || [self.members containsObject: username];
+    return [self.owners containsObject: username] || [self.members containsObject: username];
 }
 
 
 - (bool) owned {
     NSString* username = self.chatStore.username;
-    return username && [self.owner_id isEqualToString: username];
+    return username && [self.owners containsObject: username];
 }
 
 
@@ -87,7 +88,7 @@
     NSString* createdAt = [CBLJSON JSONObjectWithDate: [NSDate date]];
     CBLNewRevision* rev = self.database.untitledDocument.newRevision;
     [rev.properties addEntriesFromDictionary: @{@"type": @"chat",
-                                                @"chat_id": self.chatID,
+                                                @"channel_id": self.chatID,
                                                 @"author": self.chatStore.username,
                                                 @"created_at": createdAt}];
     rev[@"markdown"] = markdown;

@@ -1,0 +1,8 @@
+{
+	"host" : "localhost",
+	"gatewayPort" : "4984",
+	"authPort" : "4985",
+	"bucket" : "sync_gateway",
+	"guest" : false
+}
+

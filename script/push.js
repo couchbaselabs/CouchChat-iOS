@@ -5,6 +5,8 @@ var config = require("./config"),
 
 config.channelmap =
 
+
+
 function(doc) {
   if (doc.channel_id) {
     sync("ch-"+doc.channel_id);

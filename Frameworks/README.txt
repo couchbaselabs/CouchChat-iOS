@@ -1,1 +1,1 @@
-Put TouchDB.framework in here
+Put CouchbaseLite.framework in here

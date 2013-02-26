@@ -84,7 +84,7 @@ AppDelegate* gAppDelegate;
         // Configure replication:
     _syncManager.continuous = YES;
 //    _syncManager.syncURL = [NSURL URLWithString: @"http://macbuild.local:4986/chat"];
-    _syncManager.syncURL = [NSURL URLWithString: @"http://localhost:4984/sync_gateway"];
+    _syncManager.syncURL = [NSURL URLWithString: @"http://animal.local:4984/sync_gateway"];
     //}
 }
 

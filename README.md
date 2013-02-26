@@ -32,7 +32,7 @@ We'll be patching this script to keep up, as we simplify the Sync Gateway config
 
 This script uses the configuration in `script/config.json` to find the Sync Gateway. It turns off GUEST access, and sets up a channelmap and validation function. The channelmap function configures how data flows between mobile devices. The validation function determines if a given update is allowed to proceed. Read the Sync Gateway documentation for more details.
 
-Here is the channelmap function for CouchChat works. Notice how the access and channel calls are deployed:
+Here is how the channelmap function for CouchChat works. Notice how the access and channel calls are deployed:
 
 ```javascript
 config.sync = function(doc, oldDoc, userCtx, secObj) {

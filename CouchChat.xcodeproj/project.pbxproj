@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		27CB04DC16CC4B420040C9F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DB16CC4B420040C9F8 /* UIKit.framework */; };
 		27CB04DE16CC4B420040C9F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DD16CC4B420040C9F8 /* Foundation.framework */; };
-		27CB04E016CC4B420040C9F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DF16CC4B420040C9F8 /* CoreGraphics.framework */; };
 		27CB04E616CC4B420040C9F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04E416CC4B420040C9F8 /* InfoPlist.strings */; };
 		27CB04E816CC4B420040C9F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04E716CC4B420040C9F8 /* main.m */; };
 		27CB04EC16CC4B420040C9F8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB04EB16CC4B420040C9F8 /* AppDelegate.m */; };
@@ -55,6 +54,14 @@
 		27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055D16CD82980040C9F8 /* LoginController.m */; };
 		27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */; };
 		27CB056F16CEEB7C0040C9F8 /* UserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB056E16CEEB7C0040C9F8 /* UserProfile.m */; };
+		27F41BA616E51C3D005572BC /* THBubbleColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41B9716E51C3D005572BC /* THBubbleColor.m */; };
+		27F41BA716E51C3D005572BC /* THContactBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41B9916E51C3D005572BC /* THContactBubble.m */; };
+		27F41BA816E51C3D005572BC /* THContactPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41B9B16E51C3D005572BC /* THContactPickerView.m */; };
+		27F41BA916E51C3D005572BC /* THContactPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41B9D16E51C3D005572BC /* THContactPickerViewController.m */; };
+		27F41BAA16E51C3D005572BC /* THContactPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F41B9E16E51C3D005572BC /* THContactPickerViewController.xib */; };
+		27F41BAC16E51CDB005572BC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F41BAB16E51CDA005572BC /* QuartzCore.framework */; };
+		27F41BAD16E51CEE005572BC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DF16CC4B420040C9F8 /* CoreGraphics.framework */; };
+		27F41BB016E522CC005572BC /* UserPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BAF16E522CC005572BC /* UserPickerController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +133,18 @@
 		27CB056D16CEEB7C0040C9F8 /* UserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile.h; sourceTree = "<group>"; };
 		27CB056E16CEEB7C0040C9F8 /* UserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfile.m; sourceTree = "<group>"; };
 		27F41B8816E164E2005572BC /* UserProfile_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile_Private.h; sourceTree = "<group>"; };
+		27F41B9616E51C3D005572BC /* THBubbleColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THBubbleColor.h; sourceTree = "<group>"; };
+		27F41B9716E51C3D005572BC /* THBubbleColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THBubbleColor.m; sourceTree = "<group>"; };
+		27F41B9816E51C3D005572BC /* THContactBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THContactBubble.h; sourceTree = "<group>"; };
+		27F41B9916E51C3D005572BC /* THContactBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THContactBubble.m; sourceTree = "<group>"; };
+		27F41B9A16E51C3D005572BC /* THContactPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THContactPickerView.h; sourceTree = "<group>"; };
+		27F41B9B16E51C3D005572BC /* THContactPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THContactPickerView.m; sourceTree = "<group>"; };
+		27F41B9C16E51C3D005572BC /* THContactPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THContactPickerViewController.h; sourceTree = "<group>"; };
+		27F41B9D16E51C3D005572BC /* THContactPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THContactPickerViewController.m; sourceTree = "<group>"; };
+		27F41B9E16E51C3D005572BC /* THContactPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THContactPickerViewController.xib; sourceTree = "<group>"; };
+		27F41BAB16E51CDA005572BC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		27F41BAE16E522CC005572BC /* UserPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPickerController.h; sourceTree = "<group>"; };
+		27F41BAF16E522CC005572BC /* UserPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPickerController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,15 +152,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */,
+				27CB051C16CC4E5B0040C9F8 /* libsqlite3.dylib in Frameworks */,
+				27CB051816CC4E4C0040C9F8 /* libz.dylib in Frameworks */,
 				27CB051416CC4E400040C9F8 /* CFNetwork.framework in Frameworks */,
 				27CB051616CC4E460040C9F8 /* Security.framework in Frameworks */,
 				27CB051A16CC4E560040C9F8 /* SystemConfiguration.framework in Frameworks */,
-				27CB051C16CC4E5B0040C9F8 /* libsqlite3.dylib in Frameworks */,
-				27CB051816CC4E4C0040C9F8 /* libz.dylib in Frameworks */,
+				27F41BAC16E51CDB005572BC /* QuartzCore.framework in Frameworks */,
+				27F41BAD16E51CEE005572BC /* CoreGraphics.framework in Frameworks */,
 				27CB04DC16CC4B420040C9F8 /* UIKit.framework in Frameworks */,
 				27CB04DE16CC4B420040C9F8 /* Foundation.framework in Frameworks */,
-				27CB04E016CC4B420040C9F8 /* CoreGraphics.framework in Frameworks */,
-				27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,11 +171,11 @@
 		27CB04CF16CC4B420040C9F8 = {
 			isa = PBXGroup;
 			children = (
+				27F41BAB16E51CDA005572BC /* QuartzCore.framework */,
 				27CB04E116CC4B420040C9F8 /* CouchChat */,
 				27CB055F16CD82AF0040C9F8 /* Sync UI */,
 				27CB051216CC4C900040C9F8 /* Model */,
-				27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */,
-				27CB054D16CD81700040C9F8 /* BrowserID */,
+				27F41B8916E51B90005572BC /* vendor */,
 				27CB054316CC74D10040C9F8 /* Resources */,
 				27CB04DA16CC4B420040C9F8 /* Frameworks */,
 				27CB04D916CC4B420040C9F8 /* Products */,
@@ -195,6 +215,8 @@
 				27CB04F416CC4B420040C9F8 /* ChatListController.m */,
 				27CB04F616CC4B420040C9F8 /* ChatController.h */,
 				27CB04F716CC4B420040C9F8 /* ChatController.m */,
+				27F41BAE16E522CC005572BC /* UserPickerController.h */,
+				27F41BAF16E522CC005572BC /* UserPickerController.m */,
 				27CB04F916CC4B420040C9F8 /* ChatListController_iPhone.xib */,
 				27CB04FC16CC4B420040C9F8 /* ChatListController_iPad.xib */,
 				27CB04FF16CC4B420040C9F8 /* ChatController_iPhone.xib */,
@@ -250,7 +272,7 @@
 				27CB052E16CC4FF60040C9F8 /* images */,
 			);
 			name = UIBubbleTableView;
-			path = vendor/UIBubbleTableView/src;
+			path = UIBubbleTableView/src;
 			sourceTree = "<group>";
 		};
 		27CB052E16CC4FF60040C9F8 /* images */ = {
@@ -292,7 +314,7 @@
 				27CB055416CD81700040C9F8 /* BrowserIDController.m */,
 			);
 			name = BrowserID;
-			path = vendor/browserid/Sources;
+			path = browserid/Sources;
 			sourceTree = "<group>";
 		};
 		27CB055F16CD82AF0040C9F8 /* Sync UI */ = {
@@ -305,6 +327,33 @@
 			);
 			name = "Sync UI";
 			path = CouchChat;
+			sourceTree = "<group>";
+		};
+		27F41B8916E51B90005572BC /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				27CB054D16CD81700040C9F8 /* BrowserID */,
+				27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */,
+				27F41B8B16E51C3D005572BC /* THContactPicker */,
+			);
+			path = vendor;
+			sourceTree = "<group>";
+		};
+		27F41B8B16E51C3D005572BC /* THContactPicker */ = {
+			isa = PBXGroup;
+			children = (
+				27F41B9616E51C3D005572BC /* THBubbleColor.h */,
+				27F41B9716E51C3D005572BC /* THBubbleColor.m */,
+				27F41B9816E51C3D005572BC /* THContactBubble.h */,
+				27F41B9916E51C3D005572BC /* THContactBubble.m */,
+				27F41B9A16E51C3D005572BC /* THContactPickerView.h */,
+				27F41B9B16E51C3D005572BC /* THContactPickerView.m */,
+				27F41B9C16E51C3D005572BC /* THContactPickerViewController.h */,
+				27F41B9D16E51C3D005572BC /* THContactPickerViewController.m */,
+				27F41B9E16E51C3D005572BC /* THContactPickerViewController.xib */,
+			);
+			name = THContactPicker;
+			path = THContactPicker/ContactPicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,6 +430,7 @@
 				27CB054816CC75400040C9F8 /* double_lined.png in Resources */,
 				27CB054B16CD764B0040C9F8 /* ChatIcon.png in Resources */,
 				27CB054C16CD764B0040C9F8 /* ChatIcon@2x.png in Resources */,
+				27F41BAA16E51C3D005572BC /* THContactPickerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +457,11 @@
 				27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */,
 				27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */,
 				27CB056F16CEEB7C0040C9F8 /* UserProfile.m in Sources */,
+				27F41BA616E51C3D005572BC /* THBubbleColor.m in Sources */,
+				27F41BA716E51C3D005572BC /* THContactBubble.m in Sources */,
+				27F41BA816E51C3D005572BC /* THContactPickerView.m in Sources */,
+				27F41BA916E51C3D005572BC /* THContactPickerViewController.m in Sources */,
+				27F41BB016E522CC005572BC /* UserPickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

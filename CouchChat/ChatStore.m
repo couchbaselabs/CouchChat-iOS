@@ -58,14 +58,18 @@ static ChatStore* sInstance;
 
         // View for getting user profiles by name
         _usersView = [_database viewNamed: @"usersByName"];
-        [view setMapBlock: MAPBLOCK({
-            if ([doc[@"type"] isEqualToString: @"user"]) {
-                NSString* name = doc[@"nick"] ?: doc[@"username"];
+        [_usersView setMapBlock: MAPBLOCK({
+            if ([doc[@"type"] isEqualToString: @"profile"]) {
+                NSString* name = doc[@"nick"] ?: [UserProfile usernameFromDocID: doc[@"_id"]];
                 if (name)
                     emit(name.lowercaseString, name);
             }
-        }) version: @"1"];
+        }) version: @"3"];
         _allChatsQuery = [[view query] asLiveQuery];
+
+#if 0
+        [self createFakeUsers];
+#endif
 
     }
     return self;
@@ -97,6 +101,24 @@ static ChatStore* sInstance;
 #pragma mark - USERS:
 
 
+#if 0
+- (void) createFakeUsers {
+    UserProfile* profile = [self profileWithUsername: @"foo@example.com"];
+    if (!profile) {
+        profile = [UserProfile createInDatabase: _database
+                                   withUsername: @"foo@example.com"];
+        [profile setName: @"Foo Bar" nick: @"foobar"];
+    }
+    profile = [self profileWithUsername: @"pupshaw@example.com"];
+    if (!profile) {
+        profile = [UserProfile createInDatabase: _database
+                                   withUsername: @"pupshaw@example.com"];
+        [profile setName: @"Pupshaw" nick: nil];
+    }
+}
+#endif
+
+
 - (void) setUsername:(NSString *)username {
     if (![username isEqualToString: _username]) {
         NSLog(@"Setting chat username to '%@'", username);
@@ -110,6 +132,18 @@ static ChatStore* sInstance;
             NSLog(@"Created user profile %@", myProfile);
         }
     }
+}
+
+
+- (UserProfile*) user {
+    if (!_username)
+        return nil;
+    UserProfile* user = [self profileWithUsername: _username];
+    if (!user) {
+        user = [UserProfile createInDatabase: _database
+                                withUsername: _username];
+    }
+    return user;
 }
 
 
@@ -143,6 +177,16 @@ static ChatStore* sInstance;
 
 - (CBLQuery*) allUsersQuery {
     return [_usersView query];
+}
+
+- (NSArray*) allOtherUsers {
+    NSMutableArray* users = [NSMutableArray array];
+    for (CBLQueryRow* row in self.allUsersQuery.rows.allObjects) {
+        UserProfile* user = [UserProfile modelForDocument: row.document];
+        if (![user.username isEqualToString: _username])
+            [users addObject: user];
+    }
+    return users;
 }
 
 

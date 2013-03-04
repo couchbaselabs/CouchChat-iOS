@@ -18,6 +18,7 @@
 @property (readonly, nonatomic) ChatStore* chatStore;
 @property (strong, nonatomic) ChatRoom* chat;
 
-- (void) createChatWithTitle: (NSString*)title;
+- (void) createChatWithTitle: (NSString*)title
+                  otherUsers: (NSArray*)otherUsers;
 
 @end

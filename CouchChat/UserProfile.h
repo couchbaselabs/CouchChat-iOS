@@ -19,6 +19,8 @@
 @property (readonly, copy) NSString* nick;  /**< Nickname, aka "handle" or "screen name". */
 @property (readonly, copy) NSString* email; /**< Primary email address. */
 
+@property (readonly) NSString* displayName; /**< Best name to display (name, else username) */
+
 /** A small picture for use as an avatar/userpic. */
 @property (readonly, weak) UIImage* picture;
 
@@ -31,5 +33,7 @@
 
 /** Synchronously loads an image from gravatar.com for the given email address. */
 + (UIImage*) loadGravatarForEmail: (NSString*)email;
+
++ (NSString*) usernameFromDocID: (NSString*)docID;
 
 @end

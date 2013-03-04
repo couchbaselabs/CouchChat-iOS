@@ -30,6 +30,9 @@
 
 // USERS:
 
+/** The local logged-in user */
+@property (nonatomic, readonly) UserProfile* user;
+
 /** The local logged-in user's username. */
 @property (nonatomic, copy) NSString* username;
 
@@ -43,5 +46,6 @@
 - (void) setMyProfilePicture:(UIImage *)picture;
 
 @property (readonly) CBLQuery* allUsersQuery;
+@property (readonly) NSArray* allOtherUsers;    /**< UserProfile objects of other users */
 
 @end

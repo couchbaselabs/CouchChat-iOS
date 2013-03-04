@@ -11,7 +11,13 @@
 #import "AppDelegate.h"
 #import "ChatStore.h"
 #import "ChatRoom.h"
+#import "UserProfile.h"
+#import "UserPickerController.h"
 #import <CouchbaseLite/CouchbaseLite.h>
+
+
+@interface ChatListController () <UserPickerControllerDelegate>
+@end
 
 
 @implementation ChatListController
@@ -60,59 +66,67 @@
 }
 
 
-#pragma mark - ACTIONS:
+#pragma mark - NEW CHAT:
 
 
-- (void) createChatWithTitle: (NSString*)title {
+- (IBAction) newChat: (id)sender {
+    if (!_chatStore.username) {
+        UIAlertView* alert;
+        alert = [[UIAlertView alloc] initWithTitle: @"Not Logged In"
+                                           message: @"Please log in and sync first."
+                                          delegate: self
+                                 cancelButtonTitle: @"Login"
+                                 otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+
+    NSArray* users = _chatStore.allOtherUsers;
+    UserPickerController *picker = [[UserPickerController alloc] initWithUsers: users
+                                                                      delegate: self];
+    [self.navigationController pushViewController: picker animated: YES];
+}
+
+- (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex >= 0)
+        [_chatController configureSync];
+}
+
+- (void) userPickerController: (UserPickerController*)controller
+                  pickedUsers: (NSArray*)users
+{
+    [self.navigationController popToViewController: self animated: NO];
+    if (users.count > 0)
+        [self createChatWithTitle: nil otherUsers: users];
+}
+
+
+- (void) createChatWithTitle: (NSString*)title otherUsers: (NSArray*)otherUsers {
+    if (title.length == 0) {
+        NSDateFormatter* fmt = [[NSDateFormatter alloc] init];
+        fmt.dateStyle = NSDateFormatterShortStyle;
+        fmt.timeStyle = NSDateFormatterShortStyle;
+        title = [fmt stringFromDate: [NSDate date]];
+    }
+
     ChatRoom* chat = [_chatStore newChatWithTitle: title];
+
+    NSMutableArray* allUsernames = [NSMutableArray arrayWithObject: _chatStore.username];
+    for (UserProfile* user in otherUsers)
+        [allUsernames addObject: user.username];
+    chat.members = allUsernames;
+    chat.owners = allUsernames;
+    
     NSError* error;
     if (![chat save: &error]) {
         [gAppDelegate showAlert: @"Couldn't create chat" error: error fatal: NO];
     }
 
-    _chatController.chatRoom = chat;
+    [self showChat: chat];
 }
 
 
-- (IBAction) newChat: (id)sender {
-    NSString* title = [NSString stringWithFormat: @"Create A New Chat"];
-    UIAlertView* alert;
-    if (!_chatStore.username) {
-        alert = [[UIAlertView alloc] initWithTitle: title
-                                           message: @"Please log in and sync first."
-                                          delegate: self
-                                 cancelButtonTitle: @"Login"
-                                 otherButtonTitles: nil];
-    } else {
-        //FIX: This is an awful UI.
-        alert = [[UIAlertView alloc] initWithTitle: title
-                                           message: @"What's the title of the new chat?"
-                                          delegate: self
-                                 cancelButtonTitle: @"Cancel"
-                                 otherButtonTitles: @"Create", nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField* titleField = [alert textFieldAtIndex: 0];
-        titleField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-        titleField.returnKeyType = UIReturnKeyDone;
-    }
-    [alert show];
-}
-
-- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alert {
-    return [alert textFieldAtIndex: 0].text.length > 0;
-}
-
-- (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (_chatStore.username) {
-        if (buttonIndex > 0) {
-            NSString* title = [alert textFieldAtIndex: 0].text;
-            if (title.length > 0)
-                [self createChatWithTitle: title];
-        }
-    } else {
-        [_chatController configureSync];
-    }
-}
+#pragma mark - SELECTION:
 
 
 - (void) showChat: (ChatRoom*)chat {

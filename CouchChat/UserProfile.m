@@ -22,12 +22,16 @@
     return [@"profile:" stringByAppendingString: username];
 }
 
++ (NSString*) usernameFromDocID: (NSString*)docID {
+    return [docID substringFromIndex: 8];
+}
+
 
 @dynamic name, nick;
 
 
 - (NSString*) username {
-    return [self.document.documentID substringFromIndex: 7];
+    return [self.class usernameFromDocID: self.document.documentID];
 }
 
 
@@ -42,6 +46,10 @@
     return email;
 }
 
+
+- (NSString*) displayName {
+    return self.name ?: (self.nick ?: self.username);
+}
 
 - (void) didLoadFromDocument {
     // Invalidate cached picture:

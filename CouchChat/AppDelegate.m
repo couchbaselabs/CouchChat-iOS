@@ -10,6 +10,7 @@
 #import "ChatListController.h"
 #import "ChatController.h"
 #import "ChatStore.h"
+#import "UserProfile.h"
 #import "SyncManager.h"
 #import "BrowserIDController+UIKit.h"
 #import <CouchbaseLite/CouchbaseLite.h>
@@ -74,18 +75,33 @@ AppDelegate* gAppDelegate;
 }
 
 
-#pragma mark - ALERT:
+#pragma mark - SYNC & LOGIN:
 
 
 - (void) setupSync {
     _syncManager = [[SyncManager alloc] initWithDatabase: _database];
     _syncManager.delegate = self;
-    //if (_syncManager.replications.count == 0) {
-        // Configure replication:
+    // Configure replication:
     _syncManager.continuous = YES;
 //    _syncManager.syncURL = [NSURL URLWithString: @"http://macbuild.local:4986/chat"];
-    _syncManager.syncURL = [NSURL URLWithString: @"http://animal.local:4984/sync_gateway"];
-    //}
+    _syncManager.syncURL = [NSURL URLWithString: @"http://localhost:4984/sync_gateway"];
+}
+
+
+- (void) syncManagerProgressChanged: (SyncManager*)manager {
+    if (_chatStore.username == nil) {
+        CBLReplication* repl = manager.replications[0];
+        if (repl.mode == kCBLReplicationIdle) {
+            // Pick up my username from the replication, on the first sync:
+            NSString* username = repl.browserIDEmailAddress;
+            if (!username)
+                username = repl.credential.user;
+            if (username) {
+                NSLog(@"Chat username = '%@'", username);
+                _chatStore.username = username;
+            }
+        }
+    }
 }
 
 
@@ -120,21 +136,6 @@ AppDelegate* gAppDelegate;
     [self browserIDControllerDidCancel: browserIDController];
     for (CBLReplication* repl in _syncManager.replications) {
         [repl registerBrowserIDAssertion: assertion];
-    }
-}
-
-
-- (void) syncManagerProgressChanged: (SyncManager*)manager {
-    if (_chatStore.username == nil) {
-        CBLReplication* repl = manager.replications[0];
-        if (repl.mode >= kCBLReplicationIdle) {
-            NSString* username = repl.browserIDEmailAddress;
-            if (!username)
-                username = repl.credential.user;
-            if (username)
-                _chatStore.username = username;
-            NSLog(@"Chat username = '%@'", username);
-        }
     }
 }
 

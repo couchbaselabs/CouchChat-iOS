@@ -38,7 +38,7 @@
     _dataSource.query = _chatStore.allChatsQuery;
     _dataSource.deletionAllowed = YES;
 
-    self.title = @"CouchChats";
+    self.title = @"Chats";
     _newChatButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                    target:self
                                                                    action:@selector(newChat:)];

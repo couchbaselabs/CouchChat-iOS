@@ -54,6 +54,7 @@
 		27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055A16CD82840040C9F8 /* SyncManager.m */; };
 		27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055D16CD82980040C9F8 /* LoginController.m */; };
 		27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */; };
+		27CB056F16CEEB7C0040C9F8 /* UserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB056E16CEEB7C0040C9F8 /* UserProfile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,6 +123,9 @@
 		27CB055C16CD82980040C9F8 /* LoginController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		27CB055D16CD82980040C9F8 /* LoginController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
+		27CB056D16CEEB7C0040C9F8 /* UserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile.h; sourceTree = "<group>"; };
+		27CB056E16CEEB7C0040C9F8 /* UserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfile.m; sourceTree = "<group>"; };
+		27F41B8816E164E2005572BC /* UserProfile_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile_Private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +225,9 @@
 				27CB050D16CC4C8B0040C9F8 /* ChatStore.m */,
 				27CB050E16CC4C8B0040C9F8 /* ChatRoom.h */,
 				27CB050F16CC4C8B0040C9F8 /* ChatRoom.m */,
+				27CB056D16CEEB7C0040C9F8 /* UserProfile.h */,
+				27F41B8816E164E2005572BC /* UserProfile_Private.h */,
+				27CB056E16CEEB7C0040C9F8 /* UserProfile.m */,
 			);
 			name = Model;
 			path = CouchChat;
@@ -399,6 +406,7 @@
 				27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */,
 				27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */,
 				27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */,
+				27CB056F16CEEB7C0040C9F8 /* UserProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

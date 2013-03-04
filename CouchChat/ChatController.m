@@ -9,6 +9,7 @@
 #import "ChatController.h"
 #import "ChatRoom.h"
 #import "ChatStore.h"
+#import "UserProfile.h"
 #import "UIBubbleTableView.h"
 #import <CouchbaseLite/CBLJSON.h>
 
@@ -74,6 +75,7 @@
     _inputLine.rightView = _pickerButton;
     _inputLine.rightViewMode = UITextFieldViewModeAlways;
 
+    _bubbles.showAvatars = YES;
     [_bubbles reloadData];
     [self scrollToBottom];
 
@@ -84,7 +86,7 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
-    // Bad Stuff happens if the keybaord remains visible while this view is hidden.
+    // Bad Stuff happens if the keyboard remains visible while this view is hidden.
     [_inputLine resignFirstResponder];
 }
 
@@ -176,8 +178,9 @@
                                      date: date
                                      type: (mine ? BubbleTypeMine : BubbleTypeSomeoneElse)];
     }
-    if (!mine)
-        bubble.avatar = [_chatStore avatarForUser: sender];
+    
+    bubble.avatar = [_chatStore pictureForUsername: sender];
+
     return bubble;
 }
 

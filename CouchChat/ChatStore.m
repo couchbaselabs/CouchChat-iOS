@@ -8,6 +8,7 @@
 
 #import "ChatStore.h"
 #import "ChatRoom.h"
+#import "UserProfile_Private.h"
 #import <CouchbaseLite/CBLModelFactory.h>
 
 
@@ -16,8 +17,11 @@ static ChatStore* sInstance;
 
 @implementation ChatStore
 {
-    NSString* _username;
+    CBLView* _usersView;
 }
+
+
+@synthesize username=_username;
 
 
 - (id) initWithDatabase: (CBLDatabase*)database {
@@ -26,7 +30,10 @@ static ChatStore* sInstance;
         NSAssert(!sInstance, @"Cannot create more than one ChatStore");
         sInstance = self;
         _database = database;
+        _username = [[NSUserDefaults standardUserDefaults] stringForKey: @"UserName"];
+        
         [_database.modelFactory registerClass: [ChatRoom class] forDocumentType: @"chat"];
+        [_database.modelFactory registerClass: [UserProfile class] forDocumentType: @"profile"];
 
         // Map function for finding chats by title
         CBLView* view = [_database viewNamed: @"chatsByTitle"];
@@ -48,6 +55,18 @@ static ChatStore* sInstance;
                      @[doc[@"author"], markdown, @(hasAttachments)]);
             }
         }) version: @"3"];
+
+        // View for getting user profiles by name
+        _usersView = [_database viewNamed: @"usersByName"];
+        [view setMapBlock: MAPBLOCK({
+            if ([doc[@"type"] isEqualToString: @"user"]) {
+                NSString* name = doc[@"nick"] ?: doc[@"username"];
+                if (name)
+                    emit(name.lowercaseString, name);
+            }
+        }) version: @"1"];
+        _allChatsQuery = [[view query] asLiveQuery];
+
     }
     return self;
 }
@@ -58,16 +77,7 @@ static ChatStore* sInstance;
 }
 
 
-- (NSString*) username {
-    //FIX: This would be better stored in a _local document in the database
-    return [[NSUserDefaults standardUserDefaults] stringForKey: @"UserName"];
-}
-
-
-- (void) setUsername:(NSString *)username {
-    NSLog(@"Setting chat username to '%@'", username);
-    [[NSUserDefaults standardUserDefaults] setObject: username forKey: @"UserName"];
-}
+#pragma mark - CHATS:
 
 
 - (ChatRoom*) chatWithTitle: (NSString*)title {
@@ -84,9 +94,57 @@ static ChatStore* sInstance;
 }
 
 
-- (UIImage*) avatarForUser: (NSString*)user {
-    return nil;     // TODO
+#pragma mark - USERS:
+
+
+- (void) setUsername:(NSString *)username {
+    if (![username isEqualToString: _username]) {
+        NSLog(@"Setting chat username to '%@'", username);
+        _username = [username copy];
+        [[NSUserDefaults standardUserDefaults] setObject: username forKey: @"UserName"];
+
+        UserProfile* myProfile = [self profileWithUsername: _username];
+        if (!myProfile) {
+            myProfile = [UserProfile createInDatabase: _database
+                                         withUsername: _username];
+            NSLog(@"Created user profile %@", myProfile);
+        }
+    }
 }
+
+
+- (UserProfile*) profileWithUsername: (NSString*)username {
+    NSString* docID = [UserProfile docIDForUsername: username];
+    CBLDocument* doc = [self.database documentWithID: docID];
+    if (!doc.currentRevisionID)
+        return nil;
+    return [UserProfile modelForDocument: doc];
+}
+
+
+- (UIImage*) pictureForUsername: (NSString*)username {
+    UserProfile* profile = [self profileWithUsername: username];
+    if (profile)
+        return profile.picture;
+    return [UserProfile loadGravatarForEmail: username];
+}
+
+
+- (void) setMyProfileName: (NSString*)name nick: (NSString*)nick {
+    UserProfile* myProfile = [self profileWithUsername: self.username];
+    [myProfile setName: name nick: nick];
+}
+
+- (void) setMyProfilePicture:(UIImage *)picture {
+    UserProfile* myProfile = [self profileWithUsername: self.username];
+    [myProfile setPicture: picture];
+}
+
+
+- (CBLQuery*) allUsersQuery {
+    return [_usersView query];
+}
+
 
 
 @end

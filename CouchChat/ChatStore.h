@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CouchbaseLite/CouchbaseLite.h>
-@class ChatRoom;
+@class ChatRoom, UserProfile;
 
 
 /** Chat interface to a CouchbaseLite database. This is the root of the object model. */
@@ -20,14 +20,28 @@
 
 @property (readonly) CBLDatabase* database;
 
+// CHATS:
+
 @property (readonly) CBLLiveQuery* allChatsQuery;
 
 - (ChatRoom*) chatWithTitle: (NSString*)title;
 
 - (ChatRoom*) newChatWithTitle: (NSString*)title;
 
-@property (strong) NSString* username;
+// USERS:
 
-- (UIImage*) avatarForUser: (NSString*)user;
+/** The local logged-in user's username. */
+@property (nonatomic, copy) NSString* username;
+
+/** Gets a UserProfile for a user given their username. */
+- (UserProfile*) profileWithUsername: (NSString*)username;
+
+/** Looks up a picture for a username, either from a UserProfile or from gravatar.com. */
+- (UIImage*) pictureForUsername: (NSString*)username;
+
+- (void) setMyProfileName: (NSString*)name nick: (NSString*)nick;
+- (void) setMyProfilePicture:(UIImage *)picture;
+
+@property (readonly) CBLQuery* allUsersQuery;
 
 @end

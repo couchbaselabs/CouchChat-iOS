@@ -30,6 +30,7 @@
 @property (readonly) CBLQuery* chatMessagesQuery;
 
 - (BOOL) addChatMessage: (NSString*)markdown
+           announcement: (bool)announcement
                 picture: (UIImage*)picture;
 
 @end

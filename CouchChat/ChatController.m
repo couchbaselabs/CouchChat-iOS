@@ -10,14 +10,14 @@
 #import "ChatRoom.h"
 #import "ChatStore.h"
 #import "UserProfile.h"
-#import "UIBubbleTableView.h"
+#import "BTVBubbleTableView.h"
 #import <CouchbaseLite/CBLJSON.h>
 
 
 #define kMaxPicturePixelDimensions 800
 
 
-@interface ChatController () <UIBubbleTableViewDataSource, UIImagePickerControllerDelegate,
+@interface ChatController () <BTVBubbleTableViewDataSource, UIImagePickerControllerDelegate,
                               UIPopoverControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @end
@@ -30,7 +30,7 @@
     ChatStore* _chatStore;
     ChatRoom* _chatRoom;
     CBLLiveQuery* _query;
-    IBOutlet UIBubbleTableView* _bubbles;
+    IBOutlet BTVBubbleTableView* _bubbles;
     IBOutlet UITextField* _inputLine;
     UIButton* _pickerButton;
     UIPopoverController* _imagePickerPopover;
@@ -143,11 +143,11 @@
 }
 
 
-- (NSInteger) rowsForBubbleTable: (UIBubbleTableView *)tableView {
+- (NSInteger) numberOfRowsForBubbleTable: (BTVBubbleTableView *)tableView {
     return _rows.count;
 }
 
-- (NSBubbleData*) bubbleTableView: (UIBubbleTableView*)tableView dataForRow: (NSInteger)row {
+- (BTVBubbleData*) bubbleTableView: (BTVBubbleTableView*)tableView dataForRow: (NSInteger)row {
     // See map block definition in ChatStore.m
     CBLQueryRow* r = _rows[row];
     NSArray* key = r.key;
@@ -155,6 +155,7 @@
     NSString* sender = value[0];
     NSString* text = value[1];
     bool hasPicture = [value[2] boolValue];
+    bool isAnnouncement = [value[3] boolValue];
     NSDate* date = [CBLJSON dateWithJSONObject: key[1]];
     BOOL mine = [sender isEqual: _username];
 
@@ -166,20 +167,23 @@
             image = [[UIImage alloc] initWithData: imageData];
     }
 
-    NSBubbleData* bubble;
+    BTVBubbleData* bubble;
     if (image) {
-        bubble = [NSBubbleData dataWithImage: image
+        bubble = [BTVBubbleData dataWithImage: image
                                       date: date
                                       type: (mine ? BubbleTypeMine : BubbleTypeSomeoneElse)];
         //FIX: If doc has markdown as well as image, the text won't be shown!
     } else {
         //FIX: Render the markdown
-        bubble = [NSBubbleData dataWithText: text
+        bubble = [BTVBubbleData dataWithText: text
                                      date: date
                                      type: (mine ? BubbleTypeMine : BubbleTypeSomeoneElse)];
     }
-    
-    bubble.avatar = [_chatStore pictureForUsername: sender];
+
+    if (isAnnouncement)
+        bubble.hasBubble = bubble.hasAvatar = false;
+    else
+        bubble.avatar = [_chatStore pictureForUsername: sender];
 
     return bubble;
 }
@@ -218,7 +222,7 @@
     if (message.length == 0)
         return NO;
 
-    if (![_chatRoom addChatMessage: message picture: nil])
+    if (![_chatRoom addChatMessage: message announcement: false picture: nil])
         return NO;
     _inputLine.text = @"";
     return YES;
@@ -288,7 +292,9 @@
 
     if (picture) {
         picture = [self scaleImage: picture maxPixels: kMaxPicturePixelDimensions];
-        [_chatRoom addChatMessage: nil picture: picture];
+        [_chatRoom addChatMessage: nil
+                     announcement: false
+                          picture: picture];
     }
 }
 

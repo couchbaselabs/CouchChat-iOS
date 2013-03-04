@@ -84,7 +84,10 @@
 }
 
 
-- (BOOL) addChatMessage: (NSString*)markdown picture: (UIImage*)picture {
+- (BOOL) addChatMessage: (NSString*)markdown
+           announcement: (bool)announcement
+                picture: (UIImage*)picture
+{
     NSString* createdAt = [CBLJSON JSONObjectWithDate: [NSDate date]];
     CBLNewRevision* rev = self.database.untitledDocument.newRevision;
     [rev.properties addEntriesFromDictionary: @{@"type": @"chat",
@@ -92,6 +95,8 @@
                                                 @"author": self.chatStore.username,
                                                 @"created_at": createdAt}];
     rev[@"markdown"] = markdown;
+    if (announcement)
+        rev[@"style"] = @"announcement";
     if (picture) {
         CBLAttachment* attachment = [[CBLAttachment alloc] initWithContentType: @"image/jpeg"
                                                   body: UIImageJPEGRepresentation(picture, 0.6)];

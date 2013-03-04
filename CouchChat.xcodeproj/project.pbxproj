@@ -28,11 +28,6 @@
 		27CB051816CC4E4C0040C9F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051716CC4E4C0040C9F8 /* libz.dylib */; };
 		27CB051A16CC4E560040C9F8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */; };
 		27CB051C16CC4E5B0040C9F8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */; };
-		27CB052916CC4FDE0040C9F8 /* NSBubbleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */; };
-		27CB052A16CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */; };
-		27CB052B16CC4FDE0040C9F8 /* UIBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */; };
-		27CB052C16CC4FDE0040C9F8 /* UIBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */; };
-		27CB052D16CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */; };
 		27CB053916CC4FF60040C9F8 /* bubbleMine.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB052F16CC4FF60040C9F8 /* bubbleMine.png */; };
 		27CB053A16CC4FF60040C9F8 /* bubbleMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053016CC4FF60040C9F8 /* bubbleMine@2x.png */; };
 		27CB053B16CC4FF60040C9F8 /* bubbleSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB053116CC4FF60040C9F8 /* bubbleSomeone.png */; };
@@ -62,6 +57,11 @@
 		27F41BAC16E51CDB005572BC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F41BAB16E51CDA005572BC /* QuartzCore.framework */; };
 		27F41BAD16E51CEE005572BC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DF16CC4B420040C9F8 /* CoreGraphics.framework */; };
 		27F41BB016E522CC005572BC /* UserPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BAF16E522CC005572BC /* UserPickerController.m */; };
+		27F41BBC16E55A18005572BC /* BTVBubbleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BB216E55A17005572BC /* BTVBubbleData.m */; };
+		27F41BBD16E55A18005572BC /* BTVBubbleHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BB416E55A17005572BC /* BTVBubbleHeaderTableViewCell.m */; };
+		27F41BBE16E55A18005572BC /* BTVBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BB616E55A17005572BC /* BTVBubbleTableView.m */; };
+		27F41BBF16E55A18005572BC /* BTVBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BB816E55A18005572BC /* BTVBubbleTableViewCell.m */; };
+		27F41BC016E55A18005572BC /* BTVBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F41BBB16E55A18005572BC /* BTVBubbleTypingTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,17 +95,6 @@
 		27CB051716CC4E4C0040C9F8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		27CB051E16CC4FDE0040C9F8 /* NSBubbleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBubbleData.h; sourceTree = "<group>"; };
-		27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBubbleData.m; sourceTree = "<group>"; };
-		27CB052016CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleHeaderTableViewCell.h; sourceTree = "<group>"; };
-		27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleHeaderTableViewCell.m; sourceTree = "<group>"; };
-		27CB052216CC4FDE0040C9F8 /* UIBubbleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableView.h; sourceTree = "<group>"; };
-		27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableView.m; sourceTree = "<group>"; };
-		27CB052416CC4FDE0040C9F8 /* UIBubbleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewCell.h; sourceTree = "<group>"; };
-		27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableViewCell.m; sourceTree = "<group>"; };
-		27CB052616CC4FDE0040C9F8 /* UIBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewDataSource.h; sourceTree = "<group>"; };
-		27CB052716CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
-		27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
 		27CB052F16CC4FF60040C9F8 /* bubbleMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleMine.png; sourceTree = "<group>"; };
 		27CB053016CC4FF60040C9F8 /* bubbleMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleMine@2x.png"; sourceTree = "<group>"; };
 		27CB053116CC4FF60040C9F8 /* bubbleSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSomeone.png; sourceTree = "<group>"; };
@@ -145,6 +134,17 @@
 		27F41BAB16E51CDA005572BC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		27F41BAE16E522CC005572BC /* UserPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPickerController.h; sourceTree = "<group>"; };
 		27F41BAF16E522CC005572BC /* UserPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPickerController.m; sourceTree = "<group>"; };
+		27F41BB116E55A17005572BC /* BTVBubbleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleData.h; sourceTree = "<group>"; };
+		27F41BB216E55A17005572BC /* BTVBubbleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVBubbleData.m; sourceTree = "<group>"; };
+		27F41BB316E55A17005572BC /* BTVBubbleHeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleHeaderTableViewCell.h; sourceTree = "<group>"; };
+		27F41BB416E55A17005572BC /* BTVBubbleHeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVBubbleHeaderTableViewCell.m; sourceTree = "<group>"; };
+		27F41BB516E55A17005572BC /* BTVBubbleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleTableView.h; sourceTree = "<group>"; };
+		27F41BB616E55A17005572BC /* BTVBubbleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVBubbleTableView.m; sourceTree = "<group>"; };
+		27F41BB716E55A18005572BC /* BTVBubbleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleTableViewCell.h; sourceTree = "<group>"; };
+		27F41BB816E55A18005572BC /* BTVBubbleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVBubbleTableViewCell.m; sourceTree = "<group>"; };
+		27F41BB916E55A18005572BC /* BTVBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleTableViewDataSource.h; sourceTree = "<group>"; };
+		27F41BBA16E55A18005572BC /* BTVBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
+		27F41BBB16E55A18005572BC /* BTVBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,17 +258,17 @@
 		27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */ = {
 			isa = PBXGroup;
 			children = (
-				27CB051E16CC4FDE0040C9F8 /* NSBubbleData.h */,
-				27CB051F16CC4FDE0040C9F8 /* NSBubbleData.m */,
-				27CB052016CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.h */,
-				27CB052116CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m */,
-				27CB052216CC4FDE0040C9F8 /* UIBubbleTableView.h */,
-				27CB052316CC4FDE0040C9F8 /* UIBubbleTableView.m */,
-				27CB052416CC4FDE0040C9F8 /* UIBubbleTableViewCell.h */,
-				27CB052516CC4FDE0040C9F8 /* UIBubbleTableViewCell.m */,
-				27CB052616CC4FDE0040C9F8 /* UIBubbleTableViewDataSource.h */,
-				27CB052716CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.h */,
-				27CB052816CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m */,
+				27F41BB116E55A17005572BC /* BTVBubbleData.h */,
+				27F41BB216E55A17005572BC /* BTVBubbleData.m */,
+				27F41BB316E55A17005572BC /* BTVBubbleHeaderTableViewCell.h */,
+				27F41BB416E55A17005572BC /* BTVBubbleHeaderTableViewCell.m */,
+				27F41BB516E55A17005572BC /* BTVBubbleTableView.h */,
+				27F41BB616E55A17005572BC /* BTVBubbleTableView.m */,
+				27F41BB716E55A18005572BC /* BTVBubbleTableViewCell.h */,
+				27F41BB816E55A18005572BC /* BTVBubbleTableViewCell.m */,
+				27F41BB916E55A18005572BC /* BTVBubbleTableViewDataSource.h */,
+				27F41BBA16E55A18005572BC /* BTVBubbleTypingTableViewCell.h */,
+				27F41BBB16E55A18005572BC /* BTVBubbleTypingTableViewCell.m */,
 				27CB052E16CC4FF60040C9F8 /* images */,
 			);
 			name = UIBubbleTableView;
@@ -447,11 +447,6 @@
 				27CB04F816CC4B420040C9F8 /* ChatController.m in Sources */,
 				27CB051016CC4C8B0040C9F8 /* ChatStore.m in Sources */,
 				27CB051116CC4C8B0040C9F8 /* ChatRoom.m in Sources */,
-				27CB052916CC4FDE0040C9F8 /* NSBubbleData.m in Sources */,
-				27CB052A16CC4FDE0040C9F8 /* UIBubbleHeaderTableViewCell.m in Sources */,
-				27CB052B16CC4FDE0040C9F8 /* UIBubbleTableView.m in Sources */,
-				27CB052C16CC4FDE0040C9F8 /* UIBubbleTableViewCell.m in Sources */,
-				27CB052D16CC4FDE0040C9F8 /* UIBubbleTypingTableViewCell.m in Sources */,
 				27CB055616CD81700040C9F8 /* BrowserIDController+UIKit.m in Sources */,
 				27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */,
 				27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */,
@@ -462,6 +457,11 @@
 				27F41BA816E51C3D005572BC /* THContactPickerView.m in Sources */,
 				27F41BA916E51C3D005572BC /* THContactPickerViewController.m in Sources */,
 				27F41BB016E522CC005572BC /* UserPickerController.m in Sources */,
+				27F41BBC16E55A18005572BC /* BTVBubbleData.m in Sources */,
+				27F41BBD16E55A18005572BC /* BTVBubbleHeaderTableViewCell.m in Sources */,
+				27F41BBE16E55A18005572BC /* BTVBubbleTableView.m in Sources */,
+				27F41BBF16E55A18005572BC /* BTVBubbleTableViewCell.m in Sources */,
+				27F41BC016E55A18005572BC /* BTVBubbleTypingTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 [submodule "vendor/UIBubbleTableView"]
 	path = vendor/UIBubbleTableView
-	url = git://github.com/AlexBarinov/UIBubbleTableView.git
+	url = git://github.com/snej/UIBubbleTableView.git
 [submodule "vendor/browserid"]
 	path = vendor/browserid
 	url = git@github.com:couchbaselabs/browserid-ios.git

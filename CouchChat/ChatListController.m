@@ -112,8 +112,11 @@
     ChatRoom* chat = [_chatStore newChatWithTitle: title];
 
     NSMutableArray* allUsernames = [NSMutableArray arrayWithObject: _chatStore.username];
-    for (UserProfile* user in otherUsers)
+    NSMutableArray* otherDisplaynames = [NSMutableArray array];
+    for (UserProfile* user in otherUsers) {
         [allUsernames addObject: user.username];
+        [otherDisplaynames addObject: user.displayName];
+    }
     chat.members = allUsernames;
     chat.owners = allUsernames;
     
@@ -121,6 +124,11 @@
     if (![chat save: &error]) {
         [gAppDelegate showAlert: @"Couldn't create chat" error: error fatal: NO];
     }
+
+    NSString* msg = [NSString stringWithFormat: @"%@ started the chat, inviting %@.",
+                     _chatStore.user.displayName,
+                     [otherDisplaynames componentsJoinedByString: @", "]];
+    [chat addChatMessage: msg announcement: true picture: nil];
 
     [self showChat: chat];
 }

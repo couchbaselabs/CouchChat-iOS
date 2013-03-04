@@ -50,11 +50,15 @@ static ChatStore* sInstance;
         [[_database viewNamed: @"chatMessages"] setMapBlock: MAPBLOCK({
             if ([doc[@"type"] isEqualToString: @"chat"]) {
                 NSString* markdown = doc[@"markdown"] ?: @"";
+                NSString* channelID = doc[@"channel_id"];
+                if (!channelID)
+                    return;
                 bool hasAttachments = [doc[@"_attachments"] count] > 0;
-                emit(@[doc[@"channel_id"], doc[@"created_at"]],
-                     @[doc[@"author"], markdown, @(hasAttachments)]);
+                bool isAnnouncement = [doc[@"style"] isEqualToString: @"announcement"];
+                emit(@[channelID, doc[@"created_at"]],
+                     @[doc[@"author"], markdown, @(hasAttachments), @(isAnnouncement)]);
             }
-        }) version: @"3"];
+        }) version: @"4"];
 
         // View for getting user profiles by name
         _usersView = [_database viewNamed: @"usersByName"];

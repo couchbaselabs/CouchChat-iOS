@@ -13,15 +13,37 @@
 #import <CouchbaseLite/CBLJSON.h>
 
 
+NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
+
+
+@interface ChatRoom ()
+@property (readwrite) unsigned unreadMessageCount;
+@property (readwrite) NSDate* modDate;
+@end
+
+
 @implementation ChatRoom
 {
     CBLLiveQuery* _allPagesQuery;
     NSSet* _allPageTitles;
+    unsigned _messageCount;
 }
 
 @dynamic title, owners, members;
 
+@synthesize modDate = _modDate;
+@synthesize unreadMessageCount = _unreadMessageCount;
 
+
+- (instancetype) initWithDocument: (CBLDocument*)document {
+    // This is the designated initializer that's always called
+    self = [super initWithDocument: document];
+    self.autosaves = true;
+    return self;
+}
+
+
+// New-document initializer
 - (id) initNewWithTitle: (NSString*)title inChatStore: (ChatStore*)chatStore {
     NSAssert(chatStore.username, @"No username set up yet");
     self = [super initWithNewDocumentInDatabase: chatStore.database];
@@ -34,10 +56,10 @@
     return self;
 }
 
-- (instancetype) initWithDocument: (CBLDocument*)document {
-    self = [super initWithDocument: document];
-    self.autosaves = true;
-    return self;
+
+- (NSString*) description {
+    return [NSString stringWithFormat: @"%@[%@ '%@']",
+            self.class, self.document.abbreviatedID, self.title];
 }
 
 
@@ -47,13 +69,11 @@
 
 
 - (ChatStore*) chatStore {
-    return [ChatStore sharedInstance];  //FIX
+    return [ChatStore sharedInstance];  //FIX?
 }
 
 
-- (NSString*) docIDForPageWithTitle: (NSString*)title {
-    return [NSString stringWithFormat: @"%@:%@", self.chatID, title];
-}
+#pragma mark - MEMBERSHIP:
 
 
 - (bool) isMember {
@@ -105,10 +125,14 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 }
 
 
+#pragma mark - MESSAGES:
+
+
 - (CBLQuery*) chatMessagesQuery {
     CBLQuery* query = [[self.database viewNamed: @"chatMessages"] query];
     query.startKey = @[self.chatID];
     query.endKey = @[self.chatID, @{}];
+    query.mapOnly = true;
     return query;
 }
 
@@ -131,12 +155,52 @@ static NSArray* removeFromArray(NSArray* array, id item) {
                                                   body: UIImageJPEGRepresentation(picture, 0.6)];
         [rev addAttachment: attachment named: @"picture"];
     }
+
+    // Bumping the message count has the effect of not treating this newly-added message as
+    // unread -- when the ChatStore's view updates and it calls -setMessageCount:modDate: on me,
+    // the new message count will match my _messageCount so I won't change my _unreadCount.
+    ++_messageCount;
+
     NSError* error;
     if (![rev save: &error]) {
+        --_messageCount;  // back out the bump
         NSLog(@"WARNING: Couldn't save chat picture message: %@", error);
         return NO;
     }
     return YES;
+}
+
+
+- (void) postStatusChanged {
+    NSLog(@"STATUS: %@: unread = %u, modDate = %@", self, _unreadMessageCount, _modDate);
+    [[NSNotificationCenter defaultCenter] postNotificationName: kChatRoomStatusChangedNotification
+                                                        object: self];
+}
+
+
+- (void) setMessageCount: (unsigned)messageCount modDate: (NSDate*)modDate {
+    bool changed = false;
+    int delta = ((int)messageCount - (int)_messageCount);
+    if (delta != 0) {
+        _messageCount = messageCount;
+        self.unreadMessageCount += delta;
+        changed = true;
+    }
+    if (![modDate isEqualToDate: _modDate]) {
+        self.modDate = modDate;
+        changed = true;
+    }
+    if (changed)
+        [self postStatusChanged];
+}
+
+
+- (void) markAsRead {
+    if (_unreadMessageCount == 0)
+        return;
+    NSLog(@"MARK READ: %@", self);
+    self.unreadMessageCount = 0;
+    [self postStatusChanged];
 }
 
 

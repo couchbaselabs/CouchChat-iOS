@@ -23,8 +23,8 @@
 @implementation ChatListController
 {
     IBOutlet UITableView* _table;
-    IBOutlet CBLUITableSource* _dataSource;
     UIBarButtonItem* _newChatButton;
+    NSArray* _chats;
 }
 
 
@@ -41,15 +41,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _dataSource.query = _chatStore.allChatsQuery;
-    _dataSource.deletionAllowed = YES;
-
     self.title = @"Chats";
     _newChatButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                    target:self
                                                                    action:@selector(newChat:)];
     self.navigationItem.rightBarButtonItem = _newChatButton;
 
+    //FIX: This is a workaround until chats can persistently store their unread counts. On launch,
+    // reset every chat's unread count to 0. That way, only messages received after the app
+    // launches will appear as unread, instead of _all_ messages ever received.
+    for (ChatRoom* chat in _chatStore.allChats)
+        [chat markAsRead];
+
+    [_chatStore addObserver: self forKeyPath: @"allChats"
+                    options: NSKeyValueObservingOptionInitial context: NULL];
+    // Use NSNotification to listen for status changes, because otherwise we'd have to observe
+    // each item of _chats, but NSArray doesn't support KVO :(
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(chatStatusChanged:)
+                                                 name: kChatRoomStatusChangedNotification
+                                               object: nil];
     [self selectChat: _chatController.chatRoom];
 }
 
@@ -63,6 +74,12 @@
         if (sel)
             [_table deselectRowAtIndexPath: sel animated: NO];
     }
+}
+
+- (void)dealloc
+{
+    [_chatStore removeObserver: self forKeyPath: @"allChats"];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 
@@ -134,7 +151,24 @@
 }
 
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                         change:(NSDictionary *)change context:(void *)context
+{
+    if (object == _chatStore) {
+        _chats = _chatStore.allChats;
+        [_table reloadData];
+    } else if ([keyPath isEqualToString: @"chatController.chatRoom"]) {
+        [self selectChat: _chatController.chatRoom];
+    }
+}
+
+
 #pragma mark - SELECTION:
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self showChat: [self chatForPath: indexPath]];
+}
 
 
 - (void) showChat: (ChatRoom*)chat {
@@ -152,67 +186,62 @@
 }
 
 
+- (NSIndexPath*) pathForChat: (ChatRoom*)chat {
+    NSUInteger row = [_chats indexOfObjectIdenticalTo: chat];
+    if (row == NSNotFound)
+        return nil;
+    return [NSIndexPath indexPathForRow: row inSection: 0];
+}
+
+
 - (bool) selectChat: (ChatRoom*)chat {
-    NSIndexPath* path = chat ? [_dataSource indexPathForDocument: chat.document] : nil;
+    NSIndexPath* path = [self pathForChat: chat];
     if (!path)
         return false;
-    [_dataSource.tableView selectRowAtIndexPath: path
-                                       animated: NO
-                                 scrollPosition: UITableViewScrollPositionMiddle];
+    [_table selectRowAtIndexPath: path
+                        animated: NO
+                  scrollPosition: UITableViewScrollPositionMiddle];
     [self showChat: chat];
     return true;
 }
 
 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
-                         change:(NSDictionary *)change context:(void *)context
+#pragma mark - TABLE DISPLAY:
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _chats.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([keyPath isEqualToString: @"chatController.chatRoom"]) {
-        [self selectChat: _chatController.chatRoom];
+    ChatRoom* chat = [self chatForPath: indexPath];
+
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: @"Chat"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle
+                                      reuseIdentifier: @"Chat"];
+        cell.imageView.image = [UIImage imageNamed: @"ChatIcon"];
+        [cell.imageView sizeToFit];
     }
+    cell.textLabel.text = chat.title;
+    [self updateCell: cell forChat: chat];
+    return cell;
 }
 
 
-#pragma mark - TABLE DELEGATE:
-
-
-- (ChatRoom*) chatForRow: (CBLQueryRow*)row {
-    return [ChatRoom modelForDocument: row.document];
-}
 
 - (ChatRoom*) chatForPath: (NSIndexPath*)indexPath {
-    CBLDocument* doc = [_dataSource documentAtIndexPath: indexPath];
-    return [ChatRoom modelForDocument: doc];
+    return _chats[indexPath.row];
 }
 
 
-
-- (void)couchTableSource:(CBLUITableSource*)source
-             willUseCell:(UITableViewCell*)cell
-                  forRow:(CBLQueryRow*)row
-{
-    ChatRoom* chat = [self chatForRow: row];
-    cell.textLabel.text = chat.title;
-    cell.imageView.image = [UIImage imageNamed: @"ChatIcon"];
-    [cell.imageView sizeToFit];
-    [self updateCell: cell forChat: chat];
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self showChat: [self chatForPath: indexPath]];
-}
-
-
-- (bool)couchTableSource: (CBLUITableSource*)source
-               deleteRow: (CBLQueryRow*)row
-{
-    ChatRoom* chat = [self chatForRow: row];
-    if (!chat.isMember)
-        return false;
-    NSString* msg = [NSString stringWithFormat: @"%@ left the chat.", _chatStore.user.displayName];
-    return [chat removeMember: _chatStore.user
-                  withMessage: msg];
+- (void) chatStatusChanged: (ChatRoom*)chat {
+    NSIndexPath* path = [self pathForChat: chat];
+    if (!path)
+        return;
+    [self updateCell: [_table cellForRowAtIndexPath: path] forChat: chat];
 }
 
 
@@ -225,6 +254,7 @@
 
 
 - (void) updateCell: (UITableViewCell*)cell forChat: (ChatRoom*)chat {
+    cell.detailTextLabel.text = chat.unreadMessageCount ? [NSString stringWithFormat: @"%u unread", chat.unreadMessageCount] : nil;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -239,6 +269,34 @@
         cell.accessoryView = [[UIImageView alloc] initWithImage: editedImage];
     }
      */
+}
+
+
+#pragma mark - EDITING:
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+- (void)tableView:(UITableView *)tableView
+        commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+        forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle != UITableViewCellEditingStyleDelete)
+        return;
+
+    ChatRoom* chat = [self chatForPath: indexPath];
+    if (!chat.isMember)
+        return;
+
+    // Delete the row from the table data source.
+    [_table deleteRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationFade];
+
+    NSString* msg = [NSString stringWithFormat: @"%@ left the chat.",
+                     _chatStore.user.displayName];
+    [chat removeMember: _chatStore.user withMessage: msg];
 }
 
 

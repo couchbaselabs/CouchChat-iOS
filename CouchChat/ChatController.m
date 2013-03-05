@@ -84,6 +84,12 @@
 }
 
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    [_chatRoom markAsRead];
+}
+
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
     // Bad Stuff happens if the keyboard remains visible while this view is hidden.
@@ -101,6 +107,9 @@
         [self reloadFromQuery];
 
         self.title = newChatRoom ? newChatRoom.title : @"";
+
+        if (self.view.superview != nil)
+            [_chatRoom markAsRead];
     }
 
     if (self.masterPopoverController != nil) {

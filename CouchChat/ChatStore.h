@@ -22,9 +22,7 @@
 
 // CHATS:
 
-@property (readonly) CBLLiveQuery* allChatsQuery;
-
-- (ChatRoom*) chatWithTitle: (NSString*)title;
+@property (readonly, copy) NSArray* allChats;
 
 - (ChatRoom*) newChatWithTitle: (NSString*)title;
 

@@ -10,18 +10,25 @@
 #import "ChatRoom.h"
 #import "UserProfile_Private.h"
 #import <CouchbaseLite/CBLModelFactory.h>
+#import <CouchbaseLite/CBLJSON.h>
 
 
 static ChatStore* sInstance;
 
 
+@interface ChatStore ()
+@property (readwrite, copy) NSArray* allChats;
+@end
+
+
 @implementation ChatStore
 {
     CBLView* _usersView;
+    CBLLiveQuery* _chatModDatesQuery;
 }
 
 
-@synthesize username=_username;
+@synthesize username=_username, allChats=_allChats;
 
 
 - (id) initWithDatabase: (CBLDatabase*)database {
@@ -35,12 +42,9 @@ static ChatStore* sInstance;
         [_database.modelFactory registerClass: [ChatRoom class] forDocumentType: @"chat"];
         [_database.modelFactory registerClass: [UserProfile class] forDocumentType: @"profile"];
 
-        // Map function for finding chats by title
-        CBLView* view = [self updateChatListViewForUser: _username];
-        _allChatsQuery = [[view query] asLiveQuery];
-
-        // Map function for getting chat messages
-        [[_database viewNamed: @"chatMessages"] setMapBlock: MAPBLOCK({
+        // Map function for getting chat messages for each chat, sorted by date
+        CBLView* view = [_database viewNamed: @"chatMessages"];
+        [view setMapBlock: MAPBLOCK({
             if ([doc[@"type"] isEqualToString: @"chat"]) {
                 NSString* markdown = doc[@"markdown"] ?: @"";
                 NSString* channelID = doc[@"channel_id"];
@@ -51,7 +55,28 @@ static ChatStore* sInstance;
                 emit(@[channelID, doc[@"created_at"]],
                      @[doc[@"author"], markdown, @(hasAttachments), @(isAnnouncement)]);
             }
-        }) version: @"4"];
+        }) reduceBlock: REDUCEBLOCK({
+            // Reduce function returns [mod_date, message_count]
+            NSString* maxDate = nil;
+            NSUInteger count = 0;
+            if (rereduce) {
+                for (NSArray* reducedItem in values) {
+                    ++count;
+                    NSString* date = reducedItem[0];
+                    if (!maxDate || [date compare: maxDate] > 0)
+                        maxDate = date;
+                }
+            } else {
+                maxDate = [keys.lastObject objectAtIndex: 1]; // since keys are in order
+                count = values.count;
+            }
+            return (@[maxDate, @(count)]);
+        }) version: @"6"];
+
+        _chatModDatesQuery = [[view query] asLiveQuery];
+        _chatModDatesQuery.groupLevel = 1;
+        [_chatModDatesQuery addObserver: self forKeyPath: @"rows"
+                                options: NSKeyValueObservingOptionInitial context: NULL];
 
         // View for getting user profiles by name
         _usersView = [_database viewNamed: @"usersByName"];
@@ -62,7 +87,6 @@ static ChatStore* sInstance;
                     emit(name.lowercaseString, name);
             }
         }) version: @"3"];
-        _allChatsQuery = [[view query] asLiveQuery];
 
 #if 0
         [self createFakeUsers];
@@ -73,28 +97,19 @@ static ChatStore* sInstance;
 }
 
 
-- (CBLView*) updateChatListViewForUser: (NSString*)username {
-    // This is kind of weird: we want this view to include only chats that the current user is a
-    // member of. But _username can change (for instance it starts as nil and then changes on
-    // first login.) So we set a map function that has the current username baked into it, and
-    // then remember to update the map function whenever the username changes. We also have to
-    // make sure the version string changes too, to force the view to be re-indexed.
-    CBLView* view = [_database viewNamed: @"chatsByTitle"];
-    [view setMapBlock: MAPBLOCK({
-        if ([doc[@"type"] isEqualToString: @"room"]) {
-            if (!username)
-                return;
-            NSLog(@"VIEW: doc=%@", doc);
-            if (![doc[@"owners"] containsObject: username] &&
-                    ![doc[@"members"] containsObject: username])
-                return;
-            NSLog(@"\t\t...adding it");
-            NSString* title = doc[@"title"];
-            if (title)
-                emit(title.lowercaseString, nil);
-        }
-    }) version: [@"2-" stringByAppendingString: (username ?: @"")]];
-    return view;
+- (void)dealloc
+{
+    [_chatModDatesQuery removeObserver: self forKeyPath: @"rows"];
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == _chatModDatesQuery) {
+        [self refreshChatList];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 
@@ -106,18 +121,31 @@ static ChatStore* sInstance;
 #pragma mark - CHATS:
 
 
-- (ChatRoom*) chatWithTitle: (NSString*)title {
-    title = title.lowercaseString;
-    for (CBLQueryRow* row in _allChatsQuery.rows) {
-        if ([row.key isEqualToString: title])
-            return [ChatRoom modelForDocument: row.document];
-    }
-    return nil;
+- (ChatRoom*) newChatWithTitle: (NSString*)title {
+    return [[ChatRoom alloc] initNewWithTitle: title inChatStore: self];
 }
 
 
-- (ChatRoom*) newChatWithTitle: (NSString*)title {
-    return [[ChatRoom alloc] initNewWithTitle: title inChatStore: self];
+- (void) refreshChatList {
+    NSMutableArray* chats = [NSMutableArray array];
+    for (CBLQueryRow* row in _chatModDatesQuery.rows) {
+        CBLDocument* document = [_database documentWithID: row.key0];
+        ChatRoom* chat = [ChatRoom modelForDocument: document];
+        if (chat.isMember) {
+            [chats addObject: chat];
+            NSArray* value = row.value;
+            NSDate* modDate = [CBLJSON dateWithJSONObject: value[0]];
+            NSUInteger count = [value[1] unsignedIntegerValue];
+            [chat setMessageCount: count modDate: modDate];
+        }
+    }
+    [chats sortUsingComparator: ^NSComparisonResult(ChatRoom *chat1, ChatRoom *chat2) {
+        return [chat2.modDate compare: chat1.modDate];  // descending order!
+    }];
+    
+    if (![chats isEqual: _allChats]) {
+        self.allChats = chats;
+    }
 }
 
 
@@ -154,7 +182,6 @@ static ChatStore* sInstance;
                                          withUsername: _username];
             NSLog(@"Created user profile %@", myProfile);
         }
-        [self updateChatListViewForUser: _username];
     }
 }
 

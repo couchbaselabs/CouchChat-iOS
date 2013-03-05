@@ -11,7 +11,7 @@
 @class ChatController, ChatStore, ChatRoom;
 
 
-@interface ChatListController : UIViewController <CBLUITableDelegate>
+@interface ChatListController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) ChatController *chatController;
 

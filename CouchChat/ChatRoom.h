@@ -22,6 +22,10 @@
 
 @property (readwrite) NSString* title;
 
+@property (readonly) NSDate* modDate;
+
+// Membership:
+
 @property (copy) NSArray* members;
 @property (copy) NSArray* owners;
 @property (readonly) bool isMember;
@@ -31,13 +35,26 @@
 - (bool) removeMember: (UserProfile*)member
           withMessage: (NSString*)message;
 
+// Messages:
+
+@property (readonly) unsigned unreadMessageCount;
+
+- (void) markAsRead;
+
 @property (readonly) CBLQuery* chatMessagesQuery;
 
 - (BOOL) addChatMessage: (NSString*)markdown
            announcement: (bool)announcement
                 picture: (UIImage*)picture;
 
+// Internal use only
+- (void) setMessageCount: (unsigned)messageCount modDate: (NSDate*)modDate;
+
 @end
+
+
+// Posted when a chat room's unreadCount or modDate change
+extern NSString* const kChatRoomStatusChangedNotification;
 
 
 /*  A chat root document in JSON form:

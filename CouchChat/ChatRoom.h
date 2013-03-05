@@ -7,7 +7,7 @@
 //
 
 #import <CouchbaseLite/CouchbaseLite.h>
-@class ChatStore;
+@class ChatStore, UserProfile;
 
 
 /** One chat in the database. */
@@ -24,8 +24,12 @@
 
 @property (copy) NSArray* members;
 @property (copy) NSArray* owners;
+@property (readonly) bool isMember;
+@property (readonly) bool isOwner;
 
 - (void) addMembers: (NSArray*)newMembers;
+- (bool) removeMember: (UserProfile*)member
+          withMessage: (NSString*)message;
 
 @property (readonly) CBLQuery* chatMessagesQuery;
 

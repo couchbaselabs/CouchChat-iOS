@@ -204,6 +204,18 @@
 }
 
 
+- (bool)couchTableSource: (CBLUITableSource*)source
+               deleteRow: (CBLQueryRow*)row
+{
+    ChatRoom* chat = [self chatForRow: row];
+    if (!chat.isMember)
+        return false;
+    NSString* msg = [NSString stringWithFormat: @"%@ left the chat.", _chatStore.user.displayName];
+    return [chat removeMember: _chatStore.user
+                  withMessage: msg];
+}
+
+
 - (void) updateCells {
     for (UITableViewCell* cell in _table.visibleCells) {
         ChatRoom* chat = [self chatForPath: [_table indexPathForCell: cell]];

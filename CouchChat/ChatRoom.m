@@ -8,6 +8,7 @@
 
 #import "ChatRoom.h"
 #import "ChatStore.h"
+#import "UserProfile.h"
 #import <CouchbaseLite/CBLModelFactory.h>
 #import <CouchbaseLite/CBLJSON.h>
 
@@ -25,12 +26,17 @@
     NSAssert(chatStore.username, @"No username set up yet");
     self = [super initWithNewDocumentInDatabase: chatStore.database];
     if (self) {
-        self.autosaves = true;
         self.owners = [NSArray arrayWithObject:chatStore.username];
         [self setValue: @"room" ofProperty: @"type"];
         [self setValue: [self chatID] ofProperty: @"channel_id"];
         self.title = title;
     }
+    return self;
+}
+
+- (instancetype) initWithDocument: (CBLDocument*)document {
+    self = [super initWithDocument: document];
+    self.autosaves = true;
     return self;
 }
 
@@ -50,15 +56,14 @@
 }
 
 
-- (bool) editable {
+- (bool) isMember {
     NSString* username = self.chatStore.username;
-    if (!username)
-        return false;
-    return [self.owners containsObject: username] || [self.members containsObject: username];
+    return username && ([self.members containsObject: username] ||
+                        [self.owners containsObject: username]);
 }
 
 
-- (bool) owned {
+- (bool) isOwner {
     NSString* username = self.chatStore.username;
     return username && [self.owners containsObject: username];
 }
@@ -73,6 +78,30 @@
     NSMutableOrderedSet* members = [NSMutableOrderedSet orderedSetWithArray: self.members];
     [members addObjectsFromArray: newMembers];
     self.members = members.array;
+}
+
+
+static NSArray* removeFromArray(NSArray* array, id item) {
+    NSMutableArray* nuArray = [array mutableCopy];
+    [nuArray removeObject: item];
+    return nuArray;
+}
+
+
+- (bool) removeMember: (UserProfile*)member
+          withMessage: (NSString*)message
+{
+    NSString* memberID = member.username;
+    if (![self.members containsObject: memberID])
+        return true;    // If they're not a member, it's a no-op
+    if (memberID != self.chatStore.username && !self.isOwner)
+        return false;   // If *you're* not an owner, you can only remove yourself, not other people
+
+    if (message)
+        [self addChatMessage: message announcement: true picture: nil];
+    self.owners = removeFromArray(self.owners, memberID);
+    self.members = removeFromArray(self.members, memberID);
+    return true;
 }
 
 

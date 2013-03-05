@@ -36,14 +36,7 @@ static ChatStore* sInstance;
         [_database.modelFactory registerClass: [UserProfile class] forDocumentType: @"profile"];
 
         // Map function for finding chats by title
-        CBLView* view = [_database viewNamed: @"chatsByTitle"];
-        [view setMapBlock: MAPBLOCK({
-            if ([doc[@"type"] isEqualToString: @"room"]) {
-                NSString* title = doc[@"title"];
-                if (title)
-                    emit(title, nil);
-            }
-        }) version: @"2"];
+        CBLView* view = [self updateChatListViewForUser: _username];
         _allChatsQuery = [[view query] asLiveQuery];
 
         // Map function for getting chat messages
@@ -80,6 +73,31 @@ static ChatStore* sInstance;
 }
 
 
+- (CBLView*) updateChatListViewForUser: (NSString*)username {
+    // This is kind of weird: we want this view to include only chats that the current user is a
+    // member of. But _username can change (for instance it starts as nil and then changes on
+    // first login.) So we set a map function that has the current username baked into it, and
+    // then remember to update the map function whenever the username changes. We also have to
+    // make sure the version string changes too, to force the view to be re-indexed.
+    CBLView* view = [_database viewNamed: @"chatsByTitle"];
+    [view setMapBlock: MAPBLOCK({
+        if ([doc[@"type"] isEqualToString: @"room"]) {
+            if (!username)
+                return;
+            NSLog(@"VIEW: doc=%@", doc);
+            if (![doc[@"owners"] containsObject: username] &&
+                    ![doc[@"members"] containsObject: username])
+                return;
+            NSLog(@"\t\t...adding it");
+            NSString* title = doc[@"title"];
+            if (title)
+                emit(title.lowercaseString, nil);
+        }
+    }) version: [@"2-" stringByAppendingString: (username ?: @"")]];
+    return view;
+}
+
+
 + (ChatStore*) sharedInstance {
     return sInstance;
 }
@@ -89,6 +107,7 @@ static ChatStore* sInstance;
 
 
 - (ChatRoom*) chatWithTitle: (NSString*)title {
+    title = title.lowercaseString;
     for (CBLQueryRow* row in _allChatsQuery.rows) {
         if ([row.key isEqualToString: title])
             return [ChatRoom modelForDocument: row.document];
@@ -135,6 +154,7 @@ static ChatStore* sInstance;
                                          withUsername: _username];
             NSLog(@"Created user profile %@", myProfile);
         }
+        [self updateChatListViewForUser: _username];
     }
 }
 

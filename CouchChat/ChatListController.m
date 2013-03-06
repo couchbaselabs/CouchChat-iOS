@@ -38,7 +38,7 @@
     return self;
 }
 							
-- (void)viewDidLoad {
+- (void) viewDidLoad {
     [super viewDidLoad];
 
     self.title = @"Chats";
@@ -65,10 +65,8 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated {
-    //FIX: This isn't good enough in landscape mode, where the view is always visible.
-    [self updateCells];
-
+- (void) viewWillAppear: (BOOL)animated {
+    [super viewWillAppear: animated];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSIndexPath* sel = _table.indexPathForSelectedRow;
         if (sel)
@@ -76,8 +74,7 @@
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_chatStore removeObserver: self forKeyPath: @"allChats"];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
@@ -163,6 +160,19 @@
 }
 
 
+- (ChatRoom*) chatForPath: (NSIndexPath*)indexPath {
+    return _chats[indexPath.row];
+}
+
+
+- (NSIndexPath*) pathForChat: (ChatRoom*)chat {
+    NSUInteger row = [_chats indexOfObjectIdenticalTo: chat];
+    if (row == NSNotFound)
+        return nil;
+    return [NSIndexPath indexPathForRow: row inSection: 0];
+}
+
+
 #pragma mark - SELECTION:
 
 
@@ -183,14 +193,6 @@
         if (chat != _chatController.chatRoom)
             _chatController.chatRoom = chat;
     }
-}
-
-
-- (NSIndexPath*) pathForChat: (ChatRoom*)chat {
-    NSUInteger row = [_chats indexOfObjectIdenticalTo: chat];
-    if (row == NSNotFound)
-        return nil;
-    return [NSIndexPath indexPathForRow: row inSection: 0];
 }
 
 
@@ -222,8 +224,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle
                                       reuseIdentifier: @"Chat"];
-        cell.imageView.image = [UIImage imageNamed: @"ChatIcon"];
-        [cell.imageView sizeToFit];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     cell.textLabel.text = chat.title;
     [self updateCell: cell forChat: chat];
@@ -232,16 +234,10 @@
 
 
 
-- (ChatRoom*) chatForPath: (NSIndexPath*)indexPath {
-    return _chats[indexPath.row];
-}
-
-
 - (void) chatStatusChanged: (ChatRoom*)chat {
     NSIndexPath* path = [self pathForChat: chat];
-    if (!path)
-        return;
-    [self updateCell: [_table cellForRowAtIndexPath: path] forChat: chat];
+    if (path)
+        [self updateCell: [_table cellForRowAtIndexPath: path] forChat: chat];
 }
 
 
@@ -254,21 +250,40 @@
 
 
 - (void) updateCell: (UITableViewCell*)cell forChat: (ChatRoom*)chat {
-    cell.detailTextLabel.text = chat.unreadMessageCount ? [NSString stringWithFormat: @"%u unread", chat.unreadMessageCount] : nil;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    static NSDateFormatter* sDateFormat;
+    if (!sDateFormat) {
+        sDateFormat = [[NSDateFormatter alloc] init];
+        sDateFormat.dateStyle = NSDateFormatterMediumStyle;
+        sDateFormat.timeStyle = NSDateFormatterShortStyle;
     }
-    /*
-    UIImageView* accessory = (UIImageView*)cell.accessoryView;
-    if (!chat.draft) {
-        accessory.image = nil;
-    } else if (accessory) {
-        accessory.image = [UIImage imageNamed: @"EditedIcon"];
-    } else {
-        UIImage* editedImage = [UIImage imageNamed: @"EditedIcon"];
-        cell.accessoryView = [[UIImageView alloc] initWithImage: editedImage];
-    }
-     */
+    
+    unsigned unread = chat.unreadMessageCount;
+    UserProfile* lastSender = chat.lastSender;
+
+    NSString* detail = nil;
+    if (unread)
+        detail = [NSString stringWithFormat: @"%u unread; latest by %@",
+                  unread, lastSender.displayName];
+    else
+        detail = [NSString stringWithFormat: @"last updated %@",
+                  [sDateFormat stringFromDate: chat.modDate]];
+    cell.detailTextLabel.text = detail;
+
+    UIImage *lastSenderImage = nil;
+    if (unread > 0 && lastSender)
+            lastSenderImage = [_chatStore pictureForUsername: lastSender.username];
+
+    cell.imageView.image = lastSenderImage ?: [UIImage imageNamed: @"ChatIcon"];
+}
+
+
+- (void)tableView:(UITableView *)tableView
+        willDisplayCell:(UITableViewCell *)cell
+        forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ChatRoom* chat = [self chatForPath: indexPath];
+    unsigned unread = chat.unreadMessageCount;
+    cell.backgroundColor = unread ? [UIColor yellowColor] : [UIColor clearColor];
 }
 
 

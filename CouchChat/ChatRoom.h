@@ -23,6 +23,7 @@
 @property (readwrite) NSString* title;
 
 @property (readonly) NSDate* modDate;
+@property (readonly) UserProfile* lastSender;
 
 // Membership:
 
@@ -48,7 +49,9 @@
                 picture: (UIImage*)picture;
 
 // Internal use only
-- (void) setMessageCount: (unsigned)messageCount modDate: (NSDate*)modDate;
+- (void) setMessageCount: (unsigned)messageCount
+                 modDate: (NSDate*)modDate
+              lastSender: (NSString*)lastSender;
 
 @end
 

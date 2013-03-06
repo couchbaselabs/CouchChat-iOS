@@ -27,12 +27,12 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
     CBLLiveQuery* _allPagesQuery;
     NSSet* _allPageTitles;
     unsigned _messageCount;
+    NSString* _lastSenderID;
 }
 
 @dynamic title, owners, members;
 
-@synthesize modDate = _modDate;
-@synthesize unreadMessageCount = _unreadMessageCount;
+@synthesize modDate = _modDate, unreadMessageCount = _unreadMessageCount;
 
 
 - (instancetype) initWithDocument: (CBLDocument*)document {
@@ -74,6 +74,13 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
 
 
 #pragma mark - MEMBERSHIP:
+
+
+- (UserProfile*) lastSender {
+    if (!_lastSenderID)
+        return nil;
+    return [self.chatStore profileWithUsername: _lastSenderID];
+}
 
 
 - (bool) isMember {
@@ -172,13 +179,17 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 
 
 - (void) postStatusChanged {
-    NSLog(@"STATUS: %@: unread = %u, modDate = %@", self, _unreadMessageCount, _modDate);
+    NSLog(@"STATUS: %@: unread = %u, modDate = %@ by %@",
+          self, _unreadMessageCount, _modDate, _lastSenderID);
     [[NSNotificationCenter defaultCenter] postNotificationName: kChatRoomStatusChangedNotification
                                                         object: self];
 }
 
 
-- (void) setMessageCount: (unsigned)messageCount modDate: (NSDate*)modDate {
+- (void) setMessageCount: (unsigned)messageCount
+                 modDate: (NSDate*)modDate
+              lastSender: (NSString*)lastSender
+{
     bool changed = false;
     int delta = ((int)messageCount - (int)_messageCount);
     if (delta != 0) {
@@ -190,6 +201,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
         self.modDate = modDate;
         changed = true;
     }
+    _lastSenderID = lastSender;
     if (changed)
         [self postStatusChanged];
 }

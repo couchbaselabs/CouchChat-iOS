@@ -49,18 +49,13 @@
     return self;
 }
 
-- (void)dealloc
-{
-    NSLog(@"DEALLOC %@", self);//TEMP
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.contactPickerView setPlaceholderString:@"Add users"];
+    [self.contactPickerView setPlaceholderString:@"Choose people…"];
     self.contactPickerView.textView.autocorrectionType = UITextAutocorrectionTypeNo;
     UIBarButtonItem* startButton = [[UIBarButtonItem alloc] initWithTitle: @"Start"
-                                                                    style: UIBarButtonItemStylePlain
+                                                                    style: UIBarButtonItemStyleDone
                                                                    target: self
                                                                    action: @selector(start:)];
     self.navigationItem.rightBarButtonItem = startButton;

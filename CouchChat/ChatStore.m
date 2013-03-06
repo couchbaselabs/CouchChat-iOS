@@ -59,19 +59,23 @@ static ChatStore* sInstance;
             // Reduce function returns [mod_date, message_count]
             NSString* maxDate = nil;
             NSUInteger count = 0;
+            NSString* lastSender = nil;
             if (rereduce) {
                 for (NSArray* reducedItem in values) {
-                    ++count;
+                    count += [reducedItem[1] unsignedIntValue];
                     NSString* date = reducedItem[0];
-                    if (!maxDate || [date compare: maxDate] > 0)
+                    if (!maxDate || [date compare: maxDate] > 0) {
                         maxDate = date;
+                        lastSender = reducedItem[2];
+                    }
                 }
             } else {
                 maxDate = [keys.lastObject objectAtIndex: 1]; // since keys are in order
+                lastSender = [values.lastObject objectAtIndex: 0];
                 count = values.count;
             }
-            return (@[maxDate, @(count)]);
-        }) version: @"6"];
+            return (@[maxDate, @(count), lastSender]);
+        }) version: @"7"];
 
         _chatModDatesQuery = [[view query] asLiveQuery];
         _chatModDatesQuery.groupLevel = 1;
@@ -136,7 +140,8 @@ static ChatStore* sInstance;
             NSArray* value = row.value;
             NSDate* modDate = [CBLJSON dateWithJSONObject: value[0]];
             NSUInteger count = [value[1] unsignedIntegerValue];
-            [chat setMessageCount: count modDate: modDate];
+            NSString* lastSender = value[2];
+            [chat setMessageCount: count modDate: modDate lastSender: lastSender];
         }
     }
     [chats sortUsingComparator: ^NSComparisonResult(ChatRoom *chat1, ChatRoom *chat2) {
@@ -209,8 +214,11 @@ static ChatStore* sInstance;
 
 - (UIImage*) pictureForUsername: (NSString*)username {
     UserProfile* profile = [self profileWithUsername: username];
-    if (profile)
-        return profile.picture;
+    if (profile) {
+        UIImage* picture = profile.picture;
+        if (picture)
+            return picture;
+    }
     return [UserProfile loadGravatarForEmail: username];
 }
 

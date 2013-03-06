@@ -73,6 +73,15 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
 }
 
 
+- (NSString*) displayName {
+    NSString* name = self.title;
+    if (name)
+        return name;
+    return [NSString stringWithFormat: @"with %@",
+            [UserProfile listOfNames: self.allMemberProfiles]];
+}
+
+
 #pragma mark - MEMBERSHIP:
 
 
@@ -80,6 +89,16 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
     if (!_lastSenderID)
         return nil;
     return [self.chatStore profileWithUsername: _lastSenderID];
+}
+
+
+- (NSOrderedSet*) allMemberProfiles {
+    NSMutableOrderedSet* profiles = [NSMutableOrderedSet orderedSet];
+    for (NSString* username in self.owners)
+        [profiles addObject: [self.chatStore profileWithUsername: username]];
+    for (NSString* username in self.members)
+        [profiles addObject: [self.chatStore profileWithUsername: username]];
+    return profiles;
 }
 
 

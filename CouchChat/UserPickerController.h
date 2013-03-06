@@ -8,12 +8,15 @@
 
 #import "THContactPickerViewController.h"
 @protocol UserPickerControllerDelegate;
+@class UserProfile;
 
 
 @interface UserPickerController : THContactPickerViewController
 
 - (id) initWithUsers: (NSArray*)users
             delegate: (id<UserPickerControllerDelegate>)delegate;
+
+- (void) selectUser: (UserProfile*)user;
 
 @end
 

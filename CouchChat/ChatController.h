@@ -15,6 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
+- (IBAction) addPicture:(id)sender;
 - (IBAction) configureSync;
+- (IBAction) addUsers;
 
 @end

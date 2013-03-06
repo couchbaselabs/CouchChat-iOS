@@ -21,6 +21,9 @@
 
 @property (readonly) NSString* displayName; /**< Best name to display (name, else username) */
 
+/** Does this profile represent the logged-in user? */
+@property (readonly) bool isMe;
+
 /** A small picture for use as an avatar/userpic. */
 @property (readonly, weak) UIImage* picture;
 
@@ -35,5 +38,7 @@
 + (UIImage*) loadGravatarForEmail: (NSString*)email;
 
 + (NSString*) usernameFromDocID: (NSString*)docID;
+
++ (NSString*) listOfNames: (id)userArrayOrSet;
 
 @end

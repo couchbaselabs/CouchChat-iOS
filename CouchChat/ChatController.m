@@ -10,6 +10,7 @@
 #import "ChatRoom.h"
 #import "ChatStore.h"
 #import "UserProfile.h"
+#import "UserPickerController.h"
 #import "BTVBubbleTableView.h"
 #import <CouchbaseLite/CBLJSON.h>
 
@@ -18,7 +19,8 @@
 
 
 @interface ChatController () <BTVBubbleTableViewDataSource, UIImagePickerControllerDelegate,
-                              UIPopoverControllerDelegate, UINavigationControllerDelegate>
+                              UIPopoverControllerDelegate, UINavigationControllerDelegate,
+                              UserPickerControllerDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @end
 
@@ -64,6 +66,11 @@
                                                  name: UIKeyboardWillHideNotification
                                                object: nil];
 
+    UIButton* inviteButton = [UIButton buttonWithType: UIButtonTypeContactAdd];
+    [inviteButton addTarget: self action: @selector(addUsers)
+           forControlEvents: UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: inviteButton];
+
     UIImage* pattern = [UIImage imageNamed: @"double_lined.png"];
     self.view.backgroundColor = [UIColor colorWithPatternImage: pattern];
 
@@ -106,7 +113,7 @@
         [_query addObserver: self forKeyPath: @"rows" options: 0 context: NULL];
         [self reloadFromQuery];
 
-        self.title = newChatRoom ? newChatRoom.title : @"";
+        self.title = newChatRoom ? newChatRoom.displayName : @"";
 
         if (self.view.superview != nil)
             [_chatRoom markAsRead];
@@ -373,5 +380,61 @@
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
 }
+
+
+#pragma mark - ADDING USERS:
+
+
+- (IBAction) addUsers {
+    UserPickerController *picker = [[UserPickerController alloc] initWithUsers: _chatStore.allOtherUsers
+                                                                      delegate: self];
+    for (UserProfile* user in _chatRoom.allMemberProfiles)
+        [picker selectUser: user];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Cancel" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    picker.navigationItem.rightBarButtonItem.title = @"Done";
+    picker.title = @"Edit Member List";
+    [self.navigationController pushViewController: picker animated: YES];
+}
+
+
+- (void) userPickerController: (UserPickerController*)controller
+                  pickedUsers: (NSArray*)users
+{
+    self.navigationItem.backBarButtonItem = nil;
+    [self.navigationController popToViewController: self animated: NO];
+    if (users == nil )
+        return;
+
+    users = [users arrayByAddingObject: _chatStore.user];
+
+    // Post invite/kick messages:
+    NSSet* newMembers = [NSSet setWithArray: users];
+    NSSet* oldMembers = _chatRoom.allMemberProfiles.set;
+    [self addMessageForChange: @"invited" forUsers: newMembers notUsers: oldMembers];
+    [self addMessageForChange: @"removed" forUsers: oldMembers notUsers: newMembers];
+
+    // Update the membership:
+    NSMutableArray* memberNames = [NSMutableArray array];
+    for (UserProfile* user in users)
+        [memberNames addObject: user.username];
+    //TODO: This makes everyone an owner. Fix this if we add support for non-owner members.
+    _chatRoom.owners = memberNames;
+    _chatRoom.members = [NSArray array];
+
+    // Changing membership may change the display name of this chat room:
+    self.title = _chatRoom.displayName;
+}
+
+
+- (void) addMessageForChange: (NSString*)change forUsers: (NSSet*)users notUsers: (NSSet*)notUsers {
+    NSMutableSet* diff = [users mutableCopy];
+    [diff minusSet: notUsers];
+    if (diff.count == 0)
+        return;
+    NSString* message = [NSString stringWithFormat: @"%@ %@ %@.",
+                         _chatStore.user.displayName, change, [UserProfile listOfNames: diff]];
+    [_chatRoom addChatMessage: message announcement: true picture: nil];
+}
+
 
 @end

@@ -131,7 +131,6 @@
         [allUsernames addObject: user.username];
         [otherDisplaynames addObject: user.displayName];
     }
-    chat.members = allUsernames;
     chat.owners = allUsernames;
     
     NSError* error;
@@ -141,7 +140,7 @@
 
     NSString* msg = [NSString stringWithFormat: @"%@ started the chat, inviting %@.",
                      _chatStore.user.displayName,
-                     [otherDisplaynames componentsJoinedByString: @", "]];
+                     [UserProfile listOfNames: otherUsers]];
     [chat addChatMessage: msg announcement: true picture: nil];
 
     [self showChat: chat];
@@ -227,7 +226,6 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    cell.textLabel.text = chat.title;
     [self updateCell: cell forChat: chat];
     return cell;
 }
@@ -256,11 +254,12 @@
         sDateFormat.dateStyle = NSDateFormatterMediumStyle;
         sDateFormat.timeStyle = NSDateFormatterShortStyle;
     }
-    
-    unsigned unread = chat.unreadMessageCount;
-    UserProfile* lastSender = chat.lastSender;
+
+    cell.textLabel.text = chat.displayName;
 
     NSString* detail = nil;
+    unsigned unread = chat.unreadMessageCount;
+    UserProfile* lastSender = chat.lastSender;
     if (unread)
         detail = [NSString stringWithFormat: @"%u unread; latest by %@",
                   unread, lastSender.displayName];

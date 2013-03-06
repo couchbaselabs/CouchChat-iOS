@@ -21,6 +21,7 @@
 @property (readonly) NSString* chatID;
 
 @property (readwrite) NSString* title;
+@property (readonly) NSString* displayName;
 
 @property (readonly) NSDate* modDate;
 @property (readonly) UserProfile* lastSender;
@@ -29,6 +30,9 @@
 
 @property (copy) NSArray* members;
 @property (copy) NSArray* owners;
+
+@property (readonly) NSOrderedSet* allMemberProfiles;
+
 @property (readonly) bool isMember;
 @property (readonly) bool isOwner;
 

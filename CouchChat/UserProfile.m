@@ -7,6 +7,7 @@
 //
 
 #import "UserProfile.h"
+#import "ChatStore.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
 
@@ -50,6 +51,12 @@
 - (NSString*) displayName {
     return self.name ?: (self.nick ?: self.username);
 }
+
+
+- (bool) isMe {
+    return [self.username isEqualToString: [[ChatStore sharedInstance] username]];
+}
+
 
 - (void) didLoadFromDocument {
     // Invalidate cached picture:
@@ -121,7 +128,7 @@
         return nil;     // not an email address
     email = email.lowercaseString;
     
-    UIImage* picture = [sGravatars objectForKey: email];
+    UIImage* picture = sGravatars[email];
     if (!picture) {
         NSData* data = [email dataUsingEncoding: NSUTF8StringEncoding];
         uint8_t md5[16];
@@ -144,9 +151,22 @@
         
         if (!sGravatars)
             sGravatars = [NSMutableDictionary dictionary];
-        [sGravatars setObject: picture forKey: email];
+        sGravatars[email] = picture;
     }
     return picture;
+}
+
+
++ (NSString*) listOfNames: (id)userArrayOrSet {
+    NSMutableString* names = [NSMutableString string];
+    for (UserProfile* profile in userArrayOrSet) {
+        if (!profile.isMe) {
+            if (names.length > 0)
+                [names appendString: @", "];
+            [names appendString: profile.displayName];
+        }
+    }
+    return names;
 }
 
 

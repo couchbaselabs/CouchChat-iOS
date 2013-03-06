@@ -43,7 +43,7 @@
         }
         
         self.contacts = names;
-        self.filteredContacts = names;
+        
         self.title = @"Invite To Chat";
     }
     return self;
@@ -53,7 +53,6 @@
     [super viewDidLoad];
 
     [self.contactPickerView setPlaceholderString:@"Choose people…"];
-    self.contactPickerView.textView.autocorrectionType = UITextAutocorrectionTypeNo;
     UIBarButtonItem* startButton = [[UIBarButtonItem alloc] initWithTitle: @"Start"
                                                                     style: UIBarButtonItemStyleDone
                                                                    target: self
@@ -66,12 +65,21 @@
         [_delegate userPickerController: self pickedUsers: nil];
 }
 
+- (void) selectUser: (UserProfile*)user {
+    [self view]; // force nib to load
+    NSUInteger index = [_users indexOfObject: user];
+    if (index == NSNotFound)
+        return;
+    NSString* username = self.contacts[index];
+    [self selectContact: username];
+}
+
 - (NSArray*) selectedUsers {
     // Map the superclass's selected names to the corresponding UserProfile objects:
     NSMutableArray* users = [NSMutableArray array];
     for (NSString* contact in self.selectedContacts) {
         NSUInteger index = [self.contacts indexOfObject: contact];
-        [users addObject: [_users objectAtIndex: index]];
+        [users addObject: _users[index]];
     }
     return users;
 }

@@ -6,4 +6,4 @@
 	url = git@github.com:couchbaselabs/browserid-ios.git
 [submodule "vendor/THContactPicker"]
 	path = vendor/THContactPicker
-	url = git://github.com/tristanhimmelman/THContactPicker.git
+	url = git://github.com/snej/THContactPicker.git

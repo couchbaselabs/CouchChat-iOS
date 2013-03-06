@@ -59,6 +59,11 @@ config.sync = function(doc, oldDoc, userCtx, secObj) {
       access(doc.members, "ch-"+doc._id);
     }
   }
+  if (doc.type == "profile") {
+    channel("profiles");
+    var user = doc._id.substring(doc._id.indexOf(":")+1);
+    access(user, "profiles");
+  }
 }
 ```
 

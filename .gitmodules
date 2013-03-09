@@ -3,7 +3,7 @@
 	url = git://github.com/snej/UIBubbleTableView.git
 [submodule "vendor/browserid"]
 	path = vendor/browserid
-	url = git@github.com:couchbaselabs/browserid-ios.git
+	url = git://github.com/couchbaselabs/browserid-ios.git
 [submodule "vendor/THContactPicker"]
 	path = vendor/THContactPicker
 	url = git://github.com/snej/THContactPicker.git

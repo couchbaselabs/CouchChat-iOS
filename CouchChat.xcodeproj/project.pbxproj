@@ -42,9 +42,9 @@
 		27CB054816CC75400040C9F8 /* double_lined.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054616CC75400040C9F8 /* double_lined.png */; };
 		27CB054B16CD764B0040C9F8 /* ChatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054916CD764B0040C9F8 /* ChatIcon.png */; };
 		27CB054C16CD764B0040C9F8 /* ChatIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CB054A16CD764B0040C9F8 /* ChatIcon@2x.png */; };
-		27CB055616CD81700040C9F8 /* BrowserIDController+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */; };
-		27CB055716CD81700040C9F8 /* BrowserIDController.js in Resources */ = {isa = PBXBuildFile; fileRef = 27CB055316CD81700040C9F8 /* BrowserIDController.js */; };
-		27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055416CD81700040C9F8 /* BrowserIDController.m */; };
+		27CB055616CD81700040C9F8 /* PersonaController+UIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055116CD81700040C9F8 /* PersonaController+UIKit.m */; };
+		27CB055716CD81700040C9F8 /* PersonaController.js in Resources */ = {isa = PBXBuildFile; fileRef = 27CB055316CD81700040C9F8 /* PersonaController.js */; };
+		27CB055816CD81700040C9F8 /* PersonaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055416CD81700040C9F8 /* PersonaController.m */; };
 		27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055A16CD82840040C9F8 /* SyncManager.m */; };
 		27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CB055D16CD82980040C9F8 /* LoginController.m */; };
 		27CB056116CDCBCD0040C9F8 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */; };
@@ -109,11 +109,11 @@
 		27CB054616CC75400040C9F8 /* double_lined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = double_lined.png; sourceTree = "<group>"; };
 		27CB054916CD764B0040C9F8 /* ChatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ChatIcon.png; sourceTree = "<group>"; };
 		27CB054A16CD764B0040C9F8 /* ChatIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ChatIcon@2x.png"; sourceTree = "<group>"; };
-		27CB055016CD81700040C9F8 /* BrowserIDController+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BrowserIDController+UIKit.h"; sourceTree = "<group>"; };
-		27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BrowserIDController+UIKit.m"; sourceTree = "<group>"; };
-		27CB055216CD81700040C9F8 /* BrowserIDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserIDController.h; sourceTree = "<group>"; };
-		27CB055316CD81700040C9F8 /* BrowserIDController.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BrowserIDController.js; sourceTree = "<group>"; };
-		27CB055416CD81700040C9F8 /* BrowserIDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserIDController.m; sourceTree = "<group>"; };
+		27CB055016CD81700040C9F8 /* PersonaController+UIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PersonaController+UIKit.h"; sourceTree = "<group>"; };
+		27CB055116CD81700040C9F8 /* PersonaController+UIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PersonaController+UIKit.m"; sourceTree = "<group>"; };
+		27CB055216CD81700040C9F8 /* PersonaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonaController.h; sourceTree = "<group>"; };
+		27CB055316CD81700040C9F8 /* PersonaController.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PersonaController.js; sourceTree = "<group>"; };
+		27CB055416CD81700040C9F8 /* PersonaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonaController.m; sourceTree = "<group>"; };
 		27CB055916CD82840040C9F8 /* SyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncManager.h; sourceTree = "<group>"; };
 		27CB055A16CD82840040C9F8 /* SyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManager.m; sourceTree = "<group>"; };
 		27CB055C16CD82980040C9F8 /* LoginController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
@@ -171,7 +171,6 @@
 		27CB04CF16CC4B420040C9F8 = {
 			isa = PBXGroup;
 			children = (
-				27F41BAB16E51CDA005572BC /* QuartzCore.framework */,
 				27CB04E116CC4B420040C9F8 /* CouchChat */,
 				27CB055F16CD82AF0040C9F8 /* Sync UI */,
 				27CB051216CC4C900040C9F8 /* Model */,
@@ -193,6 +192,7 @@
 		27CB04DA16CC4B420040C9F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27F41BAB16E51CDA005572BC /* QuartzCore.framework */,
 				27CB056016CDCBCD0040C9F8 /* CouchbaseLite.framework */,
 				27CB051B16CC4E5B0040C9F8 /* libsqlite3.dylib */,
 				27CB051916CC4E560040C9F8 /* SystemConfiguration.framework */,
@@ -304,16 +304,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		27CB054D16CD81700040C9F8 /* BrowserID */ = {
+		27CB054D16CD81700040C9F8 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
-				27CB055016CD81700040C9F8 /* BrowserIDController+UIKit.h */,
-				27CB055116CD81700040C9F8 /* BrowserIDController+UIKit.m */,
-				27CB055216CD81700040C9F8 /* BrowserIDController.h */,
-				27CB055316CD81700040C9F8 /* BrowserIDController.js */,
-				27CB055416CD81700040C9F8 /* BrowserIDController.m */,
+				27CB055016CD81700040C9F8 /* PersonaController+UIKit.h */,
+				27CB055116CD81700040C9F8 /* PersonaController+UIKit.m */,
+				27CB055216CD81700040C9F8 /* PersonaController.h */,
+				27CB055316CD81700040C9F8 /* PersonaController.js */,
+				27CB055416CD81700040C9F8 /* PersonaController.m */,
 			);
-			name = BrowserID;
+			name = Persona;
 			path = browserid/Sources;
 			sourceTree = "<group>";
 		};
@@ -332,7 +332,7 @@
 		27F41B8916E51B90005572BC /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				27CB054D16CD81700040C9F8 /* BrowserID */,
+				27CB054D16CD81700040C9F8 /* Persona */,
 				27CB051D16CC4FDE0040C9F8 /* UIBubbleTableView */,
 				27F41B8B16E51C3D005572BC /* THContactPicker */,
 			);
@@ -415,7 +415,7 @@
 				27CB04FE16CC4B420040C9F8 /* ChatListController_iPad.xib in Resources */,
 				27CB050116CC4B420040C9F8 /* ChatController_iPhone.xib in Resources */,
 				27CB050416CC4B420040C9F8 /* ChatController_iPad.xib in Resources */,
-				27CB055716CD81700040C9F8 /* BrowserIDController.js in Resources */,
+				27CB055716CD81700040C9F8 /* PersonaController.js in Resources */,
 				27CB053916CC4FF60040C9F8 /* bubbleMine.png in Resources */,
 				27CB053A16CC4FF60040C9F8 /* bubbleMine@2x.png in Resources */,
 				27CB053B16CC4FF60040C9F8 /* bubbleSomeone.png in Resources */,
@@ -447,8 +447,8 @@
 				27CB04F816CC4B420040C9F8 /* ChatController.m in Sources */,
 				27CB051016CC4C8B0040C9F8 /* ChatStore.m in Sources */,
 				27CB051116CC4C8B0040C9F8 /* ChatRoom.m in Sources */,
-				27CB055616CD81700040C9F8 /* BrowserIDController+UIKit.m in Sources */,
-				27CB055816CD81700040C9F8 /* BrowserIDController.m in Sources */,
+				27CB055616CD81700040C9F8 /* PersonaController+UIKit.m in Sources */,
+				27CB055816CD81700040C9F8 /* PersonaController.m in Sources */,
 				27CB055B16CD82840040C9F8 /* SyncManager.m in Sources */,
 				27CB055E16CD82A30040C9F8 /* LoginController.m in Sources */,
 				27CB056F16CEEB7C0040C9F8 /* UserProfile.m in Sources */,

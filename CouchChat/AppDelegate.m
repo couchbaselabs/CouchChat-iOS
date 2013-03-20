@@ -12,14 +12,14 @@
 #import "ChatStore.h"
 #import "UserProfile.h"
 #import "SyncManager.h"
-#import "BrowserIDController+UIKit.h"
+#import "PersonaController+UIKit.h"
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
 AppDelegate* gAppDelegate;
 
 
-@interface AppDelegate () <SyncManagerDelegate, BrowserIDControllerDelegate>
+@interface AppDelegate () <SyncManagerDelegate, PersonaControllerDelegate>
 @end
 
 
@@ -27,7 +27,7 @@ AppDelegate* gAppDelegate;
 {
     CBLDatabase* _database;
     SyncManager* _syncManager;
-    BrowserIDController* _browserIDController;
+    PersonaController* _personaController;
 }
 
 
@@ -93,7 +93,7 @@ AppDelegate* gAppDelegate;
         CBLReplication* repl = manager.replications[0];
         if (repl.mode == kCBLReplicationIdle) {
             // Pick up my username from the replication, on the first sync:
-            NSString* username = repl.browserIDEmailAddress;
+            NSString* username = repl.personaEmailAddress;
             if (!username)
                 username = repl.credential.user;
             if (username) {
@@ -106,36 +106,36 @@ AppDelegate* gAppDelegate;
 
 
 - (bool) syncManagerShouldPromptForLogin: (SyncManager*)manager {
-    // Display BrowserID login panel, not the default username/password one:
-    if (!_browserIDController) {
-        _browserIDController = [[BrowserIDController alloc] init];
+    // Display Persona login panel, not the default username/password one:
+    if (!_personaController) {
+        _personaController = [[PersonaController alloc] init];
         NSArray* replications = _syncManager.replications;
         if (replications.count > 0)
-            _browserIDController.origin = [replications[0] browserIDOrigin];
-        _browserIDController.delegate = self;
-        [_browserIDController presentModalInController: self.navigationController];
+            _personaController.origin = [replications[0] personaOrigin];
+        _personaController.delegate = self;
+        [_personaController presentModalInController: self.navigationController];
     }
     return false;
 }
 
 
-- (void) browserIDControllerDidCancel: (BrowserIDController*) browserIDController {
-    [_browserIDController.viewController dismissViewControllerAnimated: YES completion: NULL];
-    _browserIDController = nil;
+- (void) personaControllerDidCancel: (PersonaController*) personaController {
+    [_personaController.viewController dismissViewControllerAnimated: YES completion: NULL];
+    _personaController = nil;
 }
 
-- (void) browserIDController: (BrowserIDController*) browserIDController
+- (void) personaController: (PersonaController*) personaController
            didFailWithReason: (NSString*) reason
 {
-    [self browserIDControllerDidCancel: browserIDController];
+    [self personaControllerDidCancel: personaController];
 }
 
-- (void) browserIDController: (BrowserIDController*) browserIDController
+- (void) personaController: (PersonaController*) personaController
      didSucceedWithAssertion: (NSString*) assertion
 {
-    [self browserIDControllerDidCancel: browserIDController];
+    [self personaControllerDidCancel: personaController];
     for (CBLReplication* repl in _syncManager.replications) {
-        [repl registerBrowserIDAssertion: assertion];
+        [repl registerPersonaAssertion: assertion];
     }
 }
 

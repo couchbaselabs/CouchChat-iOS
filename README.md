@@ -31,20 +31,20 @@ You are almost ready to hit build and run, but you should configure and launch t
 
 Installation and configuration of the Sync Gateway is beyond the scope of this README. The [Sync Gateway docs](https://github.com/couchbaselabs/sync_gateway) discuss installation.
 
-Once you have it installed, you'll want to launch it with the `-site` option equal to the URL that your mobile devices will be using to connect to it (from `AppDelegate.m`). It is necessary to pass this information on the command line, so that the Gateway can correctly validate authentication assertions issued by services like [Mozilla Persona](https://login.persona.org/about).
+Launch the Sync Gateway with the path to the config file in the root of this repository (`sync-gateway-config.json`).
 
-Now that you've got a running Sync Gateway, you need to set the `channelmap` and `validate_doc_update` functions. These are uploaded to the Sync Gateway admin port via an HTTP interface. Don't worry about the details, just run the script that has been included in this CouchChat repository: `./script/push.js`. It requires node.js (version >= 0.8) to run.
+This config file contains the public address that your iOS app will contact. So you'll need to edit it to change that address (under the `browserid.origin` field) to match the URL you added to `AppDelegate.m`.
 
-(If you get `ECONNRESET` when you run it, restart sync_gateway and try again...)
+So your launch path will look something like:
 
-We'll be patching this script to keep up, as we simplify the Sync Gateway configuration process. If you are trying to run this app and getting obscure errors running `script/push.js` just try updating to the latest from the [`couchbaselabs/`](https://github.com/couchbaselabs/CouchChat-iOS) repo. If that doesn't work, please [contact the mailing list](https://groups.google.com/forum/#!forum/mobile-couchbase)
+    ./sync_gateway ~/code/CouchChat-iOS/sync-gateway-config.json
 
-This script uses the configuration in `script/config.json` to find the Sync Gateway. It turns off GUEST access, and sets up a sync function. The sync function configures how data flows between mobile devices, or can throw an error if a given update is not allowed to proceed. Read the Sync Gateway documentation for more details.
+The sync function in that config file determines how data flows between mobile devices, or it can throw an error if a given update is not allowed to proceed. Read the Sync Gateway documentation for more details.
 
 Here is how the sync function for CouchChat works. Notice how the access and channel calls are deployed:
 
 ```javascript
-config.sync = function(doc, oldDoc, userCtx, secObj) {
+function(doc, oldDoc, userCtx, secObj) {
   if (doc.channel_id) {
     // doc belongs to a channel
     channel("ch-"+doc.channel_id);
@@ -70,7 +70,3 @@ config.sync = function(doc, oldDoc, userCtx, secObj) {
 ### Launch
 
 Now you can build and run your app in the simulator, and it will prompt you to login with Mozilla Persona. Once you are logged in, you can create chat messages. If you install it on a real phone, you can also take pictures. Any message in a chat room will show up on all devices that are subscribed to that room.
-
-
-
-

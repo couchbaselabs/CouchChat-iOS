@@ -1,0 +1,51 @@
+{
+	"log": ["CRUD", "REST+"],
+	"browserid" : {
+		"origin" : "http://animal.local:4984/"
+	},
+	"databases": {
+		"sync_gateway": {
+			"server": "walrus:/Users/jchris/code/syncdata",
+      "users": {
+        "GUEST": {"disabled": true}
+      },
+			"sync": `
+
+function(doc, oldDoc, userCtx, secObj) {
+  if (doc.channel_id) {
+    // doc belongs to a channel
+    channel("ch-"+doc.channel_id);
+    // this document describes a channel
+    if (doc.channel_id == doc._id) {
+      // magic document, treat it carefully
+      if (oldDoc && oldDoc.owners.indexOf(userCtx.name) == -1) {
+        throw({unauthorized:"you are not a channel owner"});
+      }
+      // grants access to the channel to all members and owners
+      var them = doc.owners.concat(doc.members);
+      access(doc.owners, "ch-"+doc._id);
+      access(doc.members, "ch-"+doc._id);
+
+      // notify members of the new channel
+      // TODO this can be removed once
+      // https://github.com/couchbaselabs/sync_gateway/issues/31
+      // is fixed
+      for (var i = 0; i < them.length; i++) {
+        channel("chs-"+them[i]);
+      };
+
+    }
+  }
+  if (doc.type == "profile") {
+    channel("profiles");
+    var user = doc._id.substring(doc._id.indexOf(":")+1);
+    access(user, "profiles");
+    // TODO remove when #31 is fixed
+    access(user, "chs-"+user);
+  }
+}
+
+`
+		}
+	}
+}

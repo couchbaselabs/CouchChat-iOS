@@ -33,11 +33,17 @@ Installation and configuration of the Sync Gateway is beyond the scope of this R
 
 Launch the Sync Gateway with the path to the config file in the root of this repository (`sync-gateway-config.json`).
 
-This config file contains the public address that your iOS app will contact. So you'll need to edit it to change that address (under the `browserid.origin` field) to match the URL you added to `AppDelegate.m`.
+This config file does not contain the public (or LAN) address that your iOS app will contact. The Gateway needs to be aware of that address in order for Persona authentication to work properly. So you'll provide that address as a command line option. It should match the URL you added to `AppDelegate.m`.
 
-So your launch path will look something like:
+So your launch command will look something like:
 
-    ./sync_gateway ~/code/CouchChat-iOS/sync-gateway-config.json
+    sync_gateway -personaOrigin="http://animal.local:4984/" ~/code/CouchChat-iOS/sync-gateway-config.json
+
+Note that the origin must be an *exact match* include trailing slash.
+
+The example config file uses an in-memory Walrus bucket, so all your data will be lost when the Sync Gateway exits. To avoid this you can edit the `databases.sync_gateway.server` property to point to an existing directory where you'd like to store your data. In production you should replace the `walrus:` url with a URL to Couchbase Server's 8091 port.
+
+### How the data flows
 
 The sync function in that config file determines how data flows between mobile devices, or it can throw an error if a given update is not allowed to proceed. Read the Sync Gateway documentation for more details.
 
@@ -69,4 +75,6 @@ function(doc, oldDoc, userCtx, secObj) {
 
 ### Launch
 
-Now you can build and run your app in the simulator, and it will prompt you to login with Mozilla Persona. Once you are logged in, you can create chat messages. If you install it on a real phone, you can also take pictures. Any message in a chat room will show up on all devices that are subscribed to that room.
+Now that the Gateway is configured and running, you can build and run your app in the simulator, and it will prompt you to login with Mozilla Persona. Once you are logged in, you can create chat messages. If you install it on a real phone, you can also take pictures. Any message in a chat room will show up on all devices that are subscribed to that room.
+
+For extra credit you can try running the HTML5 version of CouchChat against the same Sync Gateway database. The HTML5 version of the app is under development in our [Couchbase Lite PhoneGap Kit](https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Kit) repository.

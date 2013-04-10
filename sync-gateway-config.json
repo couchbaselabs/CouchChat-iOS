@@ -9,6 +9,11 @@
 			"sync": `
 
 function(doc, oldDoc, userCtx, secObj) {
+  if(!Array.isArray) {
+    Array.isArray = function (vArg) {
+      return Object.prototype.toString.call(vArg) === "[object Array]";
+    };
+  }
   if (doc.channel_id) {
     // doc belongs to a channel
     channel("ch-"+doc.channel_id);
@@ -18,10 +23,16 @@ function(doc, oldDoc, userCtx, secObj) {
       if (oldDoc && oldDoc.owners.indexOf(userCtx.name) == -1) {
         throw({unauthorized:"you are not a channel owner"});
       }
+      if (!Array.isArray(doc.owners)) {
+        throw({forbidden : "owners must be an array"})
+      }
       // grants access to the channel to all members and owners
-      var them = doc.owners.concat(doc.members);
-      access(doc.owners, "ch-"+doc._id);
-      access(doc.members, "ch-"+doc._id);
+      var members = [];
+      if (Array.isArray(doc.members)) {
+        members = doc.members;
+      }
+      var them = doc.owners.concat(members);
+      access(them, "ch-"+doc._id);
 
       // notify members of the new channel
       // TODO this can be removed once
@@ -36,6 +47,9 @@ function(doc, oldDoc, userCtx, secObj) {
   if (doc.type == "profile") {
     channel("profiles");
     var user = doc._id.substring(doc._id.indexOf(":")+1);
+    if (userCtx.name != user) {
+      throw({unauthorized : "you can only edit your own profile"});
+    }
     access(user, "profiles");
     // TODO remove when #31 is fixed
     access(user, "chs-"+user);

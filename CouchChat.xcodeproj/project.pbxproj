@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		279B32471721F458004F06A7 /* iPhone icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 279B32461721F458004F06A7 /* iPhone icon.png */; };
+		279B32491721F45E004F06A7 /* iPhone icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279B32481721F45E004F06A7 /* iPhone icon@2x.png */; };
 		27CB04DC16CC4B420040C9F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DB16CC4B420040C9F8 /* UIKit.framework */; };
 		27CB04DE16CC4B420040C9F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CB04DD16CC4B420040C9F8 /* Foundation.framework */; };
 		27CB04E616CC4B420040C9F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27CB04E416CC4B420040C9F8 /* InfoPlist.strings */; };
@@ -65,6 +67,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		279B32461721F458004F06A7 /* iPhone icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhone icon.png"; path = "../iPhone icon.png"; sourceTree = "<group>"; };
+		279B32481721F45E004F06A7 /* iPhone icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhone icon@2x.png"; path = "../iPhone icon@2x.png"; sourceTree = "<group>"; };
 		27CB04D816CC4B420040C9F8 /* CouchChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CouchChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27CB04DB16CC4B420040C9F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		27CB04DD16CC4B420040C9F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -236,6 +240,8 @@
 				27CB04ED16CC4B420040C9F8 /* Default.png */,
 				27CB04EF16CC4B420040C9F8 /* Default@2x.png */,
 				27CB04F116CC4B420040C9F8 /* Default-568h@2x.png */,
+				279B32481721F45E004F06A7 /* iPhone icon@2x.png */,
+				279B32461721F458004F06A7 /* iPhone icon.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -431,6 +437,8 @@
 				27CB054B16CD764B0040C9F8 /* ChatIcon.png in Resources */,
 				27CB054C16CD764B0040C9F8 /* ChatIcon@2x.png in Resources */,
 				27F41BC516E7C05E005572BC /* THContactPickerViewController.xib in Resources */,
+				279B32471721F458004F06A7 /* iPhone icon.png in Resources */,
+				279B32491721F45E004F06A7 /* iPhone icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

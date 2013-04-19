@@ -16,6 +16,9 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
+#define kServerDBURLString @"http://mobile.hq.couchbase.com/chat"
+
+
 AppDelegate* gAppDelegate;
 
 
@@ -28,6 +31,7 @@ AppDelegate* gAppDelegate;
     CBLDatabase* _database;
     SyncManager* _syncManager;
     PersonaController* _personaController;
+    bool _loggingIn;
 }
 
 
@@ -38,8 +42,7 @@ AppDelegate* gAppDelegate;
 
     // Initialize CouchbaseLite:
     NSError* error;
-    _database = [[CBLManager sharedInstance] createDatabaseNamed: @"chats"
-                                                                       error: &error];
+    _database = [[CBLManager sharedInstance] createDatabaseNamed: @"chat" error: &error];
     if (!_database)
         [self showAlert: @"Couldn't open database" error: error fatal: YES];
 
@@ -83,15 +86,15 @@ AppDelegate* gAppDelegate;
     _syncManager.delegate = self;
     // Configure replication:
     _syncManager.continuous = YES;
-//    _syncManager.syncURL = [NSURL URLWithString: @"http://macbuild.local:4986/chat"];
-    _syncManager.syncURL = [NSURL URLWithString: @"http://localhost:4984/sync_gateway"];
+    _syncManager.syncURL = [NSURL URLWithString: kServerDBURLString];
 }
 
 
 - (void) syncManagerProgressChanged: (SyncManager*)manager {
-    if (_chatStore.username == nil) {
+    if (_loggingIn) {
         CBLReplication* repl = manager.replications[0];
         if (repl.mode == kCBLReplicationIdle) {
+            _loggingIn = false;
             // Pick up my username from the replication, on the first sync:
             NSString* username = repl.personaEmailAddress;
             if (!username)
@@ -108,6 +111,7 @@ AppDelegate* gAppDelegate;
 - (bool) syncManagerShouldPromptForLogin: (SyncManager*)manager {
     // Display Persona login panel, not the default username/password one:
     if (!_personaController) {
+        _loggingIn = true;
         _personaController = [[PersonaController alloc] init];
         NSArray* replications = _syncManager.replications;
         if (replications.count > 0)

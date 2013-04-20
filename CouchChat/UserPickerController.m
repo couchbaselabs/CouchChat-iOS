@@ -21,7 +21,6 @@
 
 @implementation UserPickerController
 {
-    NSArray* _users;
     __weak id<UserPickerControllerDelegate> _delegate;
     bool _started;
 }
@@ -31,18 +30,12 @@
 {
     self = [super initWithNibName: @"THContactPickerViewController" bundle: nil];
     if (self) {
-        _users = [users copy];
         _delegate = delegate;
         
-        NSMutableArray* names = [NSMutableArray array];
-        for (UserProfile* user in _users) {
-            NSString* displayName = user.displayName;
-            if ([names containsObject: displayName])
-                displayName = user.username;    // don't allow duplicates in the list
-            [names addObject: displayName];
-        }
-        
-        self.contacts = names;
+        self.contacts = [users sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [[obj1 displayName] localizedCaseInsensitiveCompare: [obj2 displayName]];
+        }];
+        //self.tableView
         
         self.title = @"Invite To Chat";
     }
@@ -65,28 +58,9 @@
         [_delegate userPickerController: self pickedUsers: nil];
 }
 
-- (void) selectUser: (UserProfile*)user {
-    [self view]; // force nib to load
-    NSUInteger index = [_users indexOfObject: user];
-    if (index == NSNotFound)
-        return;
-    NSString* username = self.contacts[index];
-    [self selectContact: username];
-}
-
-- (NSArray*) selectedUsers {
-    // Map the superclass's selected names to the corresponding UserProfile objects:
-    NSMutableArray* users = [NSMutableArray array];
-    for (NSString* contact in self.selectedContacts) {
-        NSUInteger index = [self.contacts indexOfObject: contact];
-        [users addObject: _users[index]];
-    }
-    return users;
-}
-
 - (IBAction) start: (id)sender {
     _started = true;
-    [_delegate userPickerController: self pickedUsers: self.selectedUsers];
+    [_delegate userPickerController: self pickedUsers: self.selectedContacts];
 }
 
 @end

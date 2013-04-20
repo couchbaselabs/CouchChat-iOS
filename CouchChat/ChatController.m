@@ -389,7 +389,7 @@
     UserPickerController *picker = [[UserPickerController alloc] initWithUsers: _chatStore.allOtherUsers
                                                                       delegate: self];
     for (UserProfile* user in _chatRoom.allMemberProfiles)
-        [picker selectUser: user];
+        [picker selectContact: user];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"Cancel" style:UIBarButtonItemStylePlain target:nil action:NULL];
     picker.navigationItem.rightBarButtonItem.title = @"Done";
     picker.title = @"Edit Member List";

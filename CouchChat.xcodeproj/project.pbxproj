@@ -69,6 +69,7 @@
 /* Begin PBXFileReference section */
 		279B32461721F458004F06A7 /* iPhone icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhone icon.png"; path = "../iPhone icon.png"; sourceTree = "<group>"; };
 		279B32481721F45E004F06A7 /* iPhone icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhone icon@2x.png"; path = "../iPhone icon@2x.png"; sourceTree = "<group>"; };
+		279B324A1721F74D004F06A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		27CB04D816CC4B420040C9F8 /* CouchChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CouchChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27CB04DB16CC4B420040C9F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		27CB04DD16CC4B420040C9F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -175,6 +176,7 @@
 		27CB04CF16CC4B420040C9F8 = {
 			isa = PBXGroup;
 			children = (
+				279B324A1721F74D004F06A7 /* README.md */,
 				27CB04E116CC4B420040C9F8 /* CouchChat */,
 				27CB055F16CD82AF0040C9F8 /* Sync UI */,
 				27CB051216CC4C900040C9F8 /* Model */,

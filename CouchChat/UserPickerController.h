@@ -7,16 +7,18 @@
 //
 
 #import "THContactPickerViewController.h"
+#import "UserProfile.h"
 @protocol UserPickerControllerDelegate;
-@class UserProfile;
+
+// Declare that UserProfile implements the THContact protocol.
+@interface UserProfile () <THContact>
+@end
 
 
 @interface UserPickerController : THContactPickerViewController
 
 - (id) initWithUsers: (NSArray*)users
             delegate: (id<UserPickerControllerDelegate>)delegate;
-
-- (void) selectUser: (UserProfile*)user;
 
 @end
 

@@ -68,10 +68,12 @@
 
 - (UIImage*) picture {
     UIImage* picture = _picture;    // _picture is weak, so assign to local var first
-    if (!_checkedPicture && _picture == nil) {
+    if (!_checkedPicture && picture == nil) {
         NSData* pictureData = [[self attachmentNamed: @"avatar"] body];
         if (pictureData)
             picture = [[UIImage alloc] initWithData: pictureData];
+        else if (self.email)
+            picture = [UserProfile loadGravatarForEmail: self.email];
         _picture = picture;
         _checkedPicture = true;
     }
@@ -143,15 +145,14 @@
         
         NSData* pictureData = [NSData dataWithContentsOfURL: url];
         NSLog(@"Gravatar for %@ <%@> -- %d bytes", email, urlStr, pictureData.length);
-        if (!pictureData)
-            return nil;
-        picture = [[UIImage alloc] initWithData: pictureData];
-        if (!picture)
-            return nil;
+        if (pictureData)
+            picture = [[UIImage alloc] initWithData: pictureData];
         
         if (!sGravatars)
             sGravatars = [NSMutableDictionary dictionary];
-        sGravatars[email] = picture;
+        sGravatars[email] = picture ?: [NSNull null];
+    } else if ((id)picture == [NSNull null]) {
+        picture = nil;
     }
     return picture;
 }

@@ -232,10 +232,12 @@
 
 
 
-- (void) chatStatusChanged: (ChatRoom*)chat {
+- (void) chatStatusChanged: (NSNotification*)n {
+    ChatRoom* chat = n.object;
     NSIndexPath* path = [self pathForChat: chat];
-    if (path)
-        [self updateCell: [_table cellForRowAtIndexPath: path] forChat: chat];
+    if (!path)
+        return;
+    [_table reloadData];
 }
 
 

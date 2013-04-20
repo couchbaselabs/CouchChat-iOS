@@ -39,6 +39,7 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
     // This is the designated initializer that's always called
     self = [super initWithDocument: document];
     self.autosaves = true;
+    [self loadLocalState];
     return self;
 }
 
@@ -202,6 +203,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
           self, _unreadMessageCount, _modDate, _lastSenderID);
     [[NSNotificationCenter defaultCenter] postNotificationName: kChatRoomStatusChangedNotification
                                                         object: self];
+    [self saveLocalState];
 }
 
 
@@ -232,6 +234,27 @@ static NSArray* removeFromArray(NSArray* array, id item) {
     NSLog(@"MARK READ: %@", self);
     self.unreadMessageCount = 0;
     [self postStatusChanged];
+}
+
+
+- (NSString*) localStateDocID {
+    return [@"chatState-" stringByAppendingString: self.document.documentID];
+}
+
+
+- (void) saveLocalState {
+    unsigned readCount = _messageCount - _unreadMessageCount;
+    NSError* error;
+    if (![self.database putLocalDocument: @{@"readCount": @(readCount)}
+                             withID: self.localStateDocID
+                              error: &error])
+        NSLog(@"Warning: Couldn't save local doc: %@", error);
+}
+
+
+- (void) loadLocalState {
+    NSDictionary* state = [self.database getLocalDocumentWithID: self.localStateDocID];
+    _messageCount = [state[@"readCount"] unsignedIntValue];
 }
 
 

@@ -2,6 +2,8 @@
 
 CouchChat is a multi-user messaging app, essentially a primitive clone of the iOS Messages app. It illustrates how you can use Couchbase Lite in your mobile apps to share data across devices and among users. If you familiarize yourself with this code, you'll be ready to write your own multi-user interactive data driven applications on iOS.
 
+There is a [tour of the data model](https://github.com/couchbaselabs/CouchChat-iOS/wiki/Chat-App-Data-Model) on the wiki.
+
 ## Architecture
 
 There are three main components to the system:
@@ -55,28 +57,6 @@ Now edit the value of `kServerDBURLString` in `AppDelegate.m` to the public URL 
 
 The JavaScript sync function in the server config file (`sync-gateway-config.json`) determines how data flows between mobile devices, or it can throw an error if a given update is not allowed to proceed. Read the Sync Gateway documentation for more details.
 
-Here is how the sync function for CouchChat works. Notice how the access and channel calls are deployed:
+Read the [tour of the data model](https://github.com/couchbaselabs/CouchChat-iOS/wiki/Chat-App-Data-Model) to learn how the sync function for CouchChat works.
 
-```javascript
-function(doc, oldDoc, userCtx, secObj) {
-  if (doc.channel_id) {
-    // doc belongs to a channel
-    channel("ch-"+doc.channel_id);
-    // this document describes a channel
-    if (doc.channel_id == doc._id) {
-      // magic document, treat it carefully
-      if (oldDoc && oldDoc.owners.indexOf(userCtx.name) == -1) {
-        throw({unauthorized:"you are not a channel owner"});
-      }
-      // grants access to the channel to all members and owners
-      access(doc.owners, "ch-"+doc._id);
-      access(doc.members, "ch-"+doc._id);
-    }
-  }
-  if (doc.type == "profile") {
-    channel("profiles");
-    var user = doc._id.substring(doc._id.indexOf(":")+1);
-    access(user, "profiles");
-  }
-}
-```
+

@@ -253,8 +253,10 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 
 
 - (void) loadLocalState {
-    NSDictionary* state = [self.database getLocalDocumentWithID: self.localStateDocID];
-    _messageCount = [state[@"readCount"] unsignedIntValue];
+    if (self.document) {
+        NSDictionary* state = [self.database getLocalDocumentWithID: self.localStateDocID];
+        _messageCount = [state[@"readCount"] unsignedIntValue];
+    }
 }
 
 

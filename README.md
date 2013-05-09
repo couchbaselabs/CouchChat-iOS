@@ -18,14 +18,32 @@ Couchbase Server should be deployed behind your firewall (like databases normall
 
 ## Running this app
 
-Until we have precompiled binary packages of Couchbase Lite, you will need to build a copy yourself. Once it is built, find the `CouchbaseLite.framework` folder in your build products directory, and drop it into this repository's `Frameworks/` folder (it is listed in `.gitignore` already).
-
-Don't forget to install the submodules we use: UIBubbleTableView and browserid (for Persona support):
+### Install the submodules:
 
     git submodule init
     git submodule update
 
-Now can build and run your app in the simulator or on a connected iOS device, and it will prompt you to login with Mozilla Persona. Once you are logged in, you can create a chat room, invite other uers, and send messages. You can attach pictures to a message (or take a picture if your device has a camera.) Any message in a chat room will show up on all devices that are subscribed to that room.
+### Build/Install the CouchBase Lite framework
+
+There are precompiled binary packages of Couchbase Lite, but they are not up to date, so the recommended way is to build the Couchbase Lite framework yourself.  
+
+Once it is built, find the `CouchbaseLite.framework` folder.  This will be in the `/Users/you/Library/Developer/Xcode/DerivedData` directory.  Then copy this into the this repository's `Frameworks/` folder (it is listed in `.gitignore` already).  
+
+### Build and run the app
+
+Now you can build and run your app in the simulator or on a connected iOS device. 
+
+
+After startup it will prompt you to login with Mozilla Persona. Once you are logged in, you can:
+
+* Create a chat room
+* Invite other users
+* Send messages to users. 
+* Attach pictures to a message (or take a picture if your device has a camera.) 
+
+Any message in a chat room will show up on all devices that are subscribed to that room.
+
+## Running the PhoneGap version
 
 For extra credit you can try running the HTML5 version of CouchChat against the same Sync Gateway database. The HTML5 version of the app is under development in our [Couchbase Lite PhoneGap Kit](https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Kit) repository.
 

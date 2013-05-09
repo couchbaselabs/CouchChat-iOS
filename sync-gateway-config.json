@@ -1,7 +1,7 @@
 {
 	"log": ["CRUD", "REST+"],
 	"databases": {
-		"sync_gateway": {
+		"chat": {
 			"server": "walrus:",
       "users": {
         "GUEST": {"disabled": true}
@@ -9,11 +9,6 @@
 			"sync": `
 
 function(doc, oldDoc, userCtx, secObj) {
-  if(!Array.isArray) {
-    Array.isArray = function (vArg) {
-      return Object.prototype.toString.call(vArg) === "[object Array]";
-    };
-  }
   if (doc.channel_id) {
     // doc belongs to a channel
     channel("ch-"+doc.channel_id);
@@ -27,21 +22,10 @@ function(doc, oldDoc, userCtx, secObj) {
         throw({forbidden : "owners must be an array"})
       }
       // grants access to the channel to all members and owners
-      var members = [];
+      access(doc.owners, "ch-"+doc._id);
       if (Array.isArray(doc.members)) {
-        members = doc.members;
+        access(doc.members, "ch-"+doc._id);
       }
-      var them = doc.owners.concat(members);
-      access(them, "ch-"+doc._id);
-
-      // notify members of the new channel
-      // TODO this can be removed once
-      // https://github.com/couchbaselabs/sync_gateway/issues/31
-      // is fixed
-      for (var i = 0; i < them.length; i++) {
-        channel("chs-"+them[i]);
-      };
-
     }
   }
   if (doc.type == "profile") {
@@ -51,8 +35,6 @@ function(doc, oldDoc, userCtx, secObj) {
       throw({unauthorized : "you can only edit your own profile"});
     }
     access(user, "profiles");
-    // TODO remove when #31 is fixed
-    access(user, "chs-"+user);
   }
 }
 

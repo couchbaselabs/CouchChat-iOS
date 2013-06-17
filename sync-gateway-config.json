@@ -3,15 +3,14 @@
 	"databases": {
 		"chat": {
 			"server": "walrus:",
-      "users": {
-        "GUEST": {"disabled": true}
-      },
+
 			"sync": `
 
 function(doc, oldDoc, userCtx, secObj) {
   if (doc.channel_id) {
     // doc belongs to a channel
-    channel("ch-"+doc.channel_id);
+    channel("ch-"+doc.channel_id)
+    channel("push") // all channel docs go to push notifications
     // this document describes a channel
     if (doc.channel_id == doc._id) {
       // magic document, treat it carefully

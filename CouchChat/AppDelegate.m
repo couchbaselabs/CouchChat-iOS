@@ -14,9 +14,11 @@
 #import "SyncManager.h"
 #import "PersonaController+UIKit.h"
 #import <CouchbaseLite/CouchbaseLite.h>
+#import "UAPush.h"
+#import "UAirship.h"
 
 
-#define kServerDBURLString @"http://mobile.hq.couchbase.com/chat"
+#define kServerDBURLString @"http://localhost:4984/chat"
 
 
 AppDelegate* gAppDelegate;
@@ -74,6 +76,23 @@ AppDelegate* gAppDelegate;
 
     [self setupSync];
 
+    //Create Airship options directory and add the required UIApplication launchOptions
+    NSMutableDictionary *takeOffOptions = [NSMutableDictionary dictionary];
+    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+    
+    // Call takeOff (which creates the UAirship singleton), passing in the launch options so the
+    // library can properly record when the app i launched from a push notification. This call is
+    // required.
+    //
+    // Populate AirshipConfig.plist with your app's info from https://go.urbanairship.com
+    [UAirship takeOff:takeOffOptions];
+    
+    // Register for notifications
+    [[UAPush shared]
+     registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                         UIRemoteNotificationTypeSound |
+                                         UIRemoteNotificationTypeAlert)];
+    
     return YES;
 }
 
@@ -163,6 +182,17 @@ AppDelegate* gAppDelegate;
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     exit(0);
+}
+
+# pragma mark - Push Notifications
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [UAirship land];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Updates the device token and registers the token with UA.
+    [[UAPush shared] registerDeviceToken:deviceToken];
 }
 
 

@@ -192,6 +192,11 @@ AppDelegate* gAppDelegate;
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Updates the device token and registers the token with UA.
+
+    for (CBLReplication* repl in _syncManager.replications) {
+        [UAPush shared].alias = repl.personaEmailAddress;
+    }
+    
     [[UAPush shared] registerDeviceToken:deviceToken];
 }
 

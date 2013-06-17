@@ -1,7 +1,6 @@
 module.exports.gateway = {
-  name : "push",
-  password : "secret",
-  channels : "push"
+  channels : ["push","profiles"],
+  url : "http://push:secret@localhost:4984/chat"
 }
 
 module.exports.UAirship = {

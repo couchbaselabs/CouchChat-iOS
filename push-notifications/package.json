@@ -5,11 +5,14 @@
   "main": "index.js",
   "dependencies": {
     "coax": "~0.3.4",
-    "urban-airship": "~0.2.4"
+    "urban-airship": "~0.2.4",
+    "couchbase": "*",
+    "async" : "*"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "start" : "node index.js"
   },
   "repository": "",
   "keywords": [

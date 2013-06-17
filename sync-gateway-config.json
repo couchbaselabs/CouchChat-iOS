@@ -1,9 +1,15 @@
 {
 	"log": ["CRUD", "REST+"],
+  "persona" : {
+    "origin" : "http://mineral.local:4984/",
+    "register" : true
+  },
 	"databases": {
 		"chat": {
-			"server": "walrus:",
-
+      "users": {
+        "GUEST": {"disabled": true},
+        "push" : {"name":"push","password":"secret","admin_channels":["*"]}
+      },
 			"sync": `
 
 function(doc, oldDoc, userCtx, secObj) {

@@ -18,7 +18,7 @@
 #import "UAirship.h"
 
 
-#define kServerDBURLString @"http://localhost:4984/chat"
+#define kServerDBURLString @"http://mineral.local:4984/chat"
 
 
 AppDelegate* gAppDelegate;

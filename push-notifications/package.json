@@ -1,0 +1,20 @@
+{
+  "name": "cb-push-notifications",
+  "version": "0.0.0",
+  "description": "Take channel feed from sync gateway to add push notifications.",
+  "main": "index.js",
+  "dependencies": {
+    "coax": "~0.3.4",
+    "urban-airship": "~0.2.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": "",
+  "keywords": [
+    "event"
+  ],
+  "author": "Chris Anderson",
+  "license": "Apache 2.0"
+}

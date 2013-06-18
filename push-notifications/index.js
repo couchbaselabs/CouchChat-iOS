@@ -40,7 +40,7 @@ couchbase.connect({
             if (change.seq) {
               bucket.set("_push:seq", change.seq, function(err, ok){
                 console.log("saved push seq", change.seq, err)
-              });
+              })
             }
           }
         })
@@ -64,19 +64,16 @@ couchbase.connect({
           }
           ua.pushNotification("/api/push", payload, function(error) {
             console.log("pushed all", payload)
-            if (seq) {
+            if (err) {
+              console.log("pushNotification err", err, payload )
+            } else if (seq) {
               bucket.set("_push:seq", seq, function(err, ok){
                 console.log("saved push seq", seq, err)
-              });
+              })
             }
-          });
+          })
         })
       }
     })
   })
-
 })
-
-
-
-

@@ -23,22 +23,10 @@ couchbase.connect({
     }
     console.log("push_seq", push_seq)
 
-
-
-    function pushFromChannelDoc (users, message, seq) {
-
-
-    }
-
-
     var push = sw.channels(["profiles","push"], {since : push_seq})
-    // push.on("json", function(json){
-
-    // })
     push.on("doc", function(doc, change) {
       if (doc.email) {
         var payload = {
-          device_tokens : [],
           aliases : [doc.email],
           aps : {
             alert : "Welcome to CouchChat, " + (doc.nick || doc.email)+"."
@@ -51,7 +39,7 @@ couchbase.connect({
             console.log("pushed", payload)
             if (change.seq) {
               bucket.set("_push:seq", change.seq, function(err, ok){
-                console.log("saved push seq",change.seq, err, ok)
+                console.log("saved push seq", change.seq, err)
               });
             }
           }
@@ -59,7 +47,6 @@ couchbase.connect({
       } else if (doc.channel_id && doc.author) {
         sw(doc.channel_id, function(err, channel){
           var users = [].concat(channel.members).concat(channel.owners),
-            message = doc.author+": "+(doc.markdown || "Photo"),
             seq = change.seq
 
           var aliases = []
@@ -72,18 +59,17 @@ couchbase.connect({
           var payload = {
             aliases : aliases,
             aps : {
-              alert : message
+              alert : doc.author+": "+(doc.markdown || "Photo")
             }
           }
           ua.pushNotification("/api/push", payload, function(error) {
             console.log("pushed all", payload)
             if (seq) {
               bucket.set("_push:seq", seq, function(err, ok){
-                console.log("saved push seq",seq, err, ok)
+                console.log("saved push seq", seq, err)
               });
             }
           });
-
         })
       }
     })

@@ -4,7 +4,7 @@ Uses the changes feed from the Sync Gateway to send push notifications to the sy
 
 0. Install node.js if you don’t have it already.
 1. Register an account with [Urban Airship](http://urbanairship.com), if you don’t already have one.
-2. Configure your copy of the chat app project for push notifications, following the steps in the [Urban Airship docs](http://docs.urbanairship.com/build/ios.html#setting-up-urban-airship).
+2. Configure your copy of the chat app project for push notifications, following the steps in the [Urban Airship docs](http://docs.urbanairship.com/build/ios.html#setting-up-urban-airship). Note: if things don't work the first time, run the Apple certificate generation process again. Even if you did everything right the first time.
 3. If you want to test notifications, try launching the iOS app (on a real device, not a simulator) and using the Urban Airship web console to send a notification to it.
 4. Edit `config.js` in this directory and fill in your Urban Airship account credentials.
 5. Start a Sync Gateway with the configuration in the `sync-gateway-config.json` file in this directory. You’ll need to use a Couchbase Server database (sorry, it doesn’t currently work with Walrus.)

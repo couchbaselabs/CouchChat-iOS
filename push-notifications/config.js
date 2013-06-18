@@ -4,8 +4,6 @@ module.exports.gateway = {
 }
 
 module.exports.UAirship = {
-  key : "",
-  secret : "",
-  master : ""
+  key : "", secret : "", master : ""
 }
 

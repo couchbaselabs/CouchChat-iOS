@@ -1,0 +1,49 @@
+{
+  "log": ["CRUD", "REST+"],
+  "persona" : {
+    "origin" : "http://mineral.local:4984/",
+    "register" : true
+  },
+  "databases": {
+    "chat": {
+      "users": {
+        "GUEST": {"disabled": true},
+        "push" : {"name":"push","password":"secret","admin_channels":["*"]}
+      },
+      "sync": `
+
+function(doc, oldDoc, userCtx, secObj) {
+  if (doc.channel_id) {
+    // doc belongs to a channel
+    channel("ch-"+doc.channel_id)
+    channel("push") // all channel docs go to push notifications
+    // this document describes a channel
+    if (doc.channel_id == doc._id) {
+      // magic document, treat it carefully
+      if (oldDoc && oldDoc.owners.indexOf(userCtx.name) == -1) {
+        throw({unauthorized:"you are not a channel owner"});
+      }
+      if (!Array.isArray(doc.owners)) {
+        throw({forbidden : "owners must be an array"})
+      }
+      // grants access to the channel to all members and owners
+      access(doc.owners, "ch-"+doc._id);
+      if (Array.isArray(doc.members)) {
+        access(doc.members, "ch-"+doc._id);
+      }
+    }
+  }
+  if (doc.type == "profile") {
+    channel("profiles");
+    var user = doc._id.substring(doc._id.indexOf(":")+1);
+    if (userCtx.name != user) {
+      throw({unauthorized : "you can only edit your own profile"});
+    }
+    access(user, "profiles");
+  }
+}
+
+`
+    }
+  }
+}

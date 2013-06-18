@@ -26,27 +26,7 @@ couchbase.connect({
 
 
     function pushFromChannelDoc (users, message, seq) {
-      var aliases = []
-      for (var i = users.length - 1; i >= 0; i--) {
-        if (users[i]) {
-          aliases.push(users[i])
-        }
-      };
 
-      var payload = {
-        aliases : aliases,
-        aps : {
-          alert : message
-        }
-      }
-      ua.pushNotification("/api/push", payload, function(error) {
-        console.log("pushed to", aliases)
-        if (seq) {
-          bucket.set("_push:seq", seq, function(err, ok){
-            console.log("saved push seq",seq, err, ok)
-          });
-        }
-      });
 
     }
 
@@ -78,7 +58,32 @@ couchbase.connect({
         })
       } else if (doc.channel_id && doc.author) {
         sw(doc.channel_id, function(err, channel){
-          pushFromChannelDoc([].concat(channel.members).concat(channel.owners), doc.author+": "+(doc.markdown || "Photo"), change.seq)
+          var users = [].concat(channel.members).concat(channel.owners),
+            message = doc.author+": "+(doc.markdown || "Photo"),
+            seq = change.seq
+
+          var aliases = []
+          for (var i = users.length - 1; i >= 0; i--) {
+            if (users[i]) {
+              aliases.push(users[i])
+            }
+          };
+
+          var payload = {
+            aliases : aliases,
+            aps : {
+              alert : message
+            }
+          }
+          ua.pushNotification("/api/push", payload, function(error) {
+            console.log("pushed all", payload)
+            if (seq) {
+              bucket.set("_push:seq", seq, function(err, ok){
+                console.log("saved push seq",seq, err, ok)
+              });
+            }
+          });
+
         })
       }
     })

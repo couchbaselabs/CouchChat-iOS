@@ -10,6 +10,7 @@ Uses the changes feed from the Sync Gateway to send push notifications to the sy
 5. Start a Sync Gateway with the configuration in the `sync-gateway-config.json` file in this directory. You’ll need to use a Couchbase Server database (sorry, it doesn’t currently work with Walrus.)
 6. Change to the push-notifications directory and run `node index.js`. This node.js script follows the "push" and "profiles" channels, to send a welcome message to new users, and to notify all members of a channel when the channel is updated.
 
+<img src="https://dl.dropboxusercontent.com/u/14074521/push.png" width="320px" alt="Push Notifications">
 
 ### Could you repeat the question?
 

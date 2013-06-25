@@ -25,9 +25,9 @@ Couchbase Server should be deployed behind your firewall (like databases normall
 
 ### Build/Install the CouchBase Lite framework
 
-There are precompiled binary packages of Couchbase Lite, but they are not up to date, so the recommended way is to build the Couchbase Lite framework yourself.  
+There are precompiled binary packages of Couchbase Lite, but they are currently (June 2013) not up to date, so the recommended way is to build the Couchbase Lite framework yourself, following [the directions in its wiki](https://github.com/couchbase/couchbase-lite-ios/wiki/Building-Couchbase-Lite#building-the-framework).
 
-Once it is built, find the `CouchbaseLite.framework` folder.  This will be in the `/Users/you/Library/Developer/Xcode/DerivedData` directory.  Then copy this into the this repository's `Frameworks/` folder (it is listed in `.gitignore` already).  
+Once it is built, copy the output `CouchbaseLite.framework` into the the CouchChat repository's `Frameworks/` folder.
 
 ### Build and run the app
 

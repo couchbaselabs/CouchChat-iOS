@@ -1,5 +1,6 @@
 {
 	"log": ["CRUD", "REST+"],
+  "persona": { "origin": "http://mineral.local:4984/", "register": true },
 	"databases": {
 		"chat": {
 			"server": "walrus:",
@@ -8,15 +9,15 @@
       },
 			"sync": `
 
-function(doc, oldDoc, userCtx, secObj) {
+function(doc, oldDoc) {
   if (doc.channel_id) {
     // doc belongs to a channel
     channel("ch-"+doc.channel_id);
     // this document describes a channel
     if (doc.channel_id == doc._id) {
       // magic document, treat it carefully
-      if (oldDoc && oldDoc.owners.indexOf(userCtx.name) == -1) {
-        throw({unauthorized:"you are not a channel owner"});
+      if (oldDoc) {
+        requireUser(oldDoc.owners)
       }
       if (!Array.isArray(doc.owners)) {
         throw({forbidden : "owners must be an array"})
@@ -31,9 +32,7 @@ function(doc, oldDoc, userCtx, secObj) {
   if (doc.type == "profile") {
     channel("profiles");
     var user = doc._id.substring(doc._id.indexOf(":")+1);
-    if (userCtx.name != user) {
-      throw({unauthorized : "you can only edit your own profile"});
-    }
+    requireUser(user);
     access(user, "profiles");
   }
 }

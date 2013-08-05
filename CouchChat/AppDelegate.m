@@ -16,6 +16,7 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
+//#define kServerDBURLString @"http://mineral.local:4984/chat/"
 #define kServerDBURLString @"http://mobile.hq.couchbase.com/chat"
 
 
@@ -93,16 +94,14 @@ AppDelegate* gAppDelegate;
 - (void) syncManagerProgressChanged: (SyncManager*)manager {
     if (_loggingIn) {
         CBLReplication* repl = manager.replications[0];
-        if (repl.mode == kCBLReplicationIdle) {
+        // Pick up my username from the replication, on the first sync:
+        NSString* username = repl.personaEmailAddress;
+        if (!username)
+            username = repl.credential.user;
+        if (username) {
+            NSLog(@"Chat username = '%@'", username);
+            _chatStore.username = username;
             _loggingIn = false;
-            // Pick up my username from the replication, on the first sync:
-            NSString* username = repl.personaEmailAddress;
-            if (!username)
-                username = repl.credential.user;
-            if (username) {
-                NSLog(@"Chat username = '%@'", username);
-                _chatStore.username = username;
-            }
         }
     }
 }

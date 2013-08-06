@@ -39,7 +39,7 @@ static ChatStore* sInstance;
         _database = database;
         _username = [[NSUserDefaults standardUserDefaults] stringForKey: @"UserName"];
         
-        [_database.modelFactory registerClass: [ChatRoom class] forDocumentType: @"chat"];
+        [_database.modelFactory registerClass: [ChatRoom class] forDocumentType: @"room"];
         [_database.modelFactory registerClass: [UserProfile class] forDocumentType: @"profile"];
 
         // Map function for getting chat messages for each chat, sorted by date

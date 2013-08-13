@@ -136,8 +136,8 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
             error = repl.error;
         if (repl.mode == kCBLReplicationActive) {
             active = true;
-            _completed += repl.completed;
-            _total += repl.total;
+            completed += repl.completed;
+            total += repl.total;
         }
     }
 

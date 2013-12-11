@@ -156,7 +156,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 
 
 - (CBLQuery*) chatMessagesQuery {
-    CBLQuery* query = [[self.database viewNamed: @"chatMessages"] query];
+    CBLQuery* query = [[self.database viewNamed: @"chatMessages"] createQuery];
     query.startKey = @[self.chatID];
     query.endKey = @[self.chatID, @{}];
     query.mapOnly = true;
@@ -169,7 +169,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
                 picture: (UIImage*)picture
 {
     NSString* createdAt = [CBLJSON JSONObjectWithDate: [NSDate date]];
-    CBLNewRevision* rev = self.database.untitledDocument.newRevision;
+    CBLUnsavedRevision* rev = self.database.createDocument.newRevision;
     [rev.properties addEntriesFromDictionary: @{@"type": @"chat",
                                                 @"channel_id": self.chatID,
                                                 @"author": self.chatStore.username,
@@ -178,9 +178,9 @@ static NSArray* removeFromArray(NSArray* array, id item) {
     if (announcement)
         rev[@"style"] = @"announcement";
     if (picture) {
-        CBLAttachment* attachment = [[CBLAttachment alloc] initWithContentType: @"image/jpeg"
-                                                  body: UIImageJPEGRepresentation(picture, 0.6)];
-        [rev addAttachment: attachment named: @"picture"];
+        [rev setAttachmentNamed: @"picture"
+                withContentType: @"image/jpeg"
+                        content: UIImageJPEGRepresentation(picture, 0.6)];
     }
 
     // Bumping the message count has the effect of not treating this newly-added message as
@@ -254,7 +254,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 
 - (void) loadLocalState {
     if (self.document) {
-        NSDictionary* state = [self.database getLocalDocumentWithID: self.localStateDocID];
+        NSDictionary* state = [self.database existingLocalDocumentWithID: self.localStateDocID];
         _messageCount = [state[@"readCount"] unsignedIntValue];
     }
 }

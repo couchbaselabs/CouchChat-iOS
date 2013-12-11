@@ -69,7 +69,7 @@
 - (UIImage*) picture {
     UIImage* picture = _picture;    // _picture is weak, so assign to local var first
     if (!_checkedPicture && picture == nil) {
-        NSData* pictureData = [[self attachmentNamed: @"avatar"] body];
+        NSData* pictureData = [[self attachmentNamed: @"avatar"] content];
         if (pictureData)
             picture = [[UIImage alloc] initWithData: pictureData];
         else if (self.email)
@@ -113,13 +113,12 @@
 
 - (void) setPicture:(UIImage *)picture {
     self.autosaves = true;
-    CBLAttachment* att = nil;
     if (picture) {
         NSData* imageData = UIImageJPEGRepresentation(picture, 0.6);
-        att = [[CBLAttachment alloc] initWithContentType: @"image/jpeg"
-                                                    body: imageData];
+        [self setAttachmentNamed: @"avatar" withContentType: @"image/jpeg" content: imageData];
+    } else {
+        [self removeAttachmentNamed: @"avatar"];
     }
-    [self addAttachment: att named: @"avatar"];
 }
 
 

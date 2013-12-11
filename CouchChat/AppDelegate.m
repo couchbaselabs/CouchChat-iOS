@@ -43,7 +43,7 @@ AppDelegate* gAppDelegate;
 
     // Initialize CouchbaseLite:
     NSError* error;
-    _database = [[CBLManager sharedInstance] createDatabaseNamed: @"chat" error: &error];
+    _database = [[CBLManager sharedInstance] databaseNamed: @"chat" error: &error];
     if (!_database)
         [self showAlert: @"Couldn't open database" error: error fatal: YES];
 

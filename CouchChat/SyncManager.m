@@ -85,11 +85,13 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
         return;
     [self forgetAll];
     if (url) {
-        for (CBLReplication* repl in [self.database replicateWithURL: url exclusively: YES]) {
-            repl.persistent = YES;
-            repl.continuous = _continuous;
-            [self addReplication: repl];
-        }
+        CBLReplication *pullReplication = [self.database createPullReplication:url];
+        [pullReplication setContinuous:YES];
+        [self addReplication: pullReplication];
+        
+        CBLReplication *pushReplication = [self.database createPushReplication:url];
+        [pushReplication setContinuous:YES];
+        [self addReplication: pushReplication];
     }
 }
 

@@ -133,7 +133,7 @@
     if (!picture) {
         NSData* data = [email dataUsingEncoding: NSUTF8StringEncoding];
         uint8_t md5[16];
-        CC_MD5(data.bytes, data.length, md5);
+        CC_MD5(data.bytes, (CC_LONG)data.length, md5);
         NSString *md5email = [NSString stringWithFormat:
                           @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
                           md5[0], md5[1], md5[2],  md5[3],  md5[4],  md5[5],  md5[6],  md5[7],
@@ -143,7 +143,7 @@
         NSURL* url = [NSURL URLWithString: urlStr];
         
         NSData* pictureData = [NSData dataWithContentsOfURL: url];
-        NSLog(@"Gravatar for %@ <%@> -- %d bytes", email, urlStr, pictureData.length);
+        NSLog(@"Gravatar for %@ <%@> -- %lu bytes", email, urlStr, (unsigned long)pictureData.length);
         if (pictureData)
             picture = [[UIImage alloc] initWithData: pictureData];
         

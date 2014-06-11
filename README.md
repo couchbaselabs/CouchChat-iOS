@@ -9,47 +9,16 @@ There is a [tour of the data model](https://github.com/couchbaselabs/CouchChat-i
 There are three main components to the system:
 
 * This app, which embeds [Couchbase Lite](https://github.com/couchbase/couchbase-lite-ios) for iOS.
-* The Couchbase [Sync Gateway](https://github.com/couchbaselabs/sync_gateway), which runs on a server and handles the synchronization connections from mobile devices.
-* [Couchbase Server 2.0](http://www.couchbase.com/download) for data storage. (For development this is optional; you can instead use a very simple built-in data store called Walrus.)
+* The Couchbase [Sync Gateway](https://github.com/couchbase/sync_gateway), which runs on a server and handles the synchronization connections from mobile devices.
+* [Couchbase Server 2](http://www.couchbase.com/download) for data storage. (For development this is optional; you can instead use a very simple built-in data store called Walrus.)
 
 Couchbase Server should be deployed behind your firewall (like databases normally are), and then the Sync Gateway should be deployed where it can be accessed by mobile devices from the public internet, and it can reach Couchbase Server. Mobile devices connect to the Sync Gateway, which enforces access control and update validation policies.
 
 ![Couchbase Mobile Architecture](http://jchris.ic.ht/files/slides/mobile-arch.png)
 
-## Running this app
+## Server setup
 
-### Install the submodules:
-
-    git submodule init
-    git submodule update
-
-### Build/Install the CouchBase Lite framework
-
-There are precompiled binary packages of Couchbase Lite, but they are currently (June 2013) not up to date, so the recommended way is to build the Couchbase Lite framework yourself, following [the directions in its wiki](https://github.com/couchbase/couchbase-lite-ios/wiki/Building-Couchbase-Lite#building-the-framework).
-
-Once it is built, copy the output `CouchbaseLite.framework` into the the CouchChat repository's `Frameworks/` folder.
-
-### Build and run the app
-
-Now you can build and run your app in the simulator or on a connected iOS device. 
-
-
-After startup it will prompt you to login with Mozilla Persona. Once you are logged in, you can:
-
-* Create a chat room
-* Invite other users
-* Send messages to users. 
-* Attach pictures to a message (or take a picture if your device has a camera.) 
-
-Any message in a chat room will show up on all devices that are subscribed to that room.
-
-## Running the PhoneGap version
-
-For extra credit you can try running the HTML5 version of CouchChat against the same Sync Gateway database. The HTML5 version of the app is under development in our [Couchbase Lite PhoneGap Kit](https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Kit) repository.
-
-## Running your own server
-
-If you want to run your own chat server rather than the default public one, you'll need to install the Couchbase Sync Gateway, configure it for chat, and update the iOS app to talk to it.
+Before you can run the app, you'll need to install the Couchbase Sync Gateway and configure it for chat.
 
 ### Install the Sync Gateway
 
@@ -67,9 +36,41 @@ So your launch command will look something like:
 
 The example config file uses an in-memory Walrus bucket, so all your data will be lost when the Sync Gateway exits. To avoid this you can edit the `databases.sync_gateway.server` property of the config file to point to an existing directory where you'd like to store your data. In production you should replace the `walrus:` url with a URL to Couchbase Server's 8091 port.
 
-### Update the iOS app
+## Running this app
 
-Now edit the value of `kServerDBURLString` in `AppDelegate.m` to the public URL of your Sync Gateway's chat database. This should match the value of the `-personaOrigin` command-line flag given to the Sync Gateway, but with the database name (default is `chat`) appended.
+### Install the submodules:
+
+    git submodule init
+    git submodule update
+
+### Build/Install the Couchbase Lite framework
+
+There are precompiled binary packages of Couchbase Lite, but they are currently (June 2013) not up to date, so the recommended way is to build the Couchbase Lite framework yourself, following [the directions in its wiki](https://github.com/couchbase/couchbase-lite-ios/wiki/Building-Couchbase-Lite#building-the-framework).
+
+Once it is built, copy the output `CouchbaseLite.framework` into the the CouchChat repository's `Frameworks/` folder.
+
+### Configure the server URL
+
+Now edit the value of `kServerDBURLString` in `AppDelegate.m` to the public URL of your Sync Gateway's chat database. This should match the value of the `-personaOrigin` command-line flag given to the Sync Gateway, but with the database name (default is `chat`) appended. For example, you might change that line to:
+
+    #define kServerDBURLString http://animal.local:4984/chat
+
+### Build and run the app
+
+Now you can build and run your app in the simulator or on a connected iOS device. 
+
+After startup it will prompt you to login with Mozilla Persona. Once you are logged in, you can:
+
+* Create a chat room
+* Invite other users
+* Send messages to users. 
+* Attach pictures to a message (or take a picture if your device has a camera.) 
+
+Any message in a chat room will show up on all devices that are subscribed to that room.
+
+## Running the PhoneGap version
+
+For extra credit you can try running the HTML5 version of CouchChat against the same Sync Gateway database. The HTML5 version of the app is under development in our [Couchbase Lite PhoneGap Kit](https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Kit) repository.
 
 ## How the data flows
 

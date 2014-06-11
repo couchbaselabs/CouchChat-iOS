@@ -16,8 +16,8 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 
 
-//#define kServerDBURLString @"http://mineral.local:4984/chat/"
-#define kServerDBURLString @"http://mobile.hq.couchbase.com/chat"
+// URL of the server-side database; you will need to change the hostname/port to your server.
+#define kServerDBURLString @"http://jens.local:4984/chat"
 
 
 AppDelegate* gAppDelegate;
@@ -32,7 +32,6 @@ AppDelegate* gAppDelegate;
     CBLDatabase* _database;
     SyncManager* _syncManager;
     PersonaController* _personaController;
-    bool _loggingIn;
 }
 
 
@@ -92,25 +91,12 @@ AppDelegate* gAppDelegate;
 
 
 - (void) syncManagerProgressChanged: (SyncManager*)manager {
-    if (_loggingIn) {
-        CBLReplication* repl = manager.replications[0];
-        // Pick up my username from the replication, on the first sync:
-        NSString* username = repl.personaEmailAddress;
-        if (!username)
-            username = repl.credential.user;
-        if (username) {
-            NSLog(@"Chat username = '%@'", username);
-            _chatStore.username = username;
-            _loggingIn = false;
-        }
-    }
 }
 
 
 - (bool) syncManagerShouldPromptForLogin: (SyncManager*)manager {
     // Display Persona login panel, not the default username/password one:
     if (!_personaController) {
-        _loggingIn = true;
         _personaController = [[PersonaController alloc] init];
         NSArray* replications = _syncManager.replications;
         if (replications.count > 0)
@@ -136,9 +122,12 @@ AppDelegate* gAppDelegate;
 - (void) personaController: (PersonaController*) personaController
      didSucceedWithAssertion: (NSString*) assertion
 {
+    NSLog(@"Chat username = '%@'", personaController.emailAddress);
+    _chatStore.username = personaController.emailAddress;
+
     [self personaControllerDidCancel: personaController];
     for (CBLReplication* repl in _syncManager.replications) {
-        [repl registerPersonaAssertion: assertion];
+        repl.authenticator = [CBLAuthenticator personaAuthenticatorWithAssertion: assertion];
     }
 }
 

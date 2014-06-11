@@ -137,7 +137,7 @@
     CBLQueryEnumerator* rowEnum = _query.rows;
     if (rowEnum) {
         _rows = rowEnum.allObjects;
-        NSLog(@"ChatController: Showing %u messages", _rows.count);
+        NSLog(@"ChatController: Showing %lu messages", (unsigned long)_rows.count);
         [_bubbles reloadData];
         [self scrollToBottom];
     }

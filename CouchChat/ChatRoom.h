@@ -53,7 +53,7 @@
                 picture: (UIImage*)picture;
 
 // Internal use only
-- (void) setMessageCount: (unsigned)messageCount
+- (void) setMessageCount: (NSUInteger)messageCount
                  modDate: (NSDate*)modDate
               lastSender: (NSString*)lastSender;
 

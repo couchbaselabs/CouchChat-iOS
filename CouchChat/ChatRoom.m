@@ -26,7 +26,7 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
 {
     CBLLiveQuery* _allPagesQuery;
     NSSet* _allPageTitles;
-    unsigned _messageCount;
+    NSUInteger _messageCount;
     NSString* _lastSenderID;
 }
 
@@ -207,7 +207,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 }
 
 
-- (void) setMessageCount: (unsigned)messageCount
+- (void) setMessageCount: (NSUInteger)messageCount
                  modDate: (NSDate*)modDate
               lastSender: (NSString*)lastSender
 {
@@ -243,7 +243,7 @@ static NSArray* removeFromArray(NSArray* array, id item) {
 
 
 - (void) saveLocalState {
-    unsigned readCount = _messageCount - _unreadMessageCount;
+    NSUInteger readCount = _messageCount - _unreadMessageCount;
     NSError* error;
     if (![self.database putLocalDocument: @{@"readCount": @(readCount)}
                              withID: self.localStateDocID

@@ -50,6 +50,7 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
             _continuous = true;
         if ([_delegate respondsToSelector: @selector(syncManager:addedReplication:)])
             [_delegate syncManager: self addedReplication: repl];
+        [repl start];
     }
 }
 
@@ -135,7 +136,7 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
     for (CBLReplication* repl in _replications) {
         status = MAX(status, repl.status);
         if (!error)
-            error = repl.error;
+            error = repl.lastError;
         if (repl.status == kCBLReplicationActive) {
             active = true;
             completed += repl.completedChangesCount;

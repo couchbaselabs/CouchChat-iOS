@@ -552,7 +552,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wformat-security",
+					"-Wshorten-64-to-32",
+					"-Wmissing-declarations",
+					"-Woverriding-method-mismatch",
+					"-Wbool-conversion",
+				);
 			};
 			name = Debug;
 		};
@@ -581,7 +588,14 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wformat-security",
+					"-Wshorten-64-to-32",
+					"-Wmissing-declarations",
+					"-Woverriding-method-mismatch",
+					"-Wbool-conversion",
+				);
 			};
 			name = Release;
 		};

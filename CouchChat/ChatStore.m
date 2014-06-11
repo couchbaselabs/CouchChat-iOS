@@ -57,14 +57,14 @@ static ChatStore* sInstance;
             }
         }) reduceBlock: REDUCEBLOCK({
             // Reduce function returns [mod_date, message_count]
-            NSString* maxDate = nil;
+            NSString* maxDate = [NSDate distantPast];
             NSUInteger count = 0;
-            NSString* lastSender = nil;
+            NSString* lastSender = @"";
             if (rereduce) {
                 for (NSArray* reducedItem in values) {
                     count += [reducedItem[1] unsignedIntValue];
                     NSString* date = reducedItem[0];
-                    if (!maxDate || [date compare: maxDate] > 0) {
+                    if ([date compare: maxDate] > 0) {
                         maxDate = date;
                         lastSender = reducedItem[2];
                     }

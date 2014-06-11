@@ -1,6 +1,6 @@
 //
 //  SyncManager.m
-//  TouchWiki
+//  CouchChat
 //
 //  Created by Jens Alfke on 12/19/12.
 //  Copyright (c) 2012 Couchbase. All rights reserved.
@@ -34,7 +34,7 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
 }
 
 
-@synthesize delegate=_delegate, replications=_replications;
+@synthesize delegate=_delegate, replications=_replications, status=_status;
 
 
 - (void) addReplication: (CBLReplication*)repl {
@@ -130,16 +130,16 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
 - (void) replicationProgress: (NSNotificationCenter*)n {
     bool active = false;
     unsigned completed = 0, total = 0;
-    CBLReplicationMode mode = kCBLReplicationStopped;
+    CBLReplicationStatus status = kCBLReplicationStopped;
     NSError* error = nil;
     for (CBLReplication* repl in _replications) {
-        mode = MAX(mode, repl.mode);
+        status = MAX(status, repl.status);
         if (!error)
             error = repl.error;
-        if (repl.mode == kCBLReplicationActive) {
+        if (repl.status == kCBLReplicationActive) {
             active = true;
-            completed += repl.completed;
-            total += repl.total;
+            completed += repl.completedChangesCount;
+            total += repl.changesCount;
         }
     }
 
@@ -158,16 +158,16 @@ NSString* const SyncManagerStateChangedNotification = @"SyncManagerStateChanged"
         }
     }
 
-    if (active != _active || completed != _completed || total != _total || mode != _mode
+    if (active != _active || completed != _completed || total != _total || status != _status
                           || error != _error) {
         _active = active;
         _completed = completed;
         _total = total;
         _progress = (completed / (float)MAX(total, 1u));
-        _mode = mode;
+        _status = status;
         _error = error;
-        NSLog(@"SYNCMGR: active=%d; mode=%d; %u/%u; %@",
-              active, mode, completed, total, error.localizedDescription); //FIX: temporary logging
+        NSLog(@"SYNCMGR: active=%d; status=%d; %u/%u; %@",
+              active, status, completed, total, error.localizedDescription); //FIX: temporary logging
         if ([_delegate respondsToSelector: @selector(syncManagerProgressChanged:)])
             [_delegate syncManagerProgressChanged: self];
         [[NSNotificationCenter defaultCenter]

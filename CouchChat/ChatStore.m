@@ -77,7 +77,7 @@ static ChatStore* sInstance;
             return (@[maxDate, @(count), lastSender]);
         }) version: @"7"];
 
-        _chatModDatesQuery = [[view query] asLiveQuery];
+        _chatModDatesQuery = [[view createQuery] asLiveQuery];
         _chatModDatesQuery.groupLevel = 1;
         [_chatModDatesQuery addObserver: self forKeyPath: @"rows"
                                 options: NSKeyValueObservingOptionInitial context: NULL];
@@ -235,12 +235,12 @@ static ChatStore* sInstance;
 
 
 - (CBLQuery*) allUsersQuery {
-    return [_usersView query];
+    return [_usersView createQuery];
 }
 
 - (NSArray*) allOtherUsers {
     NSMutableArray* users = [NSMutableArray array];
-    for (CBLQueryRow* row in self.allUsersQuery.rows.allObjects) {
+    for (CBLQueryRow* row in [self.allUsersQuery run: NULL].allObjects) {
         UserProfile* user = [UserProfile modelForDocument: row.document];
         if (![user.username isEqualToString: _username])
             [users addObject: user];

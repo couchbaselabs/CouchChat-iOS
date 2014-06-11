@@ -178,7 +178,7 @@
     UIImage* image = nil;
     if (hasPicture) {
         CBLAttachment* att = [r.document.currentRevision attachmentNamed: @"picture"];
-        NSData* imageData = att.body;
+        NSData* imageData = att.content;
         if (imageData)
             image = [[UIImage alloc] initWithData: imageData];
     }

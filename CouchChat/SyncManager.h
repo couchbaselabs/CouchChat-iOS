@@ -1,6 +1,6 @@
 //
 //  SyncManager.h
-//  TouchWiki
+//  CouchChat
 //
 //  Created by Jens Alfke on 12/19/12.
 //  Copyright (c) 2012 Couchbase. All rights reserved.
@@ -26,7 +26,7 @@
 @property (nonatomic, readonly) unsigned completed, total;
 @property (nonatomic, readonly) float progress;
 @property (nonatomic, readonly) bool active;
-@property (nonatomic, readonly) CBLReplicationMode mode;
+@property (nonatomic, readonly) CBLReplicationStatus status;
 @property (nonatomic, readonly) NSError* error;
 
 - (void) syncNow;

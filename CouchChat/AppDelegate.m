@@ -128,6 +128,7 @@ AppDelegate* gAppDelegate;
     [self personaControllerDidCancel: personaController];
     for (CBLReplication* repl in _syncManager.replications) {
         repl.authenticator = [CBLAuthenticator personaAuthenticatorWithAssertion: assertion];
+        [repl restart];
     }
 }
 

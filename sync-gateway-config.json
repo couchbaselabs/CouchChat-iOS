@@ -1,6 +1,9 @@
 {
 	"log": ["CRUD", "REST+"],
-  "persona": { "origin": "http://mineral.local:4984/", "register": true },
+	"persona": {
+        "origin": "http://mineral.local:4984/",
+        "register": true
+    },
 	"databases": {
 		"chat": {
 			"server": "walrus:",

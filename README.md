@@ -28,15 +28,17 @@ Installation and configuration of the Sync Gateway is beyond the scope of this R
 
 The CouchChat repo contains a configuration file for the gateway, `sync-gateway-config.json`. Put the path to the config file on the command line when you launch the gateway.
 
-This config file does not contain the public (or LAN) address that your iOS app will contact. The Gateway needs to be aware of that address in order for Persona authentication to work properly. You'll provide that address as a command line option. It should consist only of the root URL of the server, including the port but without any path or trailing slash.
+The Gateway needs to know the URL that clients connect to it at, in order for Persona authentication to work properly. It gets this URL from the `persona.origin` property in the configuration file. It should consist only of the root URL of the server, including the port but without any path or trailing slash. Edit line 4 of `sync-gateway-config.json` to contain the URL that your Sync Gateway can be reached at, for example:
 
-So your launch command will look something like:
+    "origin": "http://myserver.example.com:4984/",
 
-    sync_gateway -personaOrigin="http://animal.local:4984" ~/code/CouchChat-iOS/sync-gateway-config.json
+The example config file uses an in-memory Walrus bucket, so all your data will be lost when the Sync Gateway exits. This is fine for experimenting, but if you want to store data persistently you can edit the `databases.chat.server` property of the config file to point to an existing directory where you'd like to store your data. In production you should replace the `walrus:` url with a URL to Couchbase Server's 8091 port.
 
-The example config file uses an in-memory Walrus bucket, so all your data will be lost when the Sync Gateway exits. To avoid this you can edit the `databases.sync_gateway.server` property of the config file to point to an existing directory where you'd like to store your data. In production you should replace the `walrus:` url with a URL to Couchbase Server's 8091 port.
+Now you can launch the Sync Gateway, passing it the path to the configuration file:
 
-## Running this app
+    sync_gateway ~/code/CouchChat-iOS/sync-gateway-config.json
+
+## Running the iOS app
 
 ### Install the submodules:
 

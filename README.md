@@ -22,7 +22,7 @@ Before you can run the app, you'll need to install the Couchbase Sync Gateway an
 
 ### Install the Sync Gateway
 
-Installation and configuration of the Sync Gateway is beyond the scope of this README. The [Sync Gateway docs](https://github.com/couchbaselabs/sync_gateway) discuss installation. When you're done you'll be the proud owner of a `sync_gateway` command-line tool.
+Download a copy of the Sync Gateway for your platform from [Couchbase's download page](http://www.couchbase.com/download#cb-mobile). (Or you can [build it from source](https://github.com/couchbaselabs/sync_gateway) if you want.) When you're done you'll be the proud owner of a `sync_gateway` command-line tool.
 
 ### Configure the gateway for chat
 
@@ -47,13 +47,13 @@ Now you can launch the Sync Gateway, passing it the path to the configuration fi
 
 ### Build/Install the Couchbase Lite framework
 
-There are precompiled binary packages of Couchbase Lite, but they are currently (June 2013) not up to date, so the recommended way is to build the Couchbase Lite framework yourself, following [the directions in its wiki](https://github.com/couchbase/couchbase-lite-ios/wiki/Building-Couchbase-Lite#building-the-framework).
+[Download Couchbase Lite for iOS](http://www.couchbase.com/download#cb-mobile) from Couchbase. Or if you want to build it from source, follow [the directions in its wiki](https://github.com/couchbase/couchbase-lite-ios/wiki/Building-Couchbase-Lite#building-the-framework).
 
-Once it is built, copy the output `CouchbaseLite.framework` into the the CouchChat repository's `Frameworks/` folder.
+Copy the `CouchbaseLite.framework` into the the CouchChat repository's `Frameworks/` folder.
 
 ### Configure the server URL
 
-Now edit the value of `kServerDBURLString` in `AppDelegate.m` to the public URL of your Sync Gateway's chat database. This should match the value of the `-personaOrigin` command-line flag given to the Sync Gateway, but with the database name (default is `chat`) appended. For example, you might change that line to:
+Open CouchChat.xcodeproj, and change the value of `kServerDBURLString` in `AppDelegate.m` to the public URL of your Sync Gateway's chat database. This should match the value of the `-personaOrigin` command-line flag given to the Sync Gateway, but with the database name (default is `chat`) appended. For example, you might change that line to:
 
     #define kServerDBURLString http://animal.local:4984/chat
 

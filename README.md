@@ -1,5 +1,7 @@
 # CouchChat demo for Couchbase Lite
 
+**Warning: this example is very out of date, so expect to spend some effort wrangling with it.  Check our [sample app list](http://developer.couchbase.com/mobile/develop/samples/samples/index.html) for an updated list.**
+
 CouchChat is a multi-user messaging app, essentially a primitive clone of the iOS Messages app. It illustrates how you can use Couchbase Lite in your mobile apps to share data across devices and among users. If you familiarize yourself with this code, you'll be ready to write your own multi-user interactive data driven applications on iOS.
 
 There is a [tour of the data model](https://github.com/couchbaselabs/CouchChat-iOS/wiki/Chat-App-Data-Model) on the wiki.

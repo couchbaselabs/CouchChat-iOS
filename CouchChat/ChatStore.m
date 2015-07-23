@@ -126,7 +126,7 @@ static ChatStore* sInstance;
 
 
 - (ChatRoom*) newChatWithTitle: (NSString*)title {
-    return [[ChatRoom alloc] initNewWithTitle: title inChatStore: self];
+    return [ChatRoom chatWithTitle: title inChatStore: self];
 }
 
 

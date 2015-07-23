@@ -13,8 +13,8 @@
 /** One chat in the database. */
 @interface ChatRoom : CBLModel
 
-- (id) initNewWithTitle: (NSString*)title
-            inChatStore: (ChatStore*)chatStore;
++ (id) chatWithTitle: (NSString*)title
+         inChatStore: (ChatStore*)chatStore;
 
 @property (readonly) ChatStore* chatStore;
 

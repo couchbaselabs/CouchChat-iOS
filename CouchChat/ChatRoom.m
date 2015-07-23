@@ -35,25 +35,23 @@ NSString* const kChatRoomStatusChangedNotification = @"ChatRoomStatusChanged";
 @synthesize modDate = _modDate, unreadMessageCount = _unreadMessageCount;
 
 
-- (instancetype) initWithDocument: (CBLDocument*)document {
++ (instancetype) modelForDocument: (CBLDocument*)document {
     // This is the designated initializer that's always called
-    self = [super initWithDocument: document];
-    self.autosaves = true;
-    [self loadLocalState];
-    return self;
+    ChatRoom *room = [super modelForDocument: document];
+    room.autosaves = true;
+    [room loadLocalState];
+    return room;
 }
 
 
 // New-document initializer
-- (id) initNewWithTitle: (NSString*)title inChatStore: (ChatStore*)chatStore {
++ (id) chatWithTitle: (NSString*)title inChatStore: (ChatStore*)chatStore {
     NSAssert(chatStore.username, @"No username set up yet");
-    self = [super initWithNewDocumentInDatabase: chatStore.database];
-    if (self) {
-        self.owners = [NSArray arrayWithObject:chatStore.username];
-        [self setValue: @"room" ofProperty: @"type"];
-        [self setValue: [self chatID] ofProperty: @"channel_id"];
-        self.title = title;
-    }
+    ChatRoom *room = [super modelForNewDocumentInDatabase: chatStore.database];
+    room.owners = [NSArray arrayWithObject:chatStore.username];
+    [room setValue: @"room" ofProperty: @"type"];
+    [room setValue: [room chatID] ofProperty: @"channel_id"];
+    room.title = title;
     return self;
 }
 
